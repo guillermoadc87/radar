@@ -1,0 +1,98 @@
+{% extends "admin/base_site.html" %}
+{% load leaflet_tags %}
+
+{% block extrastyle %}
+  {% leaflet_css %}
+  {% leaflet_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+      .leaflet-container { /* all maps */
+        width: auto;
+      }
+      #specialbigmap {
+        height: 800px;
+      }
+   </style>
+{% endblock %}
+
+{% block content %}
+<h1>Property Map</h1>
+    <fieldset class="module aligned">
+      <div class="form-row" id="search" style="margin-bottom: 25px;">
+        <label for="addr">Address:</label>
+        <input type="text" name="addr" value="" id="addr" class="vTextField"/>
+        <input type="submit" id="address" value="Search">
+        <div class="form-row" id="results"/>
+      </div>
+
+    </fieldset>
+    {% leaflet_map "main" callback="main_map_init" %}
+
+    <script type="text/javascript">
+    var map;
+    $(window).on("resize", function () { $("#main").height($(window).height()-300); map.invalidateSize(); }).trigger("resize");
+    $(document).ready(function(){
+    $("#address").click(function(event){
+        event.stopPropagation();
+        var inp = document.getElementById("addr");
+        $.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + inp.value, function(data) {
+            var items = [];
+
+            $.each(data, function(key, val) {
+              items.push(
+                "<li><a href='#' onclick='chooseAddr(" +
+                val.lat + ", " + val.lon + ");return false;'>" + val.display_name +
+                '</a></li>'
+              );
+            });
+            $('#results').empty();
+            if (items.length != 0) {
+              $('<p>', { html: "Search results:" }).appendTo('#results');
+              $('<ul/>', {
+                'class': 'my-new-list',
+                html: items.join('')
+              }).appendTo('#results');
+            } else {
+              $('<p>', { html: "No results found" }).appendTo('#results');
+            }
+          });
+    });
+    });
+        function chooseAddr(lat, lng, type) {
+          var location = new L.LatLng(lat, lng);
+
+          if (window.marker) {
+            window.map.removeLayer(window.marker);
+          }
+          window.marker = new L.Marker(location, {draggable:true});
+          window.map.addLayer(window.marker);
+          window.marker.bindPopup("<b>Here it is!</b>").openPopup();
+          window.map.panTo(location);
+          if (type == 'city' || type == 'administrative') {
+            window.map.setZoom(11);
+          } else {
+            window.map.setZoom(13);
+          }
+        }
+
+        function main_map_init (map, options) {
+            {% for property in object_list %}
+              var lon = "{{ property.location.x }}";
+              var lat = "{{ property.location.y }}";
+              {% if forloop.first %}
+                window.map = map.setView([lat, lon], 12);
+                L.marker([lat, lon], {icon: new L.Icon.Default()}).addTo(map);
+
+                var latlngs = [
+                    [45.51, -122.68],
+                    [37.77, -122.43],
+                    [34.04, -118.2]
+                ];
+               var polyline = L.polyline(latlngs, {color: 'red'}).addTo(window.map);
+              {% else %}
+                L.marker([lat, lon], {icon: new L.Icon.Default()}).addTo(map).bindPopup(escape(`{{ property.name }}`));
+              {% endif %}
+            {% endfor %}
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript">
+    if (!$) {
+    $ = django.jQuery;
+}
+$(function(){
+    // for the GPON  Feed
+   $('#id_gpon_feed option').each(function() {
+     if ($(this).is(':selected')) {
+       if (this.value) {
+         $(".fieldBox.field-router").hide();
+       }
+
+      }
+    });
+
+    $('#id_gpon_feed').change(function() {
+      if (this.value) {
+        $(".fieldBox.field-router").hide();
+      } else {
+          $(".fieldBox.field-router").show();
+      }
+    });
+
+    // for the Router
+    $('#id_router option').each(function() {
+     if ($(this).is(':selected')) {
+       if (!this.value) {
+         $(".fieldBox.field-r_loop").hide();
+       }
+      }
+    });
+
+    $('#id_router').change(function() {
+      if (this.value) {
+        $(".fieldBox.field-r_loop").show();
+      } else {
+          $(".fieldBox.field-r_loop").hide();
+      }
+    });
+
+});
+</script>
+{{ media }}
+{% endblock %}
+
+{% block object-tools-items %}{{ block.super }}
+    <li>
+        <a href="{% url 'admin:publish' original.pk %}" class="grp-state-focus">
+            {% if not original.published %}
+                PUBLISH
+            {% else %}
+                UNPUBLISH
+            {% endif %}
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:publish' original.pk %}" class="grp-state-focus">
+            {% if not original.done %}
+                DONE
+            {% else %}
+                UNDONE
+            {% endif %}
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'admin:property_map' original.pk %}" class="grp-state-focus golink">View Map</a>
+    </li>
+
+{% endblock %}
