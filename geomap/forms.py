@@ -6,6 +6,7 @@ from django.contrib.gis.geos import Point
 class PropertyForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+
         instance = kwargs.get('instance', 0)
         if instance:
             instance.ip_tv_coa = self.get_subnet_for(instance, 'ip_tv_coa')
@@ -13,7 +14,13 @@ class PropertyForm(forms.ModelForm):
             instance.ip_data = self.get_subnet_for(instance, 'ip_data')
             instance.ip_mgn_ap = self.get_subnet_for(instance, 'ip_mgn_ap')
             instance.ip_mgn = self.get_subnet_for(instance, 'ip_mgn')
+
         super(PropertyForm, self).__init__(*args, **kwargs)
+
+        if instance:
+            obj = Property.objects.get(id=instance.id)
+            pk_list = obj.feeding.all().values_list('pk', flat=True)
+            self.fields["feeds"].queryset = Property.objects.exclude(pk__in=pk_list).order_by('name')
 
     def clean(self):
         cleaned_data = super().clean()

@@ -1,3 +1,4 @@
+import math
 from django.contrib.gis.db import models
 from django_fsm import transition, FSMIntegerField
 from django.contrib.auth.models import User
@@ -86,8 +87,8 @@ class Property(models.Model):
     published = models.DateField('Published On', blank=True, null=True)
     fiber_ready = models.DateField('Fiber Ready', blank=True, null=True)
     mdf_ready = models.DateField('MDF Ready', blank=True, null=True)
-    network_ready = models.DateField('Ready For Pickup', blank=True, null=True)
-    gpon_ready = models.DateField('Ready For Pickup', blank=True, null=True)
+    network_ready = models.DateField('Router Pickup', blank=True, null=True)
+    gpon_ready = models.DateField('Chassis Pickup', blank=True, null=True)
     gear_installed = models.DateField('Installed', blank=True, null=True)
     cross_connect = models.DateField(verbose_name='Cross-Connected', blank=True, null=True)
     sub_id_ready = models.DateField(blank=True, null=True)
@@ -124,11 +125,14 @@ class Property(models.Model):
     @property
     def iptv(self):
         total_units = 0
-        feeding_prop = self.feeding.filter(router__isnull=True)
-        if feeding_prop:
-           for prop in feeding_prop:
+        connected_prop = self.feeding.filter(router__isnull=True)
+        connected_prop = connected_prop.union(self.feeds.filter(router__isnull=True))
+        print(connected_prop)
+        if connected_prop:
+           for prop in connected_prop:
                total_units += prop.units
         total_units += self.units
+        print(total_units)
         total_stb = total_units * 3.5
         return get_subnet(total_stb)
 
@@ -164,13 +168,15 @@ class Property(models.Model):
         n_cards = self.units / 16 / 15
         if n_cards < 1:
             n_cards = 1
-        return round(n_cards)+1
+        return math.ceil(n_cards)+1
 
-    def set_unset_action(self, action):
+    def set_unset_action(self, admin, request, action):
         if not getattr(self, action):
             setattr(self, action, timezone.now())
+            admin.message_user(request, '%s Ready' % (action,))
         else:
             setattr(self, action, None)
+            admin.message_user(request, '%s Not Ready' % (action,))
 
     def get_gpon_coord(self):
         if self.gpon_feed:

@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from .forms import PropertyForm
+from .list_filters import StatusListFilter
 
 admin.site.site_header = 'HWC Launcher'
 admin.site.site_title = "HWC Launcher"
@@ -17,6 +18,7 @@ class PropertyAdmin(admin.ModelAdmin):
     form = PropertyForm
     search_fields = ('name',)
     list_display = ('name', 'units', 'address', 'mr_cert', 'status', 'account_actions')
+    list_filter = (StatusListFilter,)
     readonly_fields = ('iptv', 'ipdata', 'gpon_chassis', 'gpon_cards')
     ordering = ('-mr_cert',)
     filter_horizontal = ('feeds',)
@@ -78,20 +80,21 @@ class PropertyAdmin(admin.ModelAdmin):
     gpon_cards.short_description = 'GPON Cards'
 
     def account_actions(self, obj):
-        groups = self.request.user.groups.all()
+        groups = self.request.user.groups.all().values_list('name', flat=True)
+
         if 'CPM' in groups:
             button = format_html(
                 '<a class="button" href="{}">Fiber Ready</a>&nbsp;',
-                '<a class="button" href="{}">MDF Ready</a>&nbsp;',
+                '<a class="button" href="{}">MDF Ready</a>',
                 reverse('admin:fiber_ready', args=[obj.pk]),
                 reverse('admin:mdf_ready', args=[obj.pk]),
             )
-        elif 'NETENG' in groups or 'GPONENG' in groups:
+        elif 'NETENG' in groups:
             button = format_html(
                 '<a class="button" href="{}">Configured</a>&nbsp;',
                 reverse('admin:network_ready', args=[obj.pk]),
             )
-        elif 'GPONENG' in groups or 'GPONENG' in groups:
+        elif 'GPONENG' in groups:
             button = format_html(
                 '<a class="button" href="{}">Configured</a>&nbsp;',
                 reverse('admin:gpon_ready', args=[obj.pk]),
@@ -99,7 +102,7 @@ class PropertyAdmin(admin.ModelAdmin):
         elif 'FE' in groups:
             button = format_html(
                 '<a class="button" href="{}">Installed</a>&nbsp;',
-                reverse('admin:set_date', args=[obj.pk]),
+                reverse('admin:gear_installed', args=[obj.pk]),
             )
         elif 'CXCENG' in groups:
             button = format_html(
@@ -108,8 +111,8 @@ class PropertyAdmin(admin.ModelAdmin):
             )
         elif 'PM' in groups:
             button = format_html(
-                '<a class="button" href="{}">Publish</a>&nbsp;',
-                '<a class="button" href="{}">Done</a>&nbsp;',
+                '<a class="button" href="{}">Publish</a>&nbsp;'
+                '<a class="button" href="{}">Completed</a>',
                 reverse('admin:publish', args=[obj.pk]),
                 reverse('admin:done', args=[obj.pk]),
             )
@@ -119,15 +122,14 @@ class PropertyAdmin(admin.ModelAdmin):
     account_actions.short_description = 'Account Actions'
     account_actions.allow_tags = True
 
+    def get_object(self, request, object_id, *args, **kwargs):
+        self.obj = super().get_object(request, object_id, *args, **kwargs)
+        return self.obj
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "gpon_feed":
             kwargs["queryset"] = Property.objects.order_by('name')
         return super(PropertyAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        if db_field.name == "feeds":
-            kwargs["queryset"] = Property.objects.order_by('name')
-        return super(PropertyAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
     def get_urls(self):
         urls = super().get_urls()
@@ -176,7 +178,7 @@ class PropertyAdmin(admin.ModelAdmin):
             groups = [group.name for group in request.user.groups.all()]
             if 'PM' not in groups:
                 qs = qs.filter(published__isnull=False)
-            return qs.filter(Q(neteng=request.user) | Q(gponeng=request.user) | Q(cpm=request.user) | Q(fe=request.user) | Q(cxceng=request.user))
+            return qs.filter(Q(neteng=request.user) | Q(gponeng=request.user) | Q(cpm=request.user) | Q(fe=request.user) | Q(cxceng=request.user) | Q(pm=request.user))
 
     def set_date(self, request, property_id):
         if not request.user.groups:
@@ -243,16 +245,16 @@ class PropertyAdmin(admin.ModelAdmin):
     def change_state(self, request, property_id, action):
         prop = self.get_object(request, property_id)
         if action == 'published':
-            prop.set_unset_action(action)
+            prop.set_unset_action(self, request, action)
         elif action in ['fiber_ready', 'mdf_ready', 'network_ready', 'gpon_ready']:
             if prop.published:
-                prop.set_unset_action(action)
+                prop.set_unset_action(self, request, action)
             else:
                 self.message_user(request, 'Property needs to be Published')
         elif action == 'gear_installed':
             if prop.network_ready and prop.gpon_ready:
                 if not prop.cross_connect:
-                    prop.set_unset_action(action)
+                    prop.set_unset_action(self, request, action)
                 else:
                     self.message_user(request, 'This Property was already cross-connected')
             else:
@@ -260,7 +262,7 @@ class PropertyAdmin(admin.ModelAdmin):
         elif action == 'cross_connect':
             if prop.gear_installed:
                 if not prop.mr_cert:
-                    prop.set_unset_action(action)
+                    prop.set_unset_action(self, request, action)
                 else:
                     self.message_user(request, 'This Property was already certify')
             else:
@@ -268,7 +270,7 @@ class PropertyAdmin(admin.ModelAdmin):
         elif action == 'mr_cert':
             if prop.gear_installed:
                 if not prop.done:
-                    prop.set_unset_action(action)
+                    prop.set_unset_action(self, request, action)
                 else:
                     self.message_user(request, 'This Property was already finished launched')
             else:
@@ -276,7 +278,7 @@ class PropertyAdmin(admin.ModelAdmin):
         elif action == 'done':
             if prop.mr_cert:
                 if not prop.done:
-                    prop.set_unset_action(action)
+                    prop.set_unset_action(self, request, action)
                 else:
                     self.message_user(request, 'This Property was already finished launched')
             else:
@@ -285,8 +287,7 @@ class PropertyAdmin(admin.ModelAdmin):
         prop.save()
 
         url = reverse(
-            'admin:geomap_property_change',
-            args=[prop.pk],
+            'admin:geomap_property_changelist',
             current_app=self.admin_site.name,
         )
 
