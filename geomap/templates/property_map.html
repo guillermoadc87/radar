@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load leaflet_tags %}
+{% load admin_urls %}
 
 {% block extrastyle %}
   {% leaflet_css %}
@@ -54,15 +55,15 @@
    </style>
 {% endblock %}
 
+
 {% block content %}
 <h1>Property Map</h1>
     {% leaflet_map "main" callback="main_map_init" %}
     <script type="text/javascript">
-    $(window).on("resize", function () {
-            $("#main").height($(window).height()-200);
+        $(window).on("resize", function () {
+            $("#main").height($(window).height()*0.4);
             map.invalidateSize();
         }).trigger("resize");
-
 
         function main_map_init (map, options) {
 
@@ -81,24 +82,20 @@
               html: `<div class="pin" />`
             })
 
-            var lon = "{{ property.location.x }}";
-            var lat = "{{ property.location.y }}";
-            window.map = map.setView([lat, lon], 16);
-            var marker = L.marker([lat, lon], {icon: selected_icon});
-            window.map.addLayer(marker);
-            marker.bindPopup(popup.setContent(`{{ property.popup_desc|safe }}`)).openPopup()
-
             {% for property in properties %}
               var lon = "{{ property.location.x }}";
               var lat = "{{ property.location.y }}";
+              {% if forloop.first %}
+                window.map = map.setView([lat, lon], 15);
+              {% endif %}
               L.marker([lat, lon], {icon: icon}).addTo(map).bindPopup(`{{ property.popup_desc|safe }}`);
             {% endfor %}
-            var polyline = L.polyline({{ gpon_feeds|safe }}).addTo(map);
+            var polyline = L.polyline({{ gpon_feeds|safe }}, {color: 'green'}).addTo(map);
             L.polylineDecorator(polyline, {
             patterns: [
                 {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {stroke: true}})}
             ]}).addTo(map);
-            L.polyline({{ r_feeds|safe }}, {color: 'red'}).addTo(map);
+            L.polyline({{ r_feeds|safe }}).addTo(map);
         }
-    </script>
+</script>
 {% endblock %}

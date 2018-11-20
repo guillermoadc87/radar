@@ -1,3 +1,4 @@
+{% load leaflet_tags %}
 <fieldset class="module aligned {{ fieldset.classes }}">
     {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
     {% if fieldset.description %}
@@ -11,6 +12,9 @@
                     {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
                     {% if field.is_checkbox %}
                         {{ field.field }}{{ field.label_tag }}
+                    {% elif field.field.name == 'map' %}
+                        {{ field.label_tag }}
+                        {% leaflet_map "main" callback="main_map_init" %}
                     {% else %}
                         {{ field.label_tag }}
                         {% if field.is_readonly %}

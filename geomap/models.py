@@ -76,12 +76,18 @@ class Property(models.Model):
     rf_coa = models.BooleanField('RF COA', default=False)
     coa = models.BooleanField('COA', default=False)
 
+    #Network
     feeds = models.ManyToManyField('Property', verbose_name='Fed from', related_name='feeding', blank=True)
-    gpon_feed = models.ForeignKey('Property', on_delete=models.SET_NULL, verbose_name='GPON from', related_name='gpon_feeds', blank=True, null=True)
     router = models.CharField(max_length=200, choices=routers, blank=True, null=True)
     r_loop = models.CharField('LB', max_length=200, blank=True, null=True)
     switch = models.CharField(max_length=200, choices=switches, blank=True, null=True)
     s_loop = models.CharField('Switch LB', max_length=200, blank=True, null=True)
+
+    #GPON
+    gpon_feed = models.ForeignKey('Property', on_delete=models.SET_NULL, verbose_name='GPON from',
+                                  related_name='gpon_feeds', blank=True, null=True)
+    gpon_chassis = models.IntegerField(blank=True, null=True)
+    gpon_cards = models.IntegerField(blank=True, null=True)
 
     #Dates
     published = models.DateField('Published On', blank=True, null=True)
@@ -115,30 +121,33 @@ class Property(models.Model):
     #Files
     hld = models.FileField(upload_to=user_directory_path, blank=True, null=True)
 
+    def get_calculated_value(self, param):
+        if not getattr(self, param):
+            return getattr(self, param.replace('_', ''))
+        return getattr(self, param)
+
     @property
     def iptvcoa(self):
         if self.units < 300:
-            return 26
+            return '/26'
         else:
-            return 24
+            return '/24'
 
     @property
     def iptv(self):
         total_units = 0
         connected_prop = self.feeding.filter(router__isnull=True)
         connected_prop = connected_prop.union(self.feeds.filter(router__isnull=True))
-        print(connected_prop)
         if connected_prop:
            for prop in connected_prop:
                total_units += prop.units
         total_units += self.units
-        print(total_units)
         total_stb = total_units * 3.5
-        return get_subnet(total_stb)
+        return '/' + str(get_subnet(total_stb))
 
     @property
     def ipdata(self):
-        return get_subnet(self.units)
+        return '/' + str(get_subnet(self.units))
 
     @property
     def ipmgnap(self):
@@ -150,10 +159,12 @@ class Property(models.Model):
 
     @property
     def popup_desc(self):
-        return '%s (%d units) <br> Router: %s LB: <a href="#">%s</a> <br> Switch: %s LB: %s <br> GPON: %d <br> PON CARDS: %d' % (self.name, self.units, self.router, self.r_loop, self.switch, self.s_loop, self.gpon_chassis, self.gpon_cards)
+        return '%s (%d units) <br> Router: %s LB: <a href="#">%s</a> <br> Switch: %s LB: %s <br> GPON: %d <br> PON CARDS: %d' % (
+        self.name, self.units, self.router, self.r_loop, self.switch, self.s_loop,
+        self.get_calculated_value('gpon_chassis'), self.get_calculated_value('gpon_cards'))
 
     @property
-    def gpon_chassis(self):
+    def gponchassis(self):
         if self.gpon_feed:
             return 0
         count = 0
@@ -164,11 +175,15 @@ class Property(models.Model):
         return count
 
     @property
-    def gpon_cards(self):
+    def gponcards(self):
         n_cards = self.units / 16 / 15
         if n_cards < 1:
             n_cards = 1
         return math.ceil(n_cards)+1
+
+    @property
+    def map(self):
+        return '{% leaflet_map "main" callback="main_map_init" %}'
 
     def set_unset_action(self, admin, request, action):
         if not getattr(self, action):
@@ -186,6 +201,32 @@ class Property(models.Model):
     def get_links(self):
         return [[[self.location.y, self. location.x], [feed.location.y, feed.location.x]] for feed in self.feeds.all()]
 
+    @property
+    def get_status(self):
+        status = ""
+        if self.done:
+            status += " Done"
+        elif self.cross_connect:
+            status += " CXC"
+        elif self.gear_installed:
+            status += " GearInstalled"
+            if self.fiber_ready:
+                status += " FiberReady"
+        elif self.mdf_ready or self.network_ready or self.gpon_ready or self.fiber_ready:
+            if self.mdf_ready:
+                status += " MDFReady"
+            if self.network_ready:
+                status += " NetReady"
+            if self.gpon_ready:
+                status += " ChassisReady"
+            if self.fiber_ready:
+                status += " FiberReady"
+        elif self.published:
+            status += " Published"
+        else:
+            status += " New"
+
+        return status.strip().replace(' ', ', ')
 
 
     def save(self, *args, **kwargs):

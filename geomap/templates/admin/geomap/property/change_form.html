@@ -1,49 +1,58 @@
 {% extends "admin/change_form.html" %}
+{% load leaflet_tags %}
 
-{% block extrahead %}{{ block.super }}
-<script type="text/javascript">
-    if (!$) {
-    $ = django.jQuery;
-}
-$(function(){
-    // for the GPON  Feed
-   $('#id_gpon_feed option').each(function() {
-     if ($(this).is(':selected')) {
-       if (this.value) {
-         $(".fieldBox.field-router").hide();
-       }
+{% block extrastyle %}{{ block.super }}
+  {% leaflet_css %}
+  {% leaflet_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+  <style>
+      #main {
+        position: relative;
+        vertical-align: top;
+    }
+      .selected_pin {
+          width: 30px;
+          height: 30px;
+          border-radius: 50% 50% 50% 0;
+          background: #FF2D00;
+          position: absolute;
+          transform: rotate(-45deg);
+          left: 50%;
+          top: 50%;
+          margin: -20px 0 0 -20px;
       }
-    });
-
-    $('#id_gpon_feed').change(function() {
-      if (this.value) {
-        $(".fieldBox.field-router").hide();
-      } else {
-          $(".fieldBox.field-router").show();
+      .selected_pin:after {
+          content: "";
+          width: 14px;
+          height: 14px;
+          margin: 8px 0 0 8px;
+          background: #e6e6e6;
+          position: absolute;
+          border-radius: 50%;
       }
-    });
-
-    // for the Router
-    $('#id_router option').each(function() {
-     if ($(this).is(':selected')) {
-       if (!this.value) {
-         $(".fieldBox.field-r_loop").hide();
-       }
+      .pin {
+          width: 30px;
+          height: 30px;
+          border-radius: 50% 50% 50% 0;
+          background: #00cae9;
+          position: absolute;
+          transform: rotate(-45deg);
+          left: 50%;
+          top: 50%;
+          margin: -20px 0 0 -20px;
       }
-    });
-
-    $('#id_router').change(function() {
-      if (this.value) {
-        $(".fieldBox.field-r_loop").show();
-      } else {
-          $(".fieldBox.field-r_loop").hide();
+      .pin:after {
+          content: "";
+          width: 14px;
+          height: 14px;
+          margin: 8px 0 0 8px;
+          background: #e6e6e6;
+          position: absolute;
+          border-radius: 50%;
       }
-    });
+   </style>
 
-});
-</script>
-{{ media }}
 {% endblock %}
 
 {% block object-tools-items %}{{ block.super }}
@@ -65,8 +74,56 @@ $(function(){
             {% endif %}
         </a>
     </li>
-    <li>
-        <a href="{% url 'admin:property_map' original.pk %}" class="grp-state-focus golink">View Map</a>
-    </li>
+{% endblock %}
 
+{% block field_sets %}
+{% for fieldset in adminform %}
+  {% include "admin/geomap/property/fieldset.html" %}
+{% endfor %}
+{% endblock %}
+
+{% block content %}{{ block.super }}
+<script type="text/javascript">
+        $(window).on("resize", function () {
+            $("#main").height($(window).height()*0.4);
+            map.invalidateSize();
+        }).trigger("resize");
+
+        function main_map_init (map, options) {
+
+            var popup = L.popup()
+
+            const selected_icon = L.divIcon({
+              iconAnchor: [2, 25],
+              labelAnchor: [-6, 0],
+              popupAnchor: [0, -40],
+              html: `<div class="selected_pin" />`
+            })
+            const icon = L.divIcon({
+              iconAnchor: [2, 25],
+              labelAnchor: [-6, 0],
+              popupAnchor: [0, -40],
+              html: `<div class="pin" />`
+            })
+
+            var lon = "{{ property.location.x }}";
+            var lat = "{{ property.location.y }}";
+            window.map = map.setView([lat, lon], 15);
+            var marker = L.marker([lat, lon], {icon: selected_icon});
+            window.map.addLayer(marker);
+            marker.bindPopup(popup.setContent(`{{ property.popup_desc|safe }}`)).openPopup()
+
+            {% for property in properties %}
+              var lon = "{{ property.location.x }}";
+              var lat = "{{ property.location.y }}";
+              L.marker([lat, lon], {icon: icon}).addTo(map).bindPopup(`{{ property.popup_desc|safe }}`);
+            {% endfor %}
+            var polyline = L.polyline({{ gpon_feeds|safe }}, {color: 'green'}).addTo(map);
+            L.polylineDecorator(polyline, {
+            patterns: [
+                {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {stroke: true}})}
+            ]}).addTo(map);
+            L.polyline({{ r_feeds|safe }}).addTo(map);
+        }
+</script>
 {% endblock %}

@@ -26,7 +26,6 @@ class StatusListFilter(admin.SimpleListFilter):
             elif value == 'Pending MDF':
                 return queryset.filter(mdf_ready__isnull=True)
             elif value == 'Pending Install':
-                print('Pending Install')
                 return queryset.filter(gear_installed__isnull=True)
             elif value == 'Pending CXC':
                 return queryset.filter(cross_connect__isnull=True)
@@ -34,11 +33,9 @@ class StatusListFilter(admin.SimpleListFilter):
                 return queryset.filter(mr_cert__isnull=True)
             elif value == 'Pending Done':
                 return queryset.filter(done__isnull=True)
-
         return queryset
 
     def get_value(self, request):
-        print('asdasdasdasd')
         value = super().value()
         if value is None:
             groups = request.user.groups.all().values_list('name', flat=True)
@@ -48,6 +45,6 @@ class StatusListFilter(admin.SimpleListFilter):
             elif 'NETENG' in groups or 'GPONENG' in groups:
                 return 'Pending Install'
             elif 'CXCENG' in groups:
-                return 'Pending MR Cert'
+                return 'Pending Done'
 
         return value

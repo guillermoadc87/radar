@@ -10,6 +10,7 @@ from django.template.response import TemplateResponse
 from django.db.models import Q
 from .forms import PropertyForm
 from .list_filters import StatusListFilter
+from django.contrib import messages
 
 admin.site.site_header = 'HWC Launcher'
 admin.site.site_title = "HWC Launcher"
@@ -19,7 +20,7 @@ class PropertyAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_display = ('name', 'units', 'address', 'mr_cert', 'status', 'account_actions')
     list_filter = (StatusListFilter,)
-    readonly_fields = ('iptv', 'ipdata', 'gpon_chassis', 'gpon_cards')
+    readonly_fields = ('map', 'status')
     ordering = ('-mr_cert',)
     filter_horizontal = ('feeds',)
     fieldsets = (
@@ -27,17 +28,21 @@ class PropertyAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'address',
-                'location',
+                'map',
                 ('units', 'business_unit', 'type',),
                 ('rf_unit', 'rf_coa', 'coa',),
             )
         }),
-        ('Technology', {
+        ('Network', {
             'fields': (
                 'feeds',
-                ('gpon_feed', 'router', 'r_loop'),
+                ('router', 'r_loop'),
                 ('switch', 's_loop'),
-                ('gpon_chassis', 'gpon_cards'),
+            )
+        }),
+        ('GPON', {
+            'fields': (
+                ('gpon_feed', 'gpon_chassis', 'gpon_cards'),
             )
         }),
         ('Subnets', {
@@ -59,25 +64,15 @@ class PropertyAdmin(admin.ModelAdmin):
         }),
     )
 
-    def iptv(self, obj):
-        return obj.iptv
-    iptv.allow_tags = True
-    iptv.short_description = 'IP TV'
+    def status(self, obj):
+        return obj.get_status
+    status.allow_tags = True
+    status.short_description = 'Status'
 
-    def ipdata(self, obj):
-        return obj.ipdata
-    ipdata.allow_tags = True
-    ipdata.short_description = 'IP DATA'
-
-    def gpon_chassis(self, obj):
-        return obj.gpon_chassis
-    gpon_chassis.allow_tags = True
-    gpon_chassis.short_description = 'GPON Chassis'
-
-    def gpon_cards(self, obj):
-        return obj.gpon_cards
-    gpon_cards.allow_tags = True
-    gpon_cards.short_description = 'GPON Cards'
+    def map(self, obj):
+        return obj.map
+    map.allow_tags = True
+    map.short_description = 'Map'
 
     def account_actions(self, obj):
         groups = self.request.user.groups.all().values_list('name', flat=True)
@@ -122,20 +117,29 @@ class PropertyAdmin(admin.ModelAdmin):
     account_actions.short_description = 'Account Actions'
     account_actions.allow_tags = True
 
-    def get_object(self, request, object_id, *args, **kwargs):
-        self.obj = super().get_object(request, object_id, *args, **kwargs)
-        return self.obj
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "gpon_feed":
-            kwargs["queryset"] = Property.objects.order_by('name')
-        return super(PropertyAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        prop = self.get_object(request, object_id)
+
+        extra_context['properties'] = Property.objects.filter(~Q(pk=prop.pk))
+        extra_context['property'] = prop
+
+        r_feeds = []
+        for proper in Property.objects.filter(feeds__isnull=False):
+            r_feeds += proper.get_links()
+        extra_context['r_feeds'] = r_feeds
+
+        extra_context['gpon_feeds'] = [proper.get_gpon_coord() for proper in Property.objects.filter(gpon_feed__isnull=False)]
+
+        return super().change_view(
+            request, object_id, form_url, extra_context=extra_context,
+        )
 
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path('map/', self.admin_site.admin_view(PropertyListView.as_view()), name='property_list'),
-            re_path('set_date/(?P<property_id>\d+)', self.admin_site.admin_view(self.set_date), name='set_date'),
+            path('map/', self.admin_site.admin_view(self.property_map), name='property_list'),
             re_path('map/(?P<property_id>\d+)', self.admin_site.admin_view(self.property_map), name='property_map'),
             re_path('published/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
                     {'action': 'published'}, name='publish'),
@@ -157,9 +161,6 @@ class PropertyAdmin(admin.ModelAdmin):
             re_path('cross_connect/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
                     {'action': 'cross_connect'},
                     name='cross_connect'),
-            re_path('mr_cert/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'mr_cert'},
-                    name='done'),
             re_path('done/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
                     {'action': 'done'},
                     name='done'),
@@ -180,55 +181,13 @@ class PropertyAdmin(admin.ModelAdmin):
                 qs = qs.filter(published__isnull=False)
             return qs.filter(Q(neteng=request.user) | Q(gponeng=request.user) | Q(cpm=request.user) | Q(fe=request.user) | Q(cxceng=request.user) | Q(pm=request.user))
 
-    def set_date(self, request, property_id):
-        if not request.user.groups:
-            self.message_user('User need to be in a valid group')
-            return HttpResponseRedirect(".")
-
-        prop = self.get_object(request, property_id)
-
-        groups = [group.name for group in request.user.groups.all()]
-
-        if 'CPM' in groups:
-            if not prop.fiber_ready:
-                prop.fiber_ready = timezone.now()
-            self.message_user(request, 'Fiber Ready')
-        elif 'GPONE' in groups:
-            if not prop.gear_ready:
-                prop.gear_ready = timezone.now()
-            self.message_user(request, 'Gear Ready For Pickup')
-        elif 'FE' in groups:
-            if not prop.gear_installed:
-                prop.gear_installed = timezone.now()
-            self.message_user(request, 'Gear Installed')
-        elif 'CC' in groups:
-            if not prop.cross_connect:
-                prop.cross_connect = timezone.now()
-            self.message_user(request, 'Cross-Connected')
-        prop.save()
-        url = reverse(
-            'admin:geomap_property_changelist',
-            current_app=self.admin_site.name,
-        )
-        return HttpResponseRedirect(url)
-
-    def property_map(self, request, property_id):
-        prop = self.get_object(request, property_id)
-
-        if not prop.location:
-            self.message_user(request, 'No coordinates for this property')
-            url = reverse(
-                'admin:geomap_property_change',
-                args=[prop.pk],
-                current_app=self.admin_site.name,
-            )
-            return HttpResponseRedirect(url)
+    def property_map(self, request):
+        #prop = self.get_object(request, property_id)
 
         context = self.admin_site.each_context(request)
 
-        context['properties'] = Property.objects.filter(~Q(pk=prop.pk))
-        context['property'] = prop
-
+        context['properties'] = Property.objects.all()
+        #context['property'] = prop
         r_feeds = []
         for proper in Property.objects.filter(feeds__isnull=False):
             r_feeds += proper.get_links()
@@ -244,45 +203,41 @@ class PropertyAdmin(admin.ModelAdmin):
 
     def change_state(self, request, property_id, action):
         prop = self.get_object(request, property_id)
+        groups = self.request.user.groups.all().values_list('name', flat=True)
         if action == 'published':
-            prop.set_unset_action(self, request, action)
+            if 'PM' in groups:
+                prop.set_unset_action(self, request, action)
+            else:
+                self.message_user(request, 'You have to be a PM to Published the project', level=messages.ERROR)
         elif action in ['fiber_ready', 'mdf_ready', 'network_ready', 'gpon_ready']:
             if prop.published:
                 prop.set_unset_action(self, request, action)
             else:
-                self.message_user(request, 'Property needs to be Published')
+                self.message_user(request, 'Property needs to be Published', level=messages.ERROR)
         elif action == 'gear_installed':
             if prop.network_ready and prop.gpon_ready:
                 if not prop.cross_connect:
                     prop.set_unset_action(self, request, action)
                 else:
-                    self.message_user(request, 'This Property was already cross-connected')
+                    self.message_user(request, 'This Property was already cross-connected', level=messages.ERROR)
             else:
-                self.message_user(request, 'The MDF Ready and Equipment Configured')
+                self.message_user(request, 'The MDF Ready and Equipment Configured', level=messages.ERROR)
         elif action == 'cross_connect':
             if prop.gear_installed:
                 if not prop.mr_cert:
                     prop.set_unset_action(self, request, action)
                 else:
-                    self.message_user(request, 'This Property was already certify')
+                    self.message_user(request, 'This Property was already certify', level=messages.ERROR)
             else:
-                self.message_user(request, 'Gear needs to be installed')
-        elif action == 'mr_cert':
-            if prop.gear_installed:
-                if not prop.done:
-                    prop.set_unset_action(self, request, action)
-                else:
-                    self.message_user(request, 'This Property was already finished launched')
-            else:
-                self.message_user(request, 'Fiber needs to be cross-connected')
+                self.message_user(request, 'Gear needs to be installed', level=messages.ERROR)
         elif action == 'done':
-            if prop.mr_cert:
-                if not prop.done:
+            if prop.cross_connect:
+                if 'PM' in groups:
                     prop.set_unset_action(self, request, action)
                 else:
-                    self.message_user(request, 'This Property was already finished launched')
+                    self.message_user(request, 'You have to be a PM to Complete the project', level=messages.ERROR)
             else:
-                self.message_user(request, 'Property needs to be Certify')
+                self.message_user(request, 'Property needs to be Certify', level=messages.ERROR)
 
         prop.save()
 

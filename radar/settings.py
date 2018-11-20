@@ -78,11 +78,8 @@ WSGI_APPLICATION = 'radar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'radar',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': 'radar.db',
         'PORT': '',
     }
 }
