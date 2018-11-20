@@ -60,7 +60,7 @@ class Command(BaseCommand):
                              business_unit=business_unit,
                              type=_type,
                              mr_cert=mr_cert,
-                             gear_ready=gear_ready,
+                             mdf_ready=gear_ready,
                              gear_installed=gear_installed,
                              cross_connect=cross_connect).save()
         else:

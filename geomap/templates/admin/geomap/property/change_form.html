@@ -108,7 +108,7 @@
 
             var lon = "{{ property.location.x }}";
             var lat = "{{ property.location.y }}";
-            window.map = map.setView([lat, lon], 15);
+            window.map = map.setView([lat, lon], 17);
             var marker = L.marker([lat, lon], {icon: selected_icon});
             window.map.addLayer(marker);
             marker.bindPopup(popup.setContent(`{{ property.popup_desc|safe }}`)).openPopup()

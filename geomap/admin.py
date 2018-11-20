@@ -28,6 +28,7 @@ class PropertyAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'address',
+                'location',
                 'map',
                 ('units', 'business_unit', 'type',),
                 ('rf_unit', 'rf_coa', 'coa',),
@@ -124,7 +125,7 @@ class PropertyAdmin(admin.ModelAdmin):
 
         extra_context['properties'] = Property.objects.filter(~Q(pk=prop.pk))
         extra_context['property'] = prop
-
+        print(prop.location)
         r_feeds = []
         for proper in Property.objects.filter(feeds__isnull=False):
             r_feeds += proper.get_links()

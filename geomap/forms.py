@@ -30,9 +30,13 @@ class PropertyForm(forms.ModelForm):
         cleaned_data = super().clean()
 
         address = cleaned_data.get('address', None)
-
+        #print(address)
         gmaps = googlemaps.Client(key='AIzaSyDbPjoUnqsFrFhzzB3Q3AuXwrF2cD9v2sI')
-        geocode_result = gmaps.geocode(address)
+
+        try:
+            geocode_result = gmaps.geocode(address)
+        except:
+            geocode_result = None
 
         if not geocode_result:
             raise forms.ValidationError("Invalid Address")
@@ -40,7 +44,7 @@ class PropertyForm(forms.ModelForm):
         lng = geocode_result[0]['geometry']['location']['lng']
         lat = geocode_result[0]['geometry']['location']['lat']
         cleaned_data['location'] = Point(lng, lat)
-
+        #print(cleaned_data['location'])
         published = cleaned_data.get('published')
         fiber_ready = cleaned_data.get('fiber_ready')
         mdf_ready = cleaned_data.get('mdf_ready')
@@ -85,5 +89,5 @@ class PropertyForm(forms.ModelForm):
 
     class Meta:
         model = Property
-        #widgets = {'location': forms.HiddenInput()}
+        widgets = {'location': forms.HiddenInput()}
         exclude = []
