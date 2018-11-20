@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b552008-ebee-46b8-b3d7-86ee1e22a544" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/management/commands/property_sync.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/management/commands/property_sync.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/radar.db" beforeDir="false" afterPath="$PROJECT_DIR$/radar.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/radar/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/radar/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -105,8 +100,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/radar/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="84" column="1" lean-forward="true" selection-start-line="84" selection-start-column="1" selection-end-line="84" selection-end-column="1" />
+            <state relative-caret-position="1063">
+              <caret line="128" column="1" selection-start-line="128" selection-start-column="1" selection-end-line="128" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -191,11 +186,11 @@
         <option value="$PROJECT_DIR$/geomap/models.py" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/change_list.html" />
         <option value="$PROJECT_DIR$/geomap/templates/property_map.html" />
-        <option value="$PROJECT_DIR$/radar/settings.py" />
         <option value="$PROJECT_DIR$/geomap/management/commands/property_sync.py" />
         <option value="$PROJECT_DIR$/geomap/forms.py" />
         <option value="$PROJECT_DIR$/geomap/admin.py" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" />
+        <option value="$PROJECT_DIR$/radar/settings.py" />
       </list>
     </option>
   </component>
@@ -689,8 +684,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/radar/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="84" column="1" lean-forward="true" selection-start-line="84" selection-start-column="1" selection-end-line="84" selection-end-column="1" />
+        <state relative-caret-position="1063">
+          <caret line="128" column="1" selection-start-line="128" selection-start-column="1" selection-end-line="128" selection-end-column="1" />
         </state>
       </provider>
     </entry>
