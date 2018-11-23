@@ -9,7 +9,8 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from .helper_functions import user_directory_path, get_subnet
-
+from .slack_api import create_channel_with, send_message
+from django.urls import reverse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -47,21 +48,6 @@ class Property(models.Model):
         ('ASR920', 'ASR920')
     )
 
-    STATUS_CREATED = 0
-    STATUS_PUBLISHED = 1
-    STATUS_RFI = 2
-    STATUS_RFC = 3
-    STATUS_RMR = 4
-    STATUS_COMPLETED = 5
-    STATUS_CHOICES = (
-        (STATUS_CREATED, 'Created'),
-        (STATUS_PUBLISHED, 'Published'),
-        (STATUS_RFI, 'Ready for Installs'),
-        (STATUS_RFC, 'Ready for CXC'),
-        (STATUS_RMR, 'Ready for MR'),
-        (STATUS_COMPLETED, 'Completed'),
-    )
-
     osp_id = models.IntegerField(blank=True, null=True)
     name = models.CharField(max_length=120)
     slug = models.SlugField(_('slug'), max_length=150, unique=True, blank=True, null=True)
@@ -69,9 +55,7 @@ class Property(models.Model):
     business_unit = models.CharField(max_length=120, choices=business_units, blank=True, null=True)
     address = models.CharField(max_length=200)
     location = models.PointField(blank=True)
-    status = FSMIntegerField(choices=STATUS_CHOICES, default=STATUS_CREATED, protected=True)
     type = models.CharField(max_length=50, choices=types, blank=True, null=True)
-
     rf_unit = models.BooleanField('RF In-Unit', default=False)
     rf_coa = models.BooleanField('RF COA', default=False)
     coa = models.BooleanField('COA', default=False)
@@ -121,6 +105,9 @@ class Property(models.Model):
     #Files
     hld = models.FileField(upload_to=user_directory_path, blank=True, null=True)
 
+    #Slack
+    channel_id = models.CharField(max_length=120, null=True)
+
     def get_calculated_value(self, param):
         if not getattr(self, param):
             return getattr(self, param.replace('_', ''))
@@ -158,9 +145,19 @@ class Property(models.Model):
         return self.iptvcoa
 
     @property
+    def link(self):
+        return '<a href="/admin/geomap/property/%s/change/">%s</a>' % (self.pk, self.name)
+
+    @property
+    def connect(self):
+        if self.r_loop:
+            return '<a href="/admin/geomap/property/%s/change/connect/">%s</a>' % (self.pk, self.r_loop)
+        return None
+
+    @property
     def popup_desc(self):
         return '%s (%d units) <br> Router: %s LB: <a href="#">%s</a> <br> Switch: %s LB: %s <br> GPON: %d <br> PON CARDS: %d' % (
-        self.name, self.units, self.router, self.r_loop, self.switch, self.s_loop,
+        self.link, self.units, self.router, self.connect, self.switch, self.s_loop,
         self.get_calculated_value('gpon_chassis'), self.get_calculated_value('gpon_cards'))
 
     @property
@@ -181,17 +178,17 @@ class Property(models.Model):
             n_cards = 1
         return math.ceil(n_cards)+1
 
-    @property
-    def map(self):
-        return '{% leaflet_map "main" callback="main_map_init" %}'
-
     def set_unset_action(self, admin, request, action):
         if not getattr(self, action):
             setattr(self, action, timezone.now())
-            admin.message_user(request, '%s Ready' % (action,))
+            message = '%s Ready' % (action,)
         else:
             setattr(self, action, None)
-            admin.message_user(request, '%s Not Ready' % (action,))
+            message = '%s Not Ready' % (action,)
+        if self.channel_id:
+            send_message(self.channel_id, message)
+        admin.message_user(request, message)
+
 
     def get_gpon_coord(self):
         if self.gpon_feed:
@@ -202,7 +199,7 @@ class Property(models.Model):
         return [[[self.location.y, self. location.x], [feed.location.y, feed.location.x]] for feed in self.feeds.all()]
 
     @property
-    def get_status(self):
+    def status(self):
         status = ""
         if self.done:
             status += " Done"
@@ -228,10 +225,11 @@ class Property(models.Model):
 
         return status.strip().replace(' ', ', ')
 
-
     def save(self, *args, **kwargs):
         #if not self.id:
         #    self.slug = slugify(self.name)
+        if not self.pk:
+            self.channel_id = create_channel_with(self.name)
         super().save(*args, **kwargs)
 
     def __str__(self):

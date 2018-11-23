@@ -30,7 +30,7 @@ class PropertyForm(forms.ModelForm):
         cleaned_data = super().clean()
 
         address = cleaned_data.get('address', None)
-        #print(address)
+
         gmaps = googlemaps.Client(key='AIzaSyDbPjoUnqsFrFhzzB3Q3AuXwrF2cD9v2sI')
 
         try:

@@ -2,6 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b552008-ebee-46b8-b3d7-86ee1e22a544" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/geomap/slack_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/geomap/templates/change_list_map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/templates/admin/geomap/change_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/templates/property_map.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/property_map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/radar.db" beforeDir="false" afterPath="$PROJECT_DIR$/radar.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/radar/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/radar/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +26,8 @@
       <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geomap/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
-              <caret line="91" column="8" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
+            <state relative-caret-position="665">
+              <caret line="65" selection-start-line="65" selection-end-line="65" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -28,8 +38,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geomap/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="70" column="12" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="12" />
+            <state relative-caret-position="468">
+              <caret line="153" column="62" lean-forward="true" selection-start-line="153" selection-start-column="55" selection-end-line="153" selection-end-column="62" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -37,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="admin.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/geomap/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-561">
-              <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+            <state relative-caret-position="961">
+              <caret line="264" column="45" lean-forward="true" selection-start-line="264" selection-start-column="45" selection-end-line="264" selection-end-column="45" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -58,59 +68,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="property_map.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/templates/property_map.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="82" column="14" selection-start-line="82" selection-start-column="14" selection-end-line="82" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="change_form.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="801">
-              <caret line="110" column="51" selection-start-line="110" selection-start-column="51" selection-end-line="110" selection-end-column="51" />
+            <state relative-caret-position="289">
+              <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="property_sync.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/management/commands/property_sync.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-              <folding>
-                <element signature="e#24#33#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="geomap.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/templates/geomap.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/radar/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1063">
-              <caret line="128" column="1" selection-start-line="128" selection-start-column="1" selection-end-line="128" selection-end-column="1" />
+            <state relative-caret-position="886">
+              <caret line="116" selection-start-line="116" selection-end-line="116" />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="change_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/change_list.html">
+        <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="38" selection-start-column="38" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="change_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Envs/PropertyMap/Lib/site-packages/django/contrib/admin/templates/admin/change_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="10" selection-start-column="3" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="change_list_map.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geomap/templates/change_list_map.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="44" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="44" />
+              <caret line="6" column="89" selection-start-line="6" selection-start-column="89" selection-end-line="6" selection-end-column="89" />
             </state>
           </provider>
         </entry>
@@ -127,20 +125,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>results</find>
-      <find>_change</find>
-      <find>property</find>
-      <find>{% url</find>
-      <find>original</find>
-      <find>rela</find>
-      <find>print</find>
-      <find>Q(</find>
-      <find>feed</find>
-      <find>sub_id_ready</find>
-      <find>STATICFILES_STORAGE</find>
-      <find>aqui</find>
-      <find>alert</find>
-      <find>ext</find>
       <find>icon</find>
       <find>geta</find>
       <find>get</find>
@@ -156,7 +140,21 @@
       <find>admin:</find>
       <find>location</find>
       <find>groups</find>
+      <find>libgeos_c</find>
       <find>map</find>
+      <find>change_list</find>
+      <find>app_list</find>
+      <find>opts</find>
+      <find>h2</find>
+      <find>staty</find>
+      <find>statu</find>
+      <find>od</find>
+      <find>id</find>
+      <find>changelist-search</find>
+      <find>sear</find>
+      <find>valen</find>
+      <find>set_unset_action</find>
+      <find>url</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -183,14 +181,18 @@
         <option value="$PROJECT_DIR$/geomap/static/geomap/js/admin/showhide.js" />
         <option value="$PROJECT_DIR$/geomap/list_filters.py" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/property/fieldset.html" />
-        <option value="$PROJECT_DIR$/geomap/models.py" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/change_list.html" />
-        <option value="$PROJECT_DIR$/geomap/templates/property_map.html" />
         <option value="$PROJECT_DIR$/geomap/management/commands/property_sync.py" />
+        <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_list_map.html" />
+        <option value="$USER_HOME$/Envs/PropertyMap/Lib/site-packages/django/contrib/admin/templates/admin/change_list.html" />
+        <option value="$PROJECT_DIR$/geomap/templates/property_map.html" />
+        <option value="$PROJECT_DIR$/geomap/slack_api.py" />
         <option value="$PROJECT_DIR$/geomap/forms.py" />
-        <option value="$PROJECT_DIR$/geomap/admin.py" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" />
         <option value="$PROJECT_DIR$/radar/settings.py" />
+        <option value="$PROJECT_DIR$/geomap/templates/change_list_map.html" />
+        <option value="$PROJECT_DIR$/geomap/models.py" />
+        <option value="$PROJECT_DIR$/geomap/admin.py" />
       </list>
     </option>
   </component>
@@ -255,18 +257,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap\property" />
+      <recent name="C:\Users\guill\Projects\radar\geomap" />
+      <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap" />
+      <recent name="C:\Users\guill\Projects\radar\geomap\templates" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\guill\Projects\radar\geomap\templates" />
+      <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin" />
       <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap\property" />
       <recent name="C:\Users\guill\Projects\radar\geomap\static\geomap\js\admin" />
       <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap" />
-      <recent name="C:\Users\guill\Projects\radar\radar\templates\admin" />
-      <recent name="C:\Users\guill\Projects\radar\radar\templates" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\guill\Projects\radar\geomap" />
-      <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap\property" />
-      <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap" />
-      <recent name="C:\Users\guill\Projects\radar\geomap\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -326,44 +328,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/geomap/templates/geomap.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="6" column="12" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/management/commands/property_sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-          <folding>
-            <element signature="e#24#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/helper_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../google_sheets/folium_script.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
@@ -530,21 +494,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/migrations/0011_auto_20181101_0249.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/migrations/0011_auto_20181101_0249.py" />
     <entry file="file://$PROJECT_DIR$/geomap/migrations/0012_auto_20181102_0234.py" />
-    <entry file="file://$PROJECT_DIR$/geomap/migrations/0009_auto_20181028_2330.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/migrations/0009_auto_20181028_2330.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/contrib/admin/templates/admin/change_form.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -607,23 +559,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/change_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="44" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/templates/property_map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="82" column="14" selection-start-line="82" selection-start-column="14" selection-end-line="82" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/geomap/templates/geomap.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
+        <state relative-caret-position="578">
           <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
         </state>
       </provider>
@@ -638,23 +576,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/templates/property_map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/slack_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="16" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/radar/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="886">
+          <caret line="116" selection-start-line="116" selection-end-line="116" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/PropertyMap/Lib/site-packages/django/contrib/admin/templates/admin/change_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="10" selection-start-column="3" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/templates/change_list_map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="89" selection-start-line="6" selection-start-column="89" selection-end-line="6" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/geomap/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="91" column="8" selection-start-line="91" selection-start-column="8" selection-end-line="91" selection-end-column="8" />
+        <state relative-caret-position="665">
+          <caret line="65" selection-start-line="65" selection-end-line="65" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/models.py">
+    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="70" column="12" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="289">
+          <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="38" selection-start-column="38" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -665,27 +642,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/admin.py">
+    <entry file="file://$PROJECT_DIR$/geomap/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-561">
-          <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+        <state relative-caret-position="468">
+          <caret line="153" column="62" lean-forward="true" selection-start-line="153" selection-start-column="55" selection-end-line="153" selection-end-column="62" />
           <folding>
-            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/wsgiref/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="801">
-          <caret line="110" column="51" selection-start-line="110" selection-start-column="51" selection-end-line="110" selection-end-column="51" />
+        <state relative-caret-position="935">
+          <caret line="55" column="13" lean-forward="true" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/radar/settings.py">
+    <entry file="file://$USER_HOME$/Downloads/900 Biscayne Bay (3).py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1063">
-          <caret line="128" column="1" selection-start-line="128" selection-start-column="1" selection-end-line="128" selection-end-column="1" />
+        <state relative-caret-position="17">
+          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="264" column="45" lean-forward="true" selection-start-line="264" selection-start-column="45" selection-end-line="264" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

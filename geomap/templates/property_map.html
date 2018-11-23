@@ -55,9 +55,14 @@
    </style>
 {% endblock %}
 
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> › <a href="/admin/geomap">Geomap</a> › Properties
+</div>
+{% endblock %}
 
 {% block content %}
-<h1>Property Map</h1>
+<h1>Select property to change</h1>
     {% leaflet_map "main" callback="main_map_init" %}
     <script type="text/javascript">
         $(window).on("resize", function () {

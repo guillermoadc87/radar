@@ -4,13 +4,16 @@ from .models import Property
 from .views import PropertyListView
 from django.urls import re_path, path
 from django.utils.html import format_html
-from django.urls  import reverse
-from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from .forms import PropertyForm
 from .list_filters import StatusListFilter
 from django.contrib import messages
+from wsgiref.util import FileWrapper
+from io import BytesIO
+
 
 admin.site.site_header = 'HWC Launcher'
 admin.site.site_title = "HWC Launcher"
@@ -66,7 +69,7 @@ class PropertyAdmin(admin.ModelAdmin):
     )
 
     def status(self, obj):
-        return obj.get_status
+        return obj.status
     status.allow_tags = True
     status.short_description = 'Status'
 
@@ -122,10 +125,9 @@ class PropertyAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
 
         prop = self.get_object(request, object_id)
-
         extra_context['properties'] = Property.objects.filter(~Q(pk=prop.pk))
         extra_context['property'] = prop
-        print(prop.location)
+
         r_feeds = []
         for proper in Property.objects.filter(feeds__isnull=False):
             r_feeds += proper.get_links()
@@ -144,27 +146,27 @@ class PropertyAdmin(admin.ModelAdmin):
             re_path('map/(?P<property_id>\d+)', self.admin_site.admin_view(self.property_map), name='property_map'),
             re_path('published/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
                     {'action': 'published'}, name='publish'),
+            re_path('published/change/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+                    {'action': 'published', 'to_list': False}, name='publish_change'),
             re_path('fiber_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'fiber_ready'},
-                    name='fiber_ready'),
+                    {'action': 'fiber_ready'}, name='fiber_ready'),
             re_path('mdf_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'mdf_ready'},
-                    name='mdf_ready'),
+                    {'action': 'mdf_ready'}, name='mdf_ready'),
             re_path('network_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'network_ready'},
-                    name='network_ready'),
+                    {'action': 'network_ready'}, name='network_ready'),
             re_path('gpon_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'gpon_ready'},
-                    name='gpon_ready'),
+                    {'action': 'gpon_ready'}, name='gpon_ready'),
+
             re_path('gear_installed/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
                     {'action': 'gear_installed'},
                     name='gear_installed'),
             re_path('cross_connect/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'cross_connect'},
-                    name='cross_connect'),
+                    {'action': 'cross_connect'}, name='cross_connect'),
             re_path('done/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'done'},
-                    name='done'),
+                    {'action': 'done'}, name='done'),
+            re_path('done/change/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+                    {'action': 'done', 'to_list': False},name='done_change'),
+            re_path('(?P<property_id>\d+)/change/connect', self.admin_site.admin_view(self.connect), name='connect'),
         ]
         return my_urls + urls
 
@@ -198,18 +200,18 @@ class PropertyAdmin(admin.ModelAdmin):
 
         return TemplateResponse(
             request,
-            'property_map.html',
+            'change_list_map.html',
             context,
         )
 
-    def change_state(self, request, property_id, action):
+    def change_state(self, request, property_id, action, to_list=True):
         prop = self.get_object(request, property_id)
         groups = self.request.user.groups.all().values_list('name', flat=True)
         if action == 'published':
             if 'PM' in groups:
                 prop.set_unset_action(self, request, action)
             else:
-                self.message_user(request, 'You have to be a PM to Published the project', level=messages.ERROR)
+                self.message_user(request, 'You have to be a PM to Published a Project', level=messages.ERROR)
         elif action in ['fiber_ready', 'mdf_ready', 'network_ready', 'gpon_ready']:
             if prop.published:
                 prop.set_unset_action(self, request, action)
@@ -236,18 +238,33 @@ class PropertyAdmin(admin.ModelAdmin):
                 if 'PM' in groups:
                     prop.set_unset_action(self, request, action)
                 else:
-                    self.message_user(request, 'You have to be a PM to Complete the project', level=messages.ERROR)
+                    self.message_user(request, 'You have to be a PM to Complete a Project', level=messages.ERROR)
             else:
                 self.message_user(request, 'Property needs to be Certify', level=messages.ERROR)
 
         prop.save()
 
-        url = reverse(
-            'admin:geomap_property_changelist',
-            current_app=self.admin_site.name,
-        )
+        if to_list:
+            url = reverse(
+                'admin:geomap_property_changelist',
+                current_app=self.admin_site.name,
+            )
+        else:
+            url = reverse(
+                'admin:geomap_property_change',
+                args=(prop.id,),
+                current_app=self.admin_site.name,
+            )
 
         return HttpResponseRedirect(url)
+
+    def connect(self, request, property_id):
+        prop = self.get_object(request, property_id)
+
+        with open('script.py') as script:
+            response = HttpResponse(FileWrapper(script), content_type="application/py")
+            response['Content-Disposition'] = "attachment; filename=%s.py" % (prop.name,)
+            return response
 
     class Media:
         js = (

@@ -57,7 +57,7 @@
 
 {% block object-tools-items %}{{ block.super }}
     <li>
-        <a href="{% url 'admin:publish' original.pk %}" class="grp-state-focus">
+        <a href="{% url 'admin:publish_change' original.pk %}" class="grp-state-focus">
             {% if not original.published %}
                 PUBLISH
             {% else %}
@@ -66,11 +66,11 @@
         </a>
     </li>
     <li>
-        <a href="{% url 'admin:publish' original.pk %}" class="grp-state-focus">
+        <a href="{% url 'admin:done_change' original.pk %}" class="grp-state-focus">
             {% if not original.done %}
-                DONE
+                COMPLETED
             {% else %}
-                UNDONE
+                UNCOMPLETED
             {% endif %}
         </a>
     </li>
@@ -121,7 +121,7 @@
             var polyline = L.polyline({{ gpon_feeds|safe }}, {color: 'green'}).addTo(map);
             L.polylineDecorator(polyline, {
             patterns: [
-                {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {stroke: true}})}
+                {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {color: 'green', stroke: true}})}
             ]}).addTo(map);
             L.polyline({{ r_feeds|safe }}).addTo(map);
         }
