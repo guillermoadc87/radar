@@ -1,0 +1,105 @@
+{% extends "admin/change_list.html" %}
+{% load leaflet_tags %}
+{% load admin_urls %}
+
+{% block extrastyle %}
+  {% leaflet_css %}
+  {% leaflet_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-polylinedecorator/1.1.0/leaflet.polylineDecorator.min.js"></script>
+
+  <style>
+      .leaflet-container { /* all maps */
+        width: 100%;
+      }
+      .selected_pin {
+          width: 30px;
+          height: 30px;
+          border-radius: 50% 50% 50% 0;
+          background: #FF2D00;
+          position: absolute;
+          transform: rotate(-45deg);
+          left: 50%;
+          top: 50%;
+          margin: -20px 0 0 -20px;
+      }
+      .selected_pin:after {
+          content: "";
+          width: 14px;
+          height: 14px;
+          margin: 8px 0 0 8px;
+          background: #e6e6e6;
+          position: absolute;
+          border-radius: 50%;
+      }
+      .pin {
+          width: 30px;
+          height: 30px;
+          border-radius: 50% 50% 50% 0;
+          background: #00cae9;
+          position: absolute;
+          transform: rotate(-45deg);
+          left: 50%;
+          top: 50%;
+          margin: -20px 0 0 -20px;
+      }
+      .pin:after {
+          content: "";
+          width: 14px;
+          height: 14px;
+          margin: 8px 0 0 8px;
+          background: #e6e6e6;
+          position: absolute;
+          border-radius: 50%;
+      }
+   </style>
+{% endblock %}
+
+{% block object-tools-items %}{{ block.super }}
+    <li>
+        <a href="{% url 'admin:geomap_property_changelist' %}" class="grp-state-focus golink">List View</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+{% leaflet_map "main" callback="main_map_init" %}
+    <script type="text/javascript">
+        $(window).on("resize", function () {
+            $("#main").height($(window).height()*0.4);
+            map.invalidateSize();
+        }).trigger("resize");
+
+        function main_map_init (map, options) {
+
+            var popup = L.popup()
+
+            const selected_icon = L.divIcon({
+              iconAnchor: [2, 25],
+              labelAnchor: [-6, 0],
+              popupAnchor: [0, -40],
+              html: `<div class="selected_pin" />`
+            })
+            const icon = L.divIcon({
+              iconAnchor: [2, 25],
+              labelAnchor: [-6, 0],
+              popupAnchor: [0, -40],
+              html: `<div class="pin" />`
+            })
+
+            {% for property in properties %}
+              var lon = "{{ property.location.x }}";
+              var lat = "{{ property.location.y }}";
+              {% if forloop.first %}
+                window.map = map.setView([lat, lon], 15);
+              {% endif %}
+              L.marker([lat, lon], {icon: icon}).addTo(map).bindPopup(`{{ property.popup_desc|safe }}`);
+            {% endfor %}
+            var polyline = L.polyline({{ gpon_feeds|safe }}, {color: 'green'}).addTo(map);
+            L.polylineDecorator(polyline, {
+            patterns: [
+                {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {stroke: true}})}
+            ]}).addTo(map);
+            L.polyline({{ r_feeds|safe }}).addTo(map);
+        }
+</script>
+{% endblock %}
