@@ -186,6 +186,7 @@ class Property(models.Model):
             setattr(self, action, None)
             message = '%s Not Ready' % (action,)
         if self.channel_id:
+            print('send message')
             send_message(self.channel_id, message)
         admin.message_user(request, message)
 

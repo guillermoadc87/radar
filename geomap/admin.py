@@ -13,6 +13,7 @@ from .list_filters import StatusListFilter
 from django.contrib import messages
 from wsgiref.util import FileWrapper
 from io import BytesIO
+from jinja2 import Environment, FileSystemLoader, Markup
 
 
 admin.site.site_header = 'HWC Launcher'
@@ -259,12 +260,15 @@ class PropertyAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(url)
 
     def connect(self, request, property_id):
+        import os
         prop = self.get_object(request, property_id)
-
-        with open('script.py') as script:
-            response = HttpResponse(FileWrapper(script), content_type="application/py")
-            response['Content-Disposition'] = "attachment; filename=%s.py" % (prop.name,)
-            return response
+        print(os.path.join(os.path.dirname(__file__), 'scripts'))
+        file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'scripts'))
+        env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
+        template = env.get_template('connect.py').render(user=request.user.username, ip=prop.r_loop,)
+        response = StreamingHttpResponse(template, content_type="application/py")
+        response['Content-Disposition'] = "attachment; filename=connect.py"
+        return response
 
     class Media:
         js = (

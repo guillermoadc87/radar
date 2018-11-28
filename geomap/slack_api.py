@@ -1,13 +1,13 @@
 from slackclient import SlackClient
 
-slack_token = 'xoxp-447345546210-448398510663-486697603255-85463f33d314542344e3bd24ad336187'
+slack_token = 'xoxp-447345546210-448398510663-486711709939-74a510e69109e0666e23472fa7cb7c76'
 slack = SlackClient(slack_token)
 
 # Slack API
 
 def create_channel_with(name):
     reponse = slack.api_call('channels.create', name=name)
-
+    print(reponse)
     if not reponse['ok']:
         return None
 
@@ -29,7 +29,7 @@ def invite_user(user, channel_id):
 
 def send_message(channel_id, text):
     reponse = slack.api_call('chat.postMessage', channel=channel_id, text=text)
-
+    print(reponse)
     if not reponse['ok']:
         return False
     return True
