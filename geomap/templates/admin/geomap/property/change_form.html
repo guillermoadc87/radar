@@ -56,11 +56,15 @@
 {% endblock %}
 
 {% block object-tools-items %}{{ block.super }}
-    {% if original.netbox_id %}
     <li>
-        {{ original.netbox_url|safe }}
+        <a href="{% url 'admin:publish_change' original.pk %}" class="grp-state-focus">
+            {% if not original.published %}
+                PUBLISH
+            {% else %}
+                UNPUBLISH
+            {% endif %}
+        </a>
     </li>
-    {% endif %}
     <li>
         <a href="{% url 'admin:done_change' original.pk %}" class="grp-state-focus">
             {% if not original.done %}
@@ -80,31 +84,10 @@
 
 {% block content %}{{ block.super }}
 <script type="text/javascript">
-        var changeHandler = function() {
-            var model = $("#id_equipment").val();
-            $.ajax({
-                url: "http://10.0.0.225:8000/api/dcim/device-types/?model=" + model,
-                type: 'GET',
-                crossDomain : true,
-                success: function(data) {
-                    var tags = data['results'][0]["tags"];
-                    if (tags.includes('router')) {
-                        $('.field-card,.field-rsp').removeClass('hidden');
-                    } else {
-                        $('.field-card,.field-rsp').addClass('hidden');
-                    }
-
-                }
-            });
-        };
-        changeHandler();
-        $("#id_equipment").change(changeHandler);
-
         $(window).on("resize", function () {
-                $("#main").height($(window).height()*0.4);
-                map.invalidateSize();
-            }).trigger("resize");
-
+            $("#main").height($(window).height()*0.4);
+            map.invalidateSize();
+        }).trigger("resize");
 
         function main_map_init (map, options) {
 
@@ -130,27 +113,17 @@
             window.map.addLayer(marker);
             marker.bindPopup(popup.setContent(`{{ property.popup_desc|safe }}`)).openPopup()
 
+            {% for property in properties %}
+              var lon = "{{ property.location.x }}";
+              var lat = "{{ property.location.y }}";
+              L.marker([lat, lon], {icon: icon}).addTo(map).bindPopup(`{{ property.popup_desc|safe }}`);
+            {% endfor %}
             var polyline = L.polyline({{ gpon_feeds|safe }}, {color: 'green'}).addTo(map);
             L.polylineDecorator(polyline, {
             patterns: [
                 {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {color: 'green', stroke: true}})}
             ]}).addTo(map);
-
-            {% for feed in property.feeds.all %}
-                L.polyline([[[lat, lon], [{{ feed.location.y }}, {{ feed.location.x }}]]]).addTo(map).bindPopup(`{{ property.link|safe }} <-> {{ feed.link|safe }}`);
-            {% endfor %}
-
-            {% for property in properties %}
-              var lon = "{{ property.location.x }}";
-              var lat = "{{ property.location.y }}";
-              L.marker([lat, lon], {icon: icon}).addTo(map).bindPopup(`{{ property.popup_desc|safe }}`);
-
-              {% for feed in property.feeds.all %}
-                L.polyline([[[lat, lon], [{{ feed.location.y }}, {{ feed.location.x }}]]]).addTo(map).bindPopup(`{{ property.link|safe }} <-> {{ feed.link|safe }}`);
-              {% endfor %}
-            {% endfor %}
-
-
+            L.polyline({{ r_feeds|safe }}).addTo(map);
         }
 </script>
 {% endblock %}

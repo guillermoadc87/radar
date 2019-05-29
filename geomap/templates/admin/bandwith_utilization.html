@@ -1,0 +1,87 @@
+{% extends "admin/base_site.html" %}
+
+{% if categories %}
+{% block extrastyle %}{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/sunburst.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+var chart;
+jQuery(document).ready(function() {
+
+Highcharts.chart('maxin', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Max In'
+    },
+    xAxis: {
+        categories: {{ categories|safe }}
+    },
+    yAxis: {
+        title: {
+            text: 'Gbps'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: {{ series_maxin|safe }}
+});
+
+Highcharts.chart('maxout', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Max Out'
+    },
+    xAxis: {
+        categories: {{ categories|safe }}
+    },
+    yAxis: {
+        title: {
+            text: 'Gbps'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: {{ series_maxout|safe }}
+});
+});
+</script>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+{% if categories %}
+<div id="maxin"></div>
+<div id="maxout"></div>
+{% else %}
+<form action="{% url 'admin:bu_graph' %}" method="post">
+  {% csrf_token %}
+  <input type="date" name="start" size="10" id="start">
+  <input type="date" name="end" size="10" id="end">
+  <select name="selected_inter" multiple>
+  {% for interface in interfaces %}
+      <option value="{{ interface.pk}}">{{ interface.name }}</option>
+  {% endfor %}
+  </select>
+
+  <input type="submit" value="Generate Graph"/>
+</form>
+{% endif %}
+{% endblock %}

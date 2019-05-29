@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'leaflet',
     'django.contrib.gis',
     'geomap',
-    'reachability_tool',
     'django.contrib.admin',
 ]
 

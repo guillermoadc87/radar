@@ -1,7 +1,3 @@
 ---
 username: 'guillermo.diaz'
 password: 'Wktkm1987*'
-connection_options:
-  netmiko:
-    extras:
-      secret: 'Wktkm1987*'

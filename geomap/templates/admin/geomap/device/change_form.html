@@ -1,68 +1,14 @@
 {% extends "admin/change_form.html" %}
 
-{% block extrastyle %}
+{% block extrastyle %}{{ block.super }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-{{ block.super }}
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/sunburst.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script>
-jQuery(document).ready(function() {
-    var data = [{
-  id: '0.0',
-  parent: '',
-  name: '14x1G 8x10G'
-},
-{
-  id: '1.1',
-  parent: '0.0',
-  name: 'Slot 0'
-},
-{
-  id: '1.11',
-  parent: '1.1',
-  name: 'A9K-MPA-20X1GE',
-},
-{
-  id: '1.12',
-  parent: '1.1',
-  name: 'A9K-MPA-4X10GE',
-},
-{
-  id: '1.111',
-  parent: '1.11',
-  name: 'Gi0/0/0/2',
-  value: 1
-}, {
-  id: '1.111',
-  parent: '1.11',
-  name: 'Gi0/0/0/3',
-  value: 1
-}, {
-  id: '1.111',
-  parent: '1.11',
-  name: 'Gi0/0/0/4',
-  value: 1
-}, {
-  id: '1.111',
-  parent: '1.11',
-  name: 'Gi0/0/0/5',
-  value: 1
-},
-
-{
-  id: '1.111',
-  parent: '1.12',
-  name: 'Te0/0/1/2',
-  value: 1
-},{
-  id: '1.111',
-  parent: '1.12',
-  name: 'Te0/0/1/3',
-  value: 1
-}] ;
-
 var chart;
+jQuery(document).ready(function() {
+var data = {{ data|safe }}
 
 // Splice in transparent for the center circle
 Highcharts.getOptions().colors.splice(0, 0, 'transparent');
@@ -75,10 +21,7 @@ Highcharts.chart('interfaces', {
   },
 
   title: {
-    text: 'World population 2017'
-  },
-  subtitle: {
-    text: 'Source <href="https://en.wikipedia.org/wiki/List_of_countries_by_population_(United_Nations)">Wikipedia</a>'
+    text: ''
   },
   series: [{
     type: "sunburst",
@@ -121,19 +64,15 @@ Highcharts.chart('interfaces', {
       }
     }]
 
-  }],
-  tooltip: {
-    headerFormat: "",
-    pointFormat: 'The population of <b>{point.name}</b> is <b>{point.value}</b>'
-  }
+  }]
 });
 });
 </script>
 {% endblock %}
+
 
 {% block field_sets %}
 {% for fieldset in adminform %}
   {% include "admin/geomap/device/fieldset.html" %}
 {% endfor %}
 {% endblock %}
-

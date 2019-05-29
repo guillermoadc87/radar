@@ -5,6 +5,6 @@ core:
 inventory:
  plugin: nornir.plugins.inventory.simple.SimpleInventory
  options:
-  host_file: "inventory/hosts.yaml"
-  group_file: "inventory/groups.yaml"
-  defaults_file: "inventory/defaults.yaml"
+  host_file: "geomap/inventory/hosts.yaml"
+  group_file: "geomap/inventory/groups.yaml"
+  defaults_file: "geomap/inventory/defaults.yaml"

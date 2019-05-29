@@ -1179,3 +1179,36 @@ textfsm.TextFSMTemplateError: Duplicate or invalid variable substitution: '^\s+c
 
 2019-05-16 18:53:43,584 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
 2019-05-16 18:53:52,384 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-20 18:55:25,186 -  nornir.core -     INFO -        run() - Running task 'get_avail_interfaces' with args {} on 1 hosts
+2019-05-20 18:55:33,729 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_avail_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 90, in get_avail_interfaces
+    avail_ints = down_interfaces(r[0].result)
+NameError: name 'down_interfaces' is not defined
+
+2019-05-20 18:56:15,970 -  nornir.core -     INFO -        run() - Running task 'get_avail_interfaces' with args {} on 1 hosts
+2019-05-20 18:56:24,956 -  nornir.core -     INFO -        run() - Running task 'get_avail_interfaces' with args {} on 1 hosts
+2019-05-20 18:56:32,878 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_avail_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 90, in get_avail_interfaces
+NameError: name 'down_interfaces' is not defined
+
+2019-05-20 18:57:37,192 -  nornir.core -     INFO -        run() - Running task 'get_avail_interfaces' with args {} on 1 hosts
+2019-05-20 18:57:46,637 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_avail_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 124, in get_avail_interfaces
+    slot_matrix[int_slot_num][card].append(inter['port'])
+KeyError: 0
+
+2019-05-20 18:59:27,436 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface description', 'use_textfsm': True} on 1 hosts
+2019-05-20 18:59:39,062 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface description', 'use_textfsm': True} on 1 hosts
+2019-05-20 19:01:20,984 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'admin show platform', 'use_textfsm': True} on 1 hosts
+2019-05-20 19:04:58,976 -  nornir.core -     INFO -        run() - Running task 'get_avail_interfaces' with args {} on 1 hosts
+2019-05-20 20:20:27,894 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-20 20:20:57,194 -  nornir.core -     INFO -        run() - Running task 'get_arp' with args {} on 1 hosts

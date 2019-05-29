@@ -1,10 +1,5 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-if Vagrant.has_plugin?('vagrant-foodshow')
- ngrok_enabled = true
-else
- ngrok_enabled = false
-end
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -73,11 +68,4 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  if ngrok_enabled == true
-   print "Ngrok enabled.\n"
-   config.foodshow.enabled = true
-   config.vm.network :forwarded_port, host: 8000, guest: 8000, ngrok_proto: "https"
-  else
-   $stderr.print "Ngrok not enabled.\n"
-  end
 end

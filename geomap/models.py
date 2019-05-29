@@ -10,23 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from .helper_functions import user_directory_path, get_subnet
 from .slack_api import create_channel_with, send_message
-from .netbox_api import create_site, create_racks, create_vlans, delete_components, create_device, get_prefix_for, set_prefix_for
-from django.db.models.signals import m2m_changed
-from django.urls import reverse
-from django.core.exceptions import ValidationError
-from django.contrib.gis.geos import Point
-
-device_type = [
-        (('router'), ('Router')),
-        (('switch'), ('Switch')),
-        (('chassis'), ('Chassis')),
-        (('ONT'), ('ONT')),
-    ]
-os_type = [
-        (('cisco_ios'), ('Cisco IOS')),
-        (('cisco_xr'), ('Cisco XR')),
-        (('nxos'), ('Cisco NXOS')),
-    ]
+from .constants import PROJECT_TYPES, BUSSINESS_UNITS, ROUTER_MODELS, SWITCH_MODELS, NETWORKS, ONT_MODELS, CONTRACT_STATUS
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -40,69 +24,42 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
 class Property(models.Model):
-    types = (
-        (('New Construction'), ('New Construction')),
-        (('Conversion/OverBuild'), ('Conversion/OverBuild'))
-    )
-
-    business_units = (
-        (('Fision Home'), ('Fision Home')),
-        (('Fision Plus'), ('Fision Plus')),
-        (('Fision Stay'), ('Fision Stay')),
-        (('Fision Encore'), ('Fision Encore')),
-        (('Fision Work'), ('Fision Work')),
-        (('Fision U'), ('Fision U')),
-        (('Demo'), ('Demo')),
-    )
-
-    routers = (
-        ('7600', '7600'),
-        ('ASR9006', 'ASR9006')
-    )
-    ont = (
-        ('G-240G-A', 'G-240G-A'),
-        ('G-241G-A', 'G-241G-A'),
-    )
-
-    markets = (
-        ('SEFL', 'SEFL'),
-        ('SWFL', 'SWFL'),
-        ('ATL', 'ATL'),
-        ('NC/SC', 'NC/SC'),
-        ('CFL', 'CFL'),
-    )
-
+    osp_id = models.IntegerField(blank=True, null=True)
     name = models.CharField(max_length=120)
     slug = models.SlugField(_('slug'), max_length=150, unique=True, blank=True, null=True)
     units = models.IntegerField(default=1)
-    business_unit = models.CharField(max_length=120, choices=business_units, blank=True, null=True)
+    business_unit = models.CharField(max_length=120, choices=BUSSINESS_UNITS, blank=True, null=True)
     address = models.CharField(max_length=200)
     location = models.PointField(blank=True)
-    type = models.CharField(max_length=50, choices=types, blank=True, null=True)
+    type = models.CharField(max_length=50, choices=PROJECT_TYPES, blank=True, null=True)
+    network = models.CharField(max_length=50, choices=NETWORKS, blank=True, null=True)
     rf_unit = models.BooleanField('RF In-Unit', default=False)
     rf_coa = models.BooleanField('RF COA', default=False)
     coa = models.BooleanField('COA', default=False)
-    market = models.CharField(max_length=10, choices=markets)
+    services = models.TextField(blank=True, null=True)
+    contract = models.CharField(max_length=50, choices=CONTRACT_STATUS, blank=True, null=True)
 
     #Network
     feeds = models.ManyToManyField('Property', verbose_name='Fed from', related_name='feeding', blank=True)
-    main_device = models.ForeignKey('Device', on_delete=models.CASCADE, blank=True, null=True)
-    r_loop = models.CharField('LB', max_length=200, blank=True, null=True)
+    router = models.CharField(max_length=50, choices=ROUTER_MODELS, blank=True, null=True)
+    r_mgn = models.GenericIPAddressField(unique=True, blank=True, null=True)
+    switch = models.CharField(max_length=50, choices=SWITCH_MODELS, blank=True, null=True)
+    s_mgn = models.GenericIPAddressField(unique=True, blank=True, null=True)
 
     #GPON
     gpon_feed = models.ForeignKey('Property', on_delete=models.SET_NULL, verbose_name='GPON from',
                                   related_name='gpon_feeds', blank=True, null=True)
-    gpon_chassis = models.CharField(max_length=200, blank=True, null=True)
-    ont = models.CharField(max_length=200, choices=ont, blank=True, null=True)
-    gpon_cards = models.IntegerField(blank=True, null=True)
+    gpon_chassis = models.IntegerField('# Chassis', blank=True, null=True)
+    gpon_cards = models.IntegerField('Cards', blank=True, null=True)
+    gpon_ont = models.CharField(max_length=120, choices=ONT_MODELS, blank=True, null=True)
 
     #Dates
     published = models.DateField('Published On', blank=True, null=True)
     fiber_ready = models.DateField('Fiber Ready', blank=True, null=True)
     mdf_ready = models.DateField('MDF Ready', blank=True, null=True)
-    network_ready = models.DateField('Router Ready', blank=True, null=True)
-    gpon_ready = models.DateField('Chassis Ready', blank=True, null=True)
-    gear_installed = models.DateField('Gear Installed', blank=True, null=True)
+    network_ready = models.DateField('Router Pickup', blank=True, null=True)
+    gpon_ready = models.DateField('Chassis Pickup', blank=True, null=True)
+    gear_installed = models.DateField('Installed', blank=True, null=True)
     cross_connect = models.DateField(verbose_name='Cross-Connected', blank=True, null=True)
     sub_id_ready = models.DateField(blank=True, null=True)
     stb_installed = models.DateField(blank=True, null=True)
@@ -110,13 +67,16 @@ class Property(models.Model):
     done = models.DateField('Completed', blank=True, null=True)
 
     #Subnets
-    _iptvcoa = models.CharField('IP TV COA', max_length=200, blank=True, null=True)
+    ip_tv_coa = models.CharField('IP TV COA', max_length=200, blank=True, null=True)
     ip_tv = models.CharField('IP TV', max_length=200, blank=True, null=True)
+    ip_data = models.CharField('IP DATA', max_length=200, blank=True, null=True)
+    ip_data_bulk = models.CharField('IP DATA BULK', max_length=200, blank=True, null=True)
+    ip_voice = models.CharField('IP VOICE', max_length=200, blank=True, null=True)
     ip_mgn_ap = models.CharField('IP MGN AP', max_length=200, blank=True, null=True)
     ip_mgn = models.CharField('IP MGN', max_length=200, blank=True, null=True)
-
-    ip_data = models.CharField('IP DATA', max_length=200, blank=True, null=True)
-    ip_voice = models.CharField('IP VOICE', max_length=200, blank=True, null=True)
+    nomadix_lan = models.CharField('Nomadix LAN', max_length=200, blank=True, null=True)
+    nomadix_wan = models.CharField('Nomadix WAN', max_length=200, blank=True, null=True)
+    security = models.CharField(max_length=200, blank=True, null=True)
 
     #Participans
     pm = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='PM'), verbose_name='PM', related_name='pm', blank=True, null=True)
@@ -130,59 +90,35 @@ class Property(models.Model):
     hld = models.FileField(upload_to=user_directory_path, blank=True, null=True)
 
     #Slack
-    channel_id = models.CharField(unique=True, max_length=120, null=True)
-
-    #Netbox
-    netbox_id = models.IntegerField(blank=True, null=True)
+    channel_id = models.CharField(max_length=120, null=True)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.old_main_device = self.main_device
-        self.old_published = self.published
+        super(Property, self).__init__(*args, **kwargs)
+        #self.old_mgn_ip = self.mgn_ip
 
     def get_calculated_value(self, param):
         if not getattr(self, param):
             return getattr(self, param.replace('_', ''))
         return getattr(self, param)
 
-    def publish(self):
-        if self.published:
-            self.published = timezone.now()
-        else:
-            self.published = None
-        self.save()
-
-    @property
-    def hostname(self):
-        return '%s-%s' % (self.market, self.slug.upper())
-
     @property
     def iptvcoa(self):
-        prefix = get_prefix_for(self, 'IPTV-COA')
+        if self.units < 300:
+            return '/26'
+        else:
+            return '/24'
 
-        if not prefix:
-            if self.units < 300:
-                return '/26'
-            else:
-                return '/24'
-        return prefix
-
-    @iptvcoa.setter
-    def iptvcoa(self, value):
-        prefix = get_prefix_for(self, 'IPTV-COA')
-        if prefix != value:
-            set_prefix_for(self, 'IPTV-COA', value)
-
-    @property
-    def iptv(self):
-        total_units = 0
-        connected_prop = self.gpon_feeds.all()
-        if connected_prop:
-           for prop in connected_prop:
-               total_units += prop.units
-        total_units += self.units
-        total_stb = total_units * 3.5
-        return '/' + str(get_subnet(total_stb))
+    #@property
+    #def iptv(self):
+    #    total_units = 0
+    #    connected_prop = self.feeding.filter(mgn_ip__isnull=True)
+    #    connected_prop = connected_prop.union(self.feeds.filter(mgn_ip__isnull=True))
+    #    if connected_prop:
+    #       for prop in connected_prop:
+    #           total_units += prop.units
+    #    total_units += self.units
+    #    total_stb = total_units * 3.5
+    #    return '/' + str(get_subnet(total_stb))
 
     @property
     def ipdata(self):
@@ -194,11 +130,7 @@ class Property(models.Model):
 
     @property
     def ipmgn(self):
-        return '/24'
-
-    @property
-    def get_absolute_url(self):
-        return reverse('admin:geomap_property_change', args=[self.pk])
+        return self.iptvcoa
 
     @property
     def link(self):
@@ -206,21 +138,15 @@ class Property(models.Model):
 
     @property
     def connect(self):
-        if self.r_loop:
-            return '<a href="/admin/geomap/property/%s/change/connect/">%s</a>' % (self.pk, self.r_loop)
-        return None
-
-    @property
-    def netbox_url(self):
-        if self.netbox_id:
-            return '<a href="http://10.0.0.225:8000/dcim/sites/%s">NETBOX</a>' % (self.name)
+        if self.r_mgn:
+            return '<a href="/admin/geomap/property/%s/change/connect/">%s</a>' % (self.pk, self.r_mgn)
         return None
 
     @property
     def popup_desc(self):
-        return '%s (%d units) <br> Router: %s LB: <a href="#">%s</a> <br> GPON: %s <br> PON CARDS: %d <br> <a href="/geomap/interfaces/%s">interfaces</a>' % (
-        self.link, self.units, self.main_device, self.connect,
-        self.gpon_chassis, self.gponcards, self.r_loop)
+        return '%s (%d units) <br> Router: <a href="#">%s</a> <br> GPON: %d <br> PON CARDS: %d' % (
+        self.link, self.units, self.connect,
+        self.get_calculated_value('gpon_chassis'), self.get_calculated_value('gpon_cards'))
 
     @property
     def gponchassis(self):
@@ -252,12 +178,12 @@ class Property(models.Model):
             send_message(self.channel_id, message)
         admin.message_user(request, message)
 
+
     def get_gpon_coord(self):
         if self.gpon_feed:
             return [[self.gpon_feed.location.y, self.gpon_feed.location.x], [self.location.y, self.location.x]]
         return []
 
-    @property
     def get_links(self):
         return [[[self.location.y, self. location.x], [feed.location.y, feed.location.x]] for feed in self.feeds.all()]
 
@@ -288,43 +214,19 @@ class Property(models.Model):
 
         return status.strip().replace(' ', ', ')
 
-    def assign_devices(self, id, not_id=None):
-        print('assigning!!!')
-        devices = []
-        for device in Device.objects.filter(interfaces__connected__device=id):
-            if device.id != not_id and not device.router:
-                devices.append(device)
-        if not devices:
-            return
-
-        for device in devices:
-            device.prop = self
-            device.save()
-            self.assign_devices(device.id, not_id=id)
+    def add_devices_for(self, device, no_dev_id=None):
+        conn_devs = filter(lambda d: d.id != no_dev_id, Device.objects.filter(interfaces__connected__device=device))
+        for conn_dev in conn_devs:
+            print(conn_dev)
+            conn_dev.prop = self
+            conn_dev.save()
+            self.add_devices_for(conn_dev, no_dev_id=device.id)
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name)
+        #if not self.id:
+        #    self.slug = slugify(self.name)
+        if not self.pk:
             self.channel_id = create_channel_with(self.name)
-
-        if not self.main_device or self.old_main_device != self.main_device:
-            p_dev = Device.objects.filter(prop=self)
-            for dev in p_dev:
-                dev.prop = None
-                dev.save()
-
-            #site_id = create_site(self)
-
-            #if site_id:
-            #    self.netbox_id = site_id
-        #if self.old_published and not self.published:
-        #    delete_components(self)
-
-        #if self.topology and self.old_topology != self.topology:
-        #    [device.delete() for device in self.devices.all()]
-        #    for td in self.topology.devices.all():
-        #        pd = Device.objects.create(model=td.model, os=td.os, type=td.type)
-        #        self.devices.add(pd)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -333,59 +235,48 @@ class Property(models.Model):
     class Meta:
         verbose_name_plural = 'Properties'
 
-@receiver(post_save, sender=Property)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if instance.main_device and instance.old_main_device != instance.main_device:
-        instance.assign_devices(instance.main_device)
-
-#@receiver(m2m_changed, sender=Property.feeds.through)
-#def property_m2m_changed(sender, instance, **kwargs):
-#    print(instance.old_published, instance.published, instance.feeds.all())
-#    if not instance.old_published and instance.published and instance.feeds.all():
-#        create_racks(instance)
-#        create_vlans(instance)
-#        create_device(instance)
+#@receiver(post_save, sender=Property)
+#def sync_devices(sender, instance, created, **kwargs):
+#    if not instance.mgn_ip or instance.mgn_ip != instance.old_mgn_ip:
+#        for dev in Device.objects.filter(prop=instance):
+#            dev.prop = None
+#            dev.save()
+#    if instance.mgn_ip:
+#        try:
+#            dev = Device.objects.get(mgn=instance.mgn_ip)
+#            dev.prop = instance
+#            dev.save()
+#            instance.add_devices_for(dev)
+#        except Device.DoesNotExist:
+#            pass
+#    instance.save()
 
 class Device(models.Model):
-    prop = models.ForeignKey('Property', verbose_name='Property', on_delete=models.SET_NULL, related_name='devices',
-                             blank=True, null=True)
-    hostname = models.CharField(max_length=200, blank=True, null=True)
-    model = models.CharField(max_length=200, blank=True, null=True)
-    mgn = models.GenericIPAddressField('Management', blank=True, null=True)
-    router = models.BooleanField(default=False)
-
-    @property
-    def int_avail(self):
-        return ''
+    hostname = models.CharField(max_length=120)
+    mgn = models.GenericIPAddressField(unique=True)
+    model = models.CharField(max_length=120, blank=True, null=True)
+    node_id = models.IntegerField(blank=True, null=True)
+    prop = models.ForeignKey('Property', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.mgn} - {self.hostname}"
+        return f'{self.mgn} - {self.hostname}'
 
 class Interface(models.Model):
-    name = models.CharField(max_length=200, blank=True, null=True)
-    bundle_id = models.IntegerField(blank=True, null=True)
-    connected = models.OneToOneField('Interface', on_delete=models.SET_NULL, related_name='connected_to', blank=True, null=True)
-    device = models.ForeignKey('Device', on_delete=models.CASCADE, related_name='interfaces', blank=True, null=True)
+    name = models.CharField(max_length=120, blank=True, null=True)
+    status = models.CharField(max_length=120, blank=True, null=True)
+    device = models.ForeignKey('Device', on_delete=models.SET_NULL, related_name='interfaces', blank=True, null=True)
+    connected = models.OneToOneField('Interface', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
-        return F"{self.device} - {self.name}"
+        return f'{self.name} ({self.device.hostname})'
 
-class Topology(models.Model):
-    name = models.CharField(max_length=100)
+class Statistics(models.Model):
+    interface = models.ForeignKey('Interface', on_delete=models.SET_NULL, blank=True, null=True)
+    date = models.DateField()
+    maxin = models.FloatField()
+    maxout = models.FloatField()
 
-    def __str__(self):
-        return self.name
-
-class Device_Type(models.Model):
-    topology = models.ForeignKey('Topology', on_delete=models.CASCADE, related_name='devices', blank=True, null=True)
-    model = models.CharField(max_length=200, blank=True, null=True)
-    os = models.CharField(max_length=120, choices=os_type, null=True)
-    type = models.CharField(max_length=120, choices=device_type, null=True)
-
-    def __str__(self):
-        return self.model
-
-class Files(models.Model):
+class File(models.Model):
     property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='files')
     image = models.FileField(upload_to=user_directory_path)
 
