@@ -7,32 +7,38 @@ class StatusListFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return [
-            ('Pending Equipment', 'Pending Equipment'),
-            ('Pending Fiber', 'Pending Fiber'),
-            ('Pending MDF', 'Pending MDF'),
-            ('Pending Install', 'Pending Install'),
-            ('Pending CXC', 'Pending CXC'),
-            ('Pending MR Cert', 'Pending MR Cert'),
-            ('Done', 'Done')
+            ('New', 'New'),
+            ('Published', 'Published'),
+            ('Gear Configured', 'Gear Configured'),
+            ('Fiber Ready', 'Fiber Ready'),
+            ('MDF Ready', 'MDF Ready'),
+            ('Gear Installed', 'Gear Installed'),
+            ('Cross-Connected', 'Cross-Connected'),
+            ('MR Certified', 'MR Certified'),
+            ('Completed', 'Completed')
         ]
 
     def queryset(self, request, queryset):
         value = self.get_value(request)
         if value:
-            if value == 'Pending Equipment':
-                return queryset.filter(Q(network_ready__isnull=True) | Q(gpon_ready__isnull=True))
-            elif value == 'Pending Fiber':
-                return queryset.filter(fiber_ready__isnull=True)
-            elif value == 'Pending MDF':
-                return queryset.filter(mdf_ready__isnull=True)
-            elif value == 'Pending Install':
-                return queryset.filter(gear_installed__isnull=True)
-            elif value == 'Pending CXC':
-                return queryset.filter(cross_connect__isnull=True)
-            elif value == 'Pending MR Cert':
-                return queryset.filter(mr_cert__isnull=True)
-            elif value == 'Pending Done':
-                return queryset.filter(done__isnull=True)
+            if value == 'New':
+                return queryset.filter(published__isnull=True)
+            elif value == 'Published':
+                return queryset.filter(published__isnull=False)
+            elif value == 'Gear Configured':
+                return queryset.filter(Q(network_ready__isnull=False) | Q(gpon_ready__isnull=False))
+            elif value == 'Fiber Ready':
+                return queryset.filter(fiber_ready__isnull=False)
+            elif value == 'MDF Ready':
+                return queryset.filter(mdf_ready__isnull=False)
+            elif value == 'Gear Installed':
+                return queryset.filter(gear_installed__isnull=False)
+            elif value == 'Cross-Connected':
+                return queryset.filter(cross_connect__isnull=False)
+            elif value == 'MR Certified':
+                return queryset.filter(mr_cert__isnull=False)
+            elif value == 'Completed':
+                return queryset.filter(done__isnull=False)
         return queryset
 
     def get_value(self, request):

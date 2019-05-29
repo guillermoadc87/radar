@@ -1,5 +1,5 @@
-{% extends "admin/base_site.html" %}
-{% load i18n admin_urls static  admin_list leaflet_tags %}
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static admin_modify leaflet_tags %}
 
 {% block extrastyle %}
   {% leaflet_css %}
@@ -62,45 +62,98 @@
 </div>
 {% endblock %}
 
+{% block search %}{% endblock %}
+{% block date_hierarchy %}{% endblock %}
+{% block pagination %}{% endblock %}
+
 {% block object-tools-items %}{{ block.super }}
     <li>
         <a href="{% url 'admin:geomap_property_changelist' %}" class="grp-state-focus golink">List View</a>
     </li>
 {% endblock %}
 
-{% block content %}{{ block.super }}
+{% block result_list %}
 <div id="toolbar">
     <form id="changelist-search" method="get">
 <div><!-- DIV needed for valid HTML -->
 <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
-<input type="text" size="40" name="q" value="" id="searchbar" autofocus="">
-<input type="submit" value="Search">
+<input type="text" size="40" name="addr" value="" id="searchbar" autofocus="">
+    <button id="address">Search</button>
+    <div class="form-row" id="results">
+    </div>
 </div>
 </form>
 </div>
 {% leaflet_map "main" callback="main_map_init" %}
-    <script type="text/javascript">
+<script type="text/javascript">
+
+        const selected_icon = L.divIcon({
+              iconAnchor: [2, 25],
+              labelAnchor: [-6, 0],
+              popupAnchor: [0, -40],
+              html: `<div class="selected_pin" />`
+            })
+        const icon = L.divIcon({
+              iconAnchor: [2, 25],
+              labelAnchor: [-6, 0],
+              popupAnchor: [0, -40],
+              html: `<div class="pin" />`
+            })
+
+        $("#address").click(function(event){
+            event.preventDefault()
+            var inp = document.getElementById("searchbar");
+            $.getJSON('https://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + inp.value, function(data) {
+                var items = [];
+
+                $.each(data, function(key, val) {
+                  items.push(
+                    "<li><a href='#' onclick='chooseAddr(" +
+                    val.lat + ", " + val.lon + ");return false;'>" + val.display_name +
+                    '</a></li>'
+                  );
+                });
+                $('#results').empty();
+                if (items.length != 0) {
+                  $('<p>', { html: "Search results:" }).appendTo('#results');
+                  $('<ul/>', {
+                    'class': 'my-new-list',
+                    html: items.join('')
+                  }).appendTo('#results');
+                } else {
+                  $('<p>', { html: "No results found" }).appendTo('#results');
+                }
+              });
+              event.stopPropagation();
+        });
+
+
+        function chooseAddr(lat, lng, type) {
+          var location = new L.LatLng(lat, lng);
+
+          if (window.marker) {
+            window.map.removeLayer(window.marker);
+          }
+          window.marker = new L.Marker(location, {icon: selected_icon});
+          window.map.addLayer(window.marker);
+          window.marker.bindPopup("<b>Here it is!</b>").openPopup();
+          window.map.panTo(location);
+          if (type == 'city' || type == 'administrative') {
+            window.map.setZoom(11);
+          } else {
+            window.map.setZoom(13);
+          }
+        }
+
+
         $(window).on("resize", function () {
-            $("#main").height($(window).height()*0.4);
+            $("#main").height($(window).height()*0.8);
             map.invalidateSize();
         }).trigger("resize");
 
         function main_map_init (map, options) {
 
             var popup = L.popup()
-
-            const selected_icon = L.divIcon({
-              iconAnchor: [2, 25],
-              labelAnchor: [-6, 0],
-              popupAnchor: [0, -40],
-              html: `<div class="selected_pin" />`
-            })
-            const icon = L.divIcon({
-              iconAnchor: [2, 25],
-              labelAnchor: [-6, 0],
-              popupAnchor: [0, -40],
-              html: `<div class="pin" />`
-            })
 
             {% for property in properties %}
               var lon = "{{ property.location.x }}";
@@ -109,13 +162,16 @@
                 window.map = map.setView([lat, lon], 15);
               {% endif %}
               L.marker([lat, lon], {icon: icon}).addTo(map).bindPopup(`{{ property.popup_desc|safe }}`);
+
+              {% for feed in property.feeds.all %}
+                L.polyline([[[lat, lon], [{{ feed.location.y }}, {{ feed.location.x }}]]]).addTo(map).bindPopup(`{{ property.link|safe }} <-> {{ feed.link|safe }}`);
+              {% endfor %}
             {% endfor %}
             var polyline = L.polyline({{ gpon_feeds|safe }}, {color: 'green'}).addTo(map);
             L.polylineDecorator(polyline, {
             patterns: [
                 {offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 25, polygon: false, pathOptions: {stroke: true}})}
             ]}).addTo(map);
-            L.polyline({{ r_feeds|safe }}).addTo(map);
         }
 </script>
 {% endblock %}

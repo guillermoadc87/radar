@@ -1,6 +1,6 @@
-from django.utils import timezone
 from django.contrib import admin
-from .models import Property
+from django.contrib.admin.utils import flatten_fieldsets
+from .models import Property, Files, Device, Topology, Interface
 from .views import PropertyListView
 from django.urls import re_path, path
 from django.utils.html import format_html
@@ -8,23 +8,80 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse
 from django.template.response import TemplateResponse
 from django.db.models import Q
-from .forms import PropertyForm
+from .forms import PropertyForm, DeviceForm, Device_TypeForm
 from .list_filters import StatusListFilter
 from django.contrib import messages
 from wsgiref.util import FileWrapper
 from io import BytesIO
+from .netbox_api import delete_site
 from jinja2 import Environment, FileSystemLoader, Markup
+
+from django import template
+from django.contrib.admin.templatetags.admin_list import result_list
+
+register = template.Library()
+register.inclusion_tag('change_list_map.html')(result_list)
 
 
 admin.site.site_header = 'HWC Launcher'
 admin.site.site_title = "HWC Launcher"
 
+class PhotoInline(admin.StackedInline):
+    model = Files
+    extra = 1
+
+class InterfaceAdmin(admin.TabularInline):
+    model = Interface
+    search_fields = ('model',)
+    list_display = ('name', 'bundle_id', 'connected__device')
+    readonly_fields = ('name', 'bundle_id', 'connected')
+    extra = 1
+
+    def get_prop_name(self, obj):
+        return obj.prop.name
+    get_prop_name.allow_tags = True
+    get_prop_name.short_description = 'Property'
+    get_prop_name.admin_order_field = 'property__name'
+
+    def has_add_permission(self, request):
+        return False
+
+@admin.register(Device)
+class DeviceAdmin(admin.ModelAdmin):
+    inlines = (InterfaceAdmin,)
+    model = Device
+    search_fields = ('hostname', 'model', 'mgn', 'prop__name')
+    list_display = ('hostname', 'model', 'mgn', 'router')
+    readonly_fields = ('hostname', 'model', 'mgn', 'int_avail')
+    fieldsets = (
+        ('', {
+            'fields': (
+                'hostname',
+                'model',
+                'mgn',
+                'int_avail',
+            )
+        }),
+    )
+
+    def get_prop_name(self, obj):
+        return obj.prop.name
+    get_prop_name.allow_tags = True
+    get_prop_name.short_description = 'Property'
+    get_prop_name.admin_order_field = 'property__name'
+
+    def int_avail(self, obj):
+        return obj.int_avail
+    int_avail.allow_tags = True
+    int_avail.short_description = 'Interfaces Available'
+
+@admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     form = PropertyForm
     search_fields = ('name',)
     list_display = ('name', 'units', 'address', 'mr_cert', 'status', 'account_actions')
     list_filter = (StatusListFilter,)
-    readonly_fields = ('map', 'status')
+    readonly_fields = ('status', 'map', 'gponcards')
     ordering = ('-mr_cert',)
     filter_horizontal = ('feeds',)
     fieldsets = (
@@ -35,30 +92,31 @@ class PropertyAdmin(admin.ModelAdmin):
                 'location',
                 'map',
                 ('units', 'business_unit', 'type',),
+                'market',
                 ('rf_unit', 'rf_coa', 'coa',),
             )
         }),
         ('Network', {
             'fields': (
                 'feeds',
-                ('router', 'r_loop'),
-                ('switch', 's_loop'),
+                ('main_device', 'r_loop'),
             )
         }),
         ('GPON', {
             'fields': (
-                ('gpon_feed', 'gpon_chassis', 'gpon_cards'),
+                'gpon_feed',
+                ('gpon_chassis', 'ont', 'gponcards'),
             )
         }),
         ('Subnets', {
             'fields': (
-                ('ip_tv_coa', 'ip_tv', 'ip_voice'),
+                ('_iptvcoa', 'ip_tv', 'ip_voice'),
                 ('ip_data', 'ip_mgn', 'ip_mgn_ap'),
             )
         }),
         ('Dates', {
             'fields': (
-                ('published', 'fiber_ready', 'network_ready', 'gpon_ready', 'gear_installed', 'cross_connect', 'mr_cert'),
+                ('published', 'network_ready', 'gpon_ready', 'fiber_ready', 'mdf_ready', 'gear_installed', 'cross_connect', 'mr_cert'),
             )
         }),
         ('Files', {
@@ -78,6 +136,11 @@ class PropertyAdmin(admin.ModelAdmin):
         return obj.map
     map.allow_tags = True
     map.short_description = 'Map'
+
+    def gponcards(self, obj):
+        return obj.gponcards
+    gponcards.allow_tags = True
+    gponcards.short_description = 'PON Cards'
 
     def account_actions(self, obj):
         groups = self.request.user.groups.all().values_list('name', flat=True)
@@ -122,6 +185,10 @@ class PropertyAdmin(admin.ModelAdmin):
     account_actions.short_description = 'Account Actions'
     account_actions.allow_tags = True
 
+    def changelist_view(self, request, extra_context=None):
+        print(extra_context)
+        return super(PropertyAdmin, self).changelist_view(request, extra_context=extra_context)
+
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
 
@@ -131,7 +198,7 @@ class PropertyAdmin(admin.ModelAdmin):
 
         r_feeds = []
         for proper in Property.objects.filter(feeds__isnull=False):
-            r_feeds += proper.get_links()
+            r_feeds += proper.get_links
         extra_context['r_feeds'] = r_feeds
 
         extra_context['gpon_feeds'] = [proper.get_gpon_coord() for proper in Property.objects.filter(gpon_feed__isnull=False)]
@@ -144,46 +211,56 @@ class PropertyAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('map/', self.admin_site.admin_view(self.property_map), name='property_list'),
-            re_path('map/(?P<property_id>\d+)', self.admin_site.admin_view(self.property_map), name='property_map'),
-            re_path('published/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
-                    {'action': 'published'}, name='publish'),
-            re_path('published/change/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('map/(?P<property_id>\d+)$', self.admin_site.admin_view(self.property_map), name='property_map'),
+            re_path('published/(?P<property_id>\d+)$', self.admin_site.admin_view(self.published), name='publish'),
+            re_path('published/change/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'published', 'to_list': False}, name='publish_change'),
-            re_path('fiber_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('fiber_ready/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'fiber_ready'}, name='fiber_ready'),
-            re_path('mdf_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('mdf_ready/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'mdf_ready'}, name='mdf_ready'),
-            re_path('network_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('network_ready/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'network_ready'}, name='network_ready'),
-            re_path('gpon_ready/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('gpon_ready/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'gpon_ready'}, name='gpon_ready'),
 
-            re_path('gear_installed/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('gear_installed/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'gear_installed'},
                     name='gear_installed'),
-            re_path('cross_connect/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('cross_connect/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'cross_connect'}, name='cross_connect'),
-            re_path('done/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('done/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'done'}, name='done'),
-            re_path('done/change/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
+            re_path('done/change/(?P<property_id>\d+)$', self.admin_site.admin_view(self.change_state),
                     {'action': 'done', 'to_list': False},name='done_change'),
             re_path('(?P<property_id>\d+)/change/connect', self.admin_site.admin_view(self.connect), name='connect'),
         ]
         return my_urls + urls
 
-    def get_queryset(self, request):
-        self.request = request
-        qs = super().get_queryset(request)
+    def get_readonly_fields(self, request, obj=None):
+        #if obj and obj.published:
+        #    self.readonly_fields += ('equipment', 'feeds', 'card', 'rsp', 'r_loop', 'gpon_feed', 'gpon_chassis')
+        return self.readonly_fields
 
-        if request.user.is_superuser:
-            return qs
-        elif not request.user.groups.all():
-            return qs.none()
-        else:
-            groups = [group.name for group in request.user.groups.all()]
-            if 'PM' not in groups:
-                qs = qs.filter(published__isnull=False)
-            return qs.filter(Q(neteng=request.user) | Q(gponeng=request.user) | Q(cpm=request.user) | Q(fe=request.user) | Q(cxceng=request.user) | Q(pm=request.user))
+    def get_queryset(self, request):
+            self.request = request
+            qs = super().get_queryset(request)
+
+            if request.user.is_superuser:
+                return qs
+            elif not request.user.groups.all():
+                return qs.none()
+            else:
+                groups = [group.name for group in request.user.groups.all()]
+                if 'PM' not in groups:
+                    qs = qs.filter(published__isnull=False)
+                return qs.filter(Q(neteng=request.user) | Q(gponeng=request.user) | Q(cpm=request.user) | Q(fe=request.user) | Q(cxceng=request.user) | Q(pm=request.user))
+
+    def delete_queryset(self, request, queryset):
+        for prop in queryset:
+            print(prop, prop.netbox_id)
+            delete_site(prop)
+        super().delete_queryset(request, queryset)
 
     def property_map(self, request):
         #prop = self.get_object(request, property_id)
@@ -194,16 +271,29 @@ class PropertyAdmin(admin.ModelAdmin):
         #context['property'] = prop
         r_feeds = []
         for proper in Property.objects.filter(feeds__isnull=False):
-            r_feeds += proper.get_links()
+            r_feeds += proper.get_links
         context['r_feeds'] = r_feeds
 
         context['gpon_feeds'] = [proper.get_gpon_coord() for proper in Property.objects.filter(gpon_feed__isnull=False)]
-
+        context['opts'] = self.model._meta
+        #print(Property._meta)
         return TemplateResponse(
             request,
             'change_list_map.html',
             context,
         )
+
+    def published(self, request, property_id):
+        prop = self.get_object(request, property_id)
+        prop.publish()
+
+        url = reverse(
+            'admin:geomap_property_change',
+            args=(prop.id,),
+            current_app=self.admin_site.name,
+        )
+
+        return HttpResponseRedirect(url)
 
     def change_state(self, request, property_id, action, to_list=True):
         prop = self.get_object(request, property_id)
@@ -262,7 +352,7 @@ class PropertyAdmin(admin.ModelAdmin):
     def connect(self, request, property_id):
         import os
         prop = self.get_object(request, property_id)
-        print(os.path.join(os.path.dirname(__file__), 'scripts'))
+        #print(os.path.join(os.path.dirname(__file__), 'scripts'))
         file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'scripts'))
         env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
         template = env.get_template('connect.py').render(user=request.user.username, ip=prop.r_loop,)
@@ -274,4 +364,3 @@ class PropertyAdmin(admin.ModelAdmin):
         js = (
             "//cdnjs.cloudflare.com/ajax/libs/leaflet-polylinedecorator/1.1.0/leaflet.polylineDecorator.min.js",
         )
-admin.site.register(Property, PropertyAdmin)

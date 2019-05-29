@@ -1,0 +1,1181 @@
+2019-04-25 23:25:15,267 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-04-25 23:25:36,343 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\util.py", line 280, in retry_on_signal
+    return function()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+TimeoutError: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_xr 10.63.255.165:22
+
+2019-04-25 23:25:38,350 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-04-25 23:25:38,369 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+AttributeError: 'UnestablishedConnection' object has no attribute 'send_command'
+
+2019-04-25 23:25:47,132 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-04-25 23:26:00,644 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-04-25 23:27:33,273 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-04-25 23:27:46,485 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-04-25 23:29:39,081 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-04-25 23:30:07,711 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-10 20:28:46,327 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'use_textfsm': True} on 1 hosts
+2019-05-10 20:28:46,638 - nornir.core.task -    ERROR -      start() - Host '10.63.37.153': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.63.37.153:22
+
+2019-05-10 20:34:57,496 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:35:14,183 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 699, in recv
+    out = self.in_buffer.read(nbytes, self.timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\buffered_pipe.py", line 164, in read
+    raise PipeTimeout()
+paramiko.buffered_pipe.PipeTimeout
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 519, in _read_channel_expect
+    new_data = self.remote_conn.recv(MAX_BUFFER)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 701, in recv
+    raise socket.timeout()
+socket.timeout
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1413, in enable
+    output += self.read_until_prompt()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 590, in read_until_prompt
+    return self._read_channel_expect(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 528, in _read_channel_expect
+    "Timed-out reading channel, data not available."
+netmiko.ssh_exception.NetMikoTimeoutException: Timed-out reading channel, data not available.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 28, in netmiko_send_command
+    net_connect.enable()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\cisco_base_connection.py", line 22, in enable
+    cmd=cmd, pattern=pattern, re_flags=re_flags
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1415, in enable
+    raise ValueError(msg)
+ValueError: Failed to enter enable mode. Please ensure you pass the 'secret' argument to ConnectHandler.
+
+2019-05-10 20:45:42,662 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:45:42,682 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'optional_args'
+
+2019-05-10 20:49:36,456 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:49:46,163 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-05-10 20:50:56,068 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:51:03,367 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:55:24,648 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:55:24,887 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.57.80.13:22
+
+2019-05-10 20:55:37,132 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:58:35,493 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:58:35,686 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.57.80.13:22
+
+2019-05-10 20:58:49,162 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:58:49,412 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.57.80.13:22
+
+2019-05-10 20:58:51,661 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:59:32,177 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:59:32,432 - nornir.core.task -    ERROR -      start() - Host '10.63.37.153': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.63.37.153:22
+
+2019-05-10 20:59:47,478 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 20:59:47,701 - nornir.core.task -    ERROR -      start() - Host '10.63.37.157': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.63.37.157:22
+
+2019-05-10 21:00:05,540 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:00:08,170 - nornir.core.task -    ERROR -      start() - Host '10.110.108.4': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 437, in connect
+    passphrase,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 749, in _auth
+    raise saved_exception
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 736, in _auth
+    self._transport.auth_password(username, password)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1436, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\auth_handler.py", line 250, in wait_for_response
+    raise e
+paramiko.ssh_exception.BadAuthenticationType: ('Bad authentication type', ['']) (allowed_types=[''])
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 865, in establish_connection
+    except paramiko.ssh_exception.AuthenticationException as auth_err:
+AttributeError: module 'paramiko' has no attribute 'ssh_exception'
+
+2019-05-10 21:01:13,192 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:01:13,427 - nornir.core.task -    ERROR -      start() - Host '10.110.250.12': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.110.250.12:22
+
+2019-05-10 21:01:21,441 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:01:47,156 - nornir.core.task -    ERROR -      start() - Host '10.110.250.20': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 699, in recv
+    out = self.in_buffer.read(nbytes, self.timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\buffered_pipe.py", line 164, in read
+    raise PipeTimeout()
+paramiko.buffered_pipe.PipeTimeout
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 519, in _read_channel_expect
+    new_data = self.remote_conn.recv(MAX_BUFFER)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 701, in recv
+    raise socket.timeout()
+socket.timeout
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 313, in __init__
+    self._try_session_preparation()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 723, in _try_session_preparation
+    self.session_preparation()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\cisco\cisco_ios.py", line 19, in session_preparation
+    self.disable_paging()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 989, in disable_paging
+    output = self.read_until_prompt()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 590, in read_until_prompt
+    return self._read_channel_expect(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 528, in _read_channel_expect
+    "Timed-out reading channel, data not available."
+netmiko.ssh_exception.NetMikoTimeoutException: Timed-out reading channel, data not available.
+
+2019-05-10 21:02:21,460 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:04:37,088 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp nei de', 'use_textfsm': True} on 1 hosts
+2019-05-10 21:05:27,389 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'use_textfsm': True} on 1 hosts
+2019-05-10 21:05:49,313 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'use_textfsm': True} on 1 hosts
+2019-05-10 21:05:49,538 - nornir.core.task -    ERROR -      start() - Host '10.110.250.12': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.110.250.12:22
+
+2019-05-10 21:06:10,585 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'use_textfsm': True} on 1 hosts
+2019-05-10 21:06:10,786 - nornir.core.task -    ERROR -      start() - Host '10.57.80.13': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 397, in connect
+    t.start_client(timeout=timeout)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 587, in start_client
+    raise e
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\transport.py", line 1982, in run
+    ptype, m = self.packetizer.read_message()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 441, in read_message
+    header = self.read_all(self.__block_size_in, check_rekey=True)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\packet.py", line 288, in read_all
+    x = self.__socket.recv(n)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_s300 10.57.80.13:22
+
+2019-05-10 21:06:56,733 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'use_textfsm': True} on 1 hosts
+2019-05-10 21:07:36,972 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:08:26,205 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:14:08,513 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:14:53,765 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:14:56,409 - nornir.core.task -    ERROR -      start() - Host '10.110.250.44': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 884, in establish_connection
+    self.remote_conn = self.remote_conn_pre.invoke_shell()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 532, in invoke_shell
+    chan.invoke_shell()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 72, in _check
+    return func(self, *args, **kwds)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 230, in invoke_shell
+    self._wait_for_event()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 1208, in _wait_for_event
+    raise e
+paramiko.ssh_exception.SSHException: Channel closed.
+
+2019-05-10 21:15:19,866 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'enable': True, 'use_textfsm': True} on 1 hosts
+2019-05-10 21:15:22,987 - nornir.core.task -    ERROR -      start() - Host '10.110.250.44': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 884, in establish_connection
+    self.remote_conn = self.remote_conn_pre.invoke_shell()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 532, in invoke_shell
+    chan.invoke_shell()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 72, in _check
+    return func(self, *args, **kwds)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 230, in invoke_shell
+    self._wait_for_event()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 1208, in _wait_for_event
+    raise e
+paramiko.ssh_exception.SSHException: Channel closed.
+
+2019-05-13 19:23:11,441 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:23:38,008 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:25:16,230 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:27:01,898 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:27:56,575 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbor detail', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:30:43,869 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:31:14,804 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:31:27,818 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:31:42,637 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:31:53,705 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:39:48,137 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:41:51,911 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:42:00,240 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-05-13 19:42:35,404 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 19:42:43,480 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-13 20:59:47,750 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show platform', 'use_textfsm': True} on 1 hosts
+2019-05-13 21:15:16,905 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'admin show platform', 'use_textfsm': True} on 1 hosts
+2019-05-13 21:15:16,932 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1244, in send_command
+    prompt = self.find_prompt(delay_factor=delay_factor)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1055, in find_prompt
+    self.write_channel(self.RETURN)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 407, in write_channel
+    self._write_channel(out_data)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 374, in _write_channel
+    self.remote_conn.sendall(write_bytes(out_data, encoding=self.encoding))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 846, in sendall
+    sent = self.send(s)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 801, in send
+    return self._send(s, m)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 1180, in _send
+    raise socket.error("Socket is closed")
+OSError: Socket is closed
+
+2019-05-13 21:15:33,981 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show platform', 'use_textfsm': True} on 1 hosts
+2019-05-13 21:15:54,069 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'admin show platform', 'use_textfsm': True} on 1 hosts
+2019-05-13 22:42:32,434 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-13 22:42:32,454 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1244, in send_command
+    prompt = self.find_prompt(delay_factor=delay_factor)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1055, in find_prompt
+    self.write_channel(self.RETURN)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 407, in write_channel
+    self._write_channel(out_data)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 374, in _write_channel
+    self.remote_conn.sendall(write_bytes(out_data, encoding=self.encoding))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 846, in sendall
+    sent = self.send(s)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 801, in send
+    return self._send(s, m)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 1180, in _send
+    raise socket.error("Socket is closed")
+OSError: Socket is closed
+
+2019-05-13 22:42:32,454 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 108, in get_available_interfaces
+    use_textfsm=True
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 124, in run
+    raise NornirSubTaskError(task=task, result=r)
+nornir.core.exceptions.NornirSubTaskError: Subtask: netmiko_send_command (failed)
+
+
+2019-05-13 22:43:11,654 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-13 22:43:19,652 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 111, in get_available_interfaces
+    int_avail = get_avail_int(ints[0].result)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 6, in get_avail_int
+    if int['descrip'] and 'down' in int['status'] and int['port'][2:] not in NOT_INTERFACES:
+NameError: name 'NOT_INTERFACES' is not defined
+
+2019-05-13 22:54:50,508 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-13 22:54:58,772 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 111, in get_available_interfaces
+    int_avail = get_avail_int(ints[0].result)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 6, in get_avail_int
+    if int['descrip'] and 'down' in int['status'] and int['port'][2:] not in NOT_INTERFACES:
+NameError: name 'NOT_INTERFACES' is not defined
+
+2019-05-13 22:58:05,673 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-13 22:58:13,685 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-05-13 22:58:13,686 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 108, in get_available_interfaces
+    use_textfsm=True
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 124, in run
+    raise NornirSubTaskError(task=task, result=r)
+nornir.core.exceptions.NornirSubTaskError: Subtask: netmiko_send_command (failed)
+
+
+2019-05-13 22:58:45,369 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-13 22:58:53,416 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 111, in get_available_interfaces
+    int_avail = get_avail_int(ints[0].result)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 6, in get_avail_int
+    if int['descrip'] and 'down' in int['status'] and int['port'][2:] not in NOT_INTERFACES:
+NameError: name 'NOT_INTERFACES' is not defined
+
+2019-05-14 18:25:08,372 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 18:25:17,110 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 112, in get_available_interfaces
+    int_avail = get_avail_int(r[0].result)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 6, in get_avail_int
+    if int['descrip'] and 'down' in int['status'] and int['port'][2:] not in NOT_INTERFACES:
+NameError: name 'NOT_INTERFACES' is not defined
+
+2019-05-14 18:26:02,376 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 18:26:10,309 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 112, in get_available_interfaces
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 6, in get_avail_int
+    for int in ints:
+NameError: name 'NOT_INTERFACES' is not defined
+
+2019-05-14 18:30:24,052 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 18:30:33,565 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 125, in get_available_interfaces
+    if 'MOD' not in slot['type']:
+TypeError: string indices must be integers
+
+2019-05-14 18:32:58,105 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'admin show platform', 'use_textfsm': True} on 1 hosts
+2019-05-14 19:05:19,540 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'admin show platform', 'use_textfsm': True} on 1 hosts
+2019-05-14 19:09:02,776 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 19:09:12,289 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 126, in get_available_interfaces
+    if not slots.get(slot):
+TypeError: unhashable type: 'dict'
+
+2019-05-14 19:11:20,457 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 19:11:30,127 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 130, in get_available_interfaces
+    int_slot1, int_slot2 = int['port'].split('/')[1:3]
+ValueError: not enough values to unpack (expected 2, got 0)
+
+2019-05-14 19:22:10,342 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-14 19:22:18,713 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-14 19:32:12,480 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 19:34:08,832 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-14 19:43:51,605 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 19:46:42,732 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 19:47:40,031 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 19:48:48,920 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-14 22:00:07,502 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interfaces description', 'use_textfsm': True} on 1 hosts
+2019-05-14 22:03:54,446 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-14 22:04:54,087 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-15 22:39:55,624 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-15 22:40:09,675 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-05-15 22:40:47,921 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-15 22:40:55,781 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-15 22:46:25,592 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show module', 'use_textfsm': True} on 1 hosts
+2019-05-15 22:59:52,604 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-15 22:59:52,634 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1244, in send_command
+    prompt = self.find_prompt(delay_factor=delay_factor)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1055, in find_prompt
+    self.write_channel(self.RETURN)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 407, in write_channel
+    self._write_channel(out_data)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 374, in _write_channel
+    self.remote_conn.sendall(write_bytes(out_data, encoding=self.encoding))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 846, in sendall
+    sent = self.send(s)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 801, in send
+    return self._send(s, m)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 1180, in _send
+    raise socket.error("Socket is closed")
+OSError: Socket is closed
+
+2019-05-15 22:59:52,635 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 100, in get_available_interfaces
+    use_textfsm=True
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 124, in run
+    raise NornirSubTaskError(task=task, result=r)
+nornir.core.exceptions.NornirSubTaskError: Subtask: netmiko_send_command (failed)
+
+
+2019-05-15 23:00:03,082 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-15 23:02:47,419 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-15 23:02:55,472 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-05-15 23:02:55,474 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 100, in get_available_interfaces
+    use_textfsm=True
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 124, in run
+    raise NornirSubTaskError(task=task, result=r)
+nornir.core.exceptions.NornirSubTaskError: Subtask: netmiko_send_command (failed)
+
+
+2019-05-15 23:03:06,980 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-15 23:03:29,967 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-15 23:03:37,878 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 232, in get_structured_data
+    template_dir = get_template_dir()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 215, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-05-15 23:03:37,880 - nornir.core.task -    ERROR -      start() - Host '10.63.255.165': task 'get_available_interfaces' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\Projects\radar\geomap\custom_tasks.py", line 100, in get_available_interfaces
+    use_textfsm=True
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 124, in run
+    raise NornirSubTaskError(task=task, result=r)
+nornir.core.exceptions.NornirSubTaskError: Subtask: netmiko_send_command (failed)
+
+
+2019-05-15 23:04:07,425 -  nornir.core -     INFO -        run() - Running task 'get_available_interfaces' with args {} on 1 hosts
+2019-05-16 18:17:12,127 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'delay_factor': 10, 'use_textfsm': True} on 10 hosts
+2019-05-16 18:17:33,232 - nornir.core.task -    ERROR -      start() - Host '10.68.255.20': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\util.py", line 280, in retry_on_signal
+    return function()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+TimeoutError: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_ios 10.68.255.20:22
+
+2019-05-16 18:17:33,233 - nornir.core.task -    ERROR -      start() - Host '10.68.255.19': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\util.py", line 280, in retry_on_signal
+    return function()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+TimeoutError: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_ios 10.68.255.19:22
+
+2019-05-16 18:17:33,234 - nornir.core.task -    ERROR -      start() - Host '10.68.255.41': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\util.py", line 280, in retry_on_signal
+    return function()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+TimeoutError: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_ios 10.68.255.41:22
+
+2019-05-16 18:17:33,234 - nornir.core.task -    ERROR -      start() - Host '10.68.255.42': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 858, in establish_connection
+    self.remote_conn_pre.connect(**ssh_connect_params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in connect
+    retry_on_signal(lambda: sock.connect(addr))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\util.py", line 280, in retry_on_signal
+    return function()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\client.py", line 343, in <lambda>
+    retry_on_signal(lambda: sock.connect(addr))
+TimeoutError: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 26, in netmiko_send_command
+    net_connect = task.host.get_connection("netmiko", task.nornir.config)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 302, in get_connection
+    extras=conn.extras,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\inventory.py", line 352, in open_connection
+    configuration=configuration,
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\connections\netmiko.py", line 58, in open
+    self.connection = ConnectHandler(**parameters)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\ssh_dispatcher.py", line 228, in ConnectHandler
+    return ConnectionClass(*args, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 312, in __init__
+    self.establish_connection()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 864, in establish_connection
+    raise NetMikoTimeoutException(msg)
+netmiko.ssh_exception.NetMikoTimeoutException: Connection to device timed-out: cisco_ios 10.68.255.42:22
+
+2019-05-16 18:20:02,207 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-16 18:45:36,353 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-16 18:45:36,380 - nornir.core.task -    ERROR -      start() - Host '10.110.255.24': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1244, in send_command
+    prompt = self.find_prompt(delay_factor=delay_factor)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1055, in find_prompt
+    self.write_channel(self.RETURN)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 407, in write_channel
+    self._write_channel(out_data)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 374, in _write_channel
+    self.remote_conn.sendall(write_bytes(out_data, encoding=self.encoding))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 846, in sendall
+    sent = self.send(s)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 801, in send
+    return self._send(s, m)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\paramiko\channel.py", line 1180, in _send
+    raise socket.error("Socket is closed")
+OSError: Socket is closed
+
+2019-05-16 18:46:38,905 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-16 18:47:45,196 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-16 18:51:38,814 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-16 18:51:45,733 - nornir.core.task -    ERROR -      start() - Host '10.63.255.163': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\textfsm.py", line 462, in __init__
+    self.regex = string.Template(self.match).substitute(var_map)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\string.py", line 132, in substitute
+    return self.pattern.sub(convert, self.template)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\string.py", line 125, in convert
+    return str(mapping[named])
+KeyError: 'PLATFORM'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\core\task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\nornir\plugins\tasks\networking\netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\base_connection.py", line 1307, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\utilities.py", line 238, in get_structured_data
+    textfsm_obj.ParseCmd(raw_output, attrs)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\_textfsm\_clitable.py", line 266, in ParseCmd
+    self.table = self._ParseCmdItem(self.raw, template_file=template_files[0])
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\netmiko\_textfsm\_clitable.py", line 288, in _ParseCmdItem
+    fsm = textfsm.TextFSM(template_file)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\textfsm.py", line 577, in __init__
+    self._Parse(template)
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\textfsm.py", line 678, in _Parse
+    while self._ParseFSMState(template):
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\textfsm.py", line 812, in _ParseFSMState
+    TextFSMRule(line, self._line_num, self.value_map))
+  File "C:\Users\guill\AppData\Local\Programs\Python\Python37-32\lib\site-packages\textfsm.py", line 466, in __init__
+    (self.match, self.line_num))
+textfsm.TextFSMTemplateError: Duplicate or invalid variable substitution: '^\s+cisco\s+${PLATFORM}\s+[cC]hassis'. Line: 13.
+
+2019-05-16 18:53:43,584 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts
+2019-05-16 18:53:52,384 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show version', 'use_textfsm': True} on 1 hosts

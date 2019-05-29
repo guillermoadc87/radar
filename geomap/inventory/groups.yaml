@@ -1,0 +1,39 @@
+---
+cisco-xe:
+  platform: 'cisco_xe'
+
+cisco-ios:
+  platform: 'ios'
+
+cisco-xr:
+  platform: 'iosxr'
+
+nxos:
+  platform: 'nxos'
+
+sg350:
+  platform: 'cisco_s300'
+
+sefl:
+  data:
+    area: 0.0.0.0
+
+swfl:
+  data:
+    area: 0.0.0.84
+
+cfl:
+  data:
+    area: 0.0.0.86
+
+atl:
+  data:
+    area: 0.0.0.110
+
+nc_sc:
+  data:
+    area: 0.0.0.93
+
+switch: {}
+
+router: {}
