@@ -79,7 +79,7 @@ def add_switches():
 def upadate_connections():
     nr = InitNornir(config_file='geomap/config.yaml')
     m_list = []
-    result = nr.filter(~F(groups__contains='sg350') & ~F(groups__contains='unknown') & F(groups__contains='sefl')).run(
+    result = nr.filter(~F(groups__contains='sg350') & ~F(groups__contains='unknown')).run(
         task=netmiko_send_command,
         command_string='show cdp neighbor detail',
         use_textfsm=True
@@ -152,7 +152,7 @@ def get_host_names():
         # use safe_load instead load
         inventory = yaml.safe_load(f)
 
-    result = nr.filter(~F(groups__contains='switch') & ~F(groups__contains='unknown') & F(host_name='') & F(groups__contains='sefl')).run(
+    result = nr.filter(~F(groups__contains='switch') & ~F(groups__contains='unknown') & F(host_name='')).run(
         task=netmiko_send_command,
         command_string='show version',
         use_textfsm=True

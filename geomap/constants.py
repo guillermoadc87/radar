@@ -4,6 +4,7 @@ NEW_WIFI_MGN = ['BVI751', 'BVI752', 'BVI753', 'BVI754', 'BVI755', 'Vlan751', 'Vl
 OLD_WIFI_MGN = ['BVI203', 'BVI201', 'Vlan203', 'Vlan201']
 MGN_INTERFACES = ['BVI200', 'BVI201', 'Vlan200', 'Vlan201', 'Vlan203', 'Vlan203']
 Q_ROUTER = '10.63.255.163'
+NPM_SERVER = 'thor.gethotwired.com'
 CISCO_USERNAME = 'guillermo.diaz'
 CISCO_PASSWORD = 'Wktkm1987*'
 MARKETS = {
@@ -26,7 +27,7 @@ MARKETS = {
 }
 NOT_PHY_INTS = ['BV', 'BD', 'Vl', 'Po', 'BE', 'Mg', 'PT', 'Bu', 'Co', 'Nu']
 
-SHOW_MODULE_TMP = open(os.path.join('geomap', 'ntc-templates', 'templates', 'cisco_ios_show_module.template'))
+SHOW_MODULE_TMP = open(os.path.join('/vagrant', 'geomap', 'ntc-templates', 'templates', 'cisco_ios_show_module.template'))
 SHOW_MODULE_KEYS = ['module', 'ports', 'type', 'model', 'serial']
 
 AVAIL_INT_GRAPH = ['cisco ASR9K Series', 'cisco CISCO7606-S']

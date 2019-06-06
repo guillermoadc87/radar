@@ -9,12 +9,12 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse
 from django.template.response import TemplateResponse
 from django.db.models import Q
-from .forms import PropertyForm
+from .forms import PropertyForm, BUGraphForm, DeviceForm
 from .list_filters import StatusListFilter
 from django.contrib import messages
 from wsgiref.util import FileWrapper
 from io import BytesIO
-from jinja2 import Environment, FileSystemLoader, Markup
+from jinja2 import Environment, FileSystemLoader
 from .nornir_api import get_graph_data
 from .constants import AVAIL_INT_GRAPH
 
@@ -25,15 +25,21 @@ class InterfaceInline(admin.TabularInline):
     model = Interface
     readonly_fields = ('name', 'connected')
 
+    def get_queryset(self, request):
+        qs = super(InterfaceInline, self).get_queryset(request)
+        return qs.filter(connected__isnull=False)
+
     def has_add_permission(self, request):
         return False
 
 @admin.register(Device)
 class DeviceAdmin(admin.ModelAdmin):
+    form = DeviceForm
     inlines = (InterfaceInline,)
     search_fields = ('mgn', 'hostname')
     list_display = ('hostname', 'model', 'mgn')
     actions = ('bandwith_utilization',)
+    ordering = ('-hostname',)
 
     def avail_interfaces(self, obj):
         return None
@@ -79,31 +85,38 @@ class DeviceAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(f'bu/?ids={",".join(selected)}')
 
     def bu_graph(self, request):
-
+        print(request.method)
+        context = {}
         if request.method == "POST":
-            start = request.POST.get('start')
-            end = request.POST.get('end')
-            interface_ids = request.POST.getlist('selected_inter')
+            print(request.method)
+            form = BUGraphForm(request.POST)
 
-            print(start, end, interface_ids)
+            if form.is_valid():
+                start = form.cleaned_data['start']
+                end = form.cleaned_data['end']
+                interface_ids = form.cleaned_data['interfaces']
 
-            stats = Statistics.objects.filter(interface__in=interface_ids, date__range=[start, end])
-            print(stats)
-            categories = [stat.date.strftime('%m/%d/%Y') for stat in stats]
-            print(categories)
+                print(start, end, interface_ids)
 
-            series_maxin = []
-            series_maxout = []
-            for interface_id in interface_ids:
-                interface = Interface.objects.get(id=interface_id)
-                int_stats = stats.filter(interface=interface)
-                maxin = [stat.maxin for stat in int_stats]
-                maxout = [stat.maxout for stat in int_stats]
-                series_maxin.append({'name': interface.name, 'data': maxin})
-                series_maxout.append({'name': interface.name, 'data': maxout})
+                stats = Statistics.objects.filter(interface__in=interface_ids, date__range=[start, end]).order_by('date')
+                print(stats)
+                categories = [stat.date.strftime('%m/%d/%Y') for stat in stats]
+                print(categories)
 
-            context = {'categories': categories, 'series_maxin': series_maxin, 'series_maxout': series_maxout}
+                series_maxin = []
+                series_maxout = []
+                for interface_id in interface_ids:
+                    interface = Interface.objects.get(id=interface_id)
+                    int_stats = stats.filter(interface=interface)
+                    maxin = [stat.maxin for stat in int_stats]
+                    maxout = [stat.maxout for stat in int_stats]
+                    series_maxin.append({'name': f'{interface.name} - {interface.description}', 'data': maxin})
+                    series_maxout.append({'name': f'{interface.name} - {interface.description}', 'data': maxout})
+
+                context = {'categories': categories, 'series_maxin': series_maxin, 'series_maxout': series_maxout}
         else:
+            form = BUGraphForm()
+
             devices_ids = request.GET.get('ids')
             devices_ids = devices_ids.split(',') if devices_ids else []
             print(devices_ids)
@@ -111,9 +124,10 @@ class DeviceAdmin(admin.ModelAdmin):
             #print(devices)
             interfaces = []
             for device in devices:
-                for interface in device.interfaces.all():
-                    interfaces.append({'pk':interface.pk, 'name': f'{device.hostname} - {interface.name}'})
-            context = {'interfaces': interfaces}
+                for interface in device.interfaces.filter(statistics__isnull=False).distinct().order_by('name'):
+                    interfaces.append((interface.pk, f'{device.hostname} - {interface.name} - {interface.description}'))
+            form.fields['interfaces'].choices = interfaces
+            context = {'form': form, 'interfaces': interfaces}
 
         return render(request, 'admin/bandwith_utilization.html', context=context)
 

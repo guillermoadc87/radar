@@ -264,6 +264,7 @@ class Device(models.Model):
 class Interface(models.Model):
     name = models.CharField(max_length=120, blank=True, null=True)
     status = models.CharField(max_length=120, blank=True, null=True)
+    description = models.CharField(max_length=120, blank=True, null=True)
     device = models.ForeignKey('Device', on_delete=models.SET_NULL, related_name='interfaces', blank=True, null=True)
     connected = models.OneToOneField('Interface', on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -273,8 +274,11 @@ class Interface(models.Model):
 class Statistics(models.Model):
     interface = models.ForeignKey('Interface', on_delete=models.SET_NULL, blank=True, null=True)
     date = models.DateField()
-    maxin = models.FloatField()
-    maxout = models.FloatField()
+    maxin = models.FloatField(blank=True, null=True)
+    maxout = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.interface.name} ({self.date})'
 
 class File(models.Model):
     property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='files')

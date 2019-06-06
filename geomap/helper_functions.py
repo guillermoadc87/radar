@@ -7,6 +7,10 @@ from datetime import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 from .constants import MARKETS, CISCO_USERNAME, CISCO_PASSWORD, Q_ROUTER, NOT_PHY_INTS, STANDARD_PORT_NAMES
 
+def not_pingable(ip):
+    response = os.system("ping -c 1 " + ip)
+    return response
+
 def get_standard_port(port):
     m = re.search("\d", port)
     if m:

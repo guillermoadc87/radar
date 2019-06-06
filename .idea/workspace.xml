@@ -2,45 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b552008-ebee-46b8-b3d7-86ee1e22a544" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.vagrant/rgloader/loader.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/constants.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/custom_tasks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/inventory/defaults.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/inventory/groups.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/inventory/hosts.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/management/commands/update_inventory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/nornir.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/nornir_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/ntc-templates" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/templates/admin/geomap/device/change_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/geomap/templates/admin/geomap/device/fieldset.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nornir.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/radar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/radar.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/action_provision" beforeDir="false" afterPath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/action_provision" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/action_set_name" beforeDir="false" afterPath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/action_set_name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/box_meta" beforeDir="false" afterPath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/box_meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/id" beforeDir="false" afterPath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/id" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/index_uuid" beforeDir="false" afterPath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/index_uuid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/private_key" beforeDir="false" afterPath="$PROJECT_DIR$/.vagrant/machines/default/virtualbox/private_key" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vagrantfile" beforeDir="false" afterPath="$PROJECT_DIR$/Vagrantfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geomap/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geomap/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geomap/helper_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/helper_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/list_filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/list_filters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/management/commands/property_sync.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/management/commands/property_sync.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geomap/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/nornir_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/nornir_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/ntc-templates" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/ntc-templates" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geomap/slack_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/slack_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/templates/change_list_map.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/change_list_map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geomap/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geomap/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/geomap/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nornir.log" beforeDir="false" afterPath="$PROJECT_DIR$/nornir.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/radar.db" beforeDir="false" afterPath="$PROJECT_DIR$/radar.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/radar/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/radar/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/radar/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/radar/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,23 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="helper_functions.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/helper_functions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="18" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="admin.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/geomap/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="95" column="30" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+            <state relative-caret-position="425">
+              <caret line="109" column="65" lean-forward="true" selection-start-line="109" selection-start-column="65" selection-end-line="109" selection-end-column="65" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -75,11 +39,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/radar/settings.py">
+      <file leaf-file-name="Vagrantfile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Vagrantfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="81" column="27" lean-forward="true" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
+            <state relative-caret-position="357">
+              <caret line="21" column="53" lean-forward="true" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Vagrantfile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../netbox/Vagrantfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="281">
+              <caret line="31" column="19" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geomap/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,8 +72,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geomap/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="250" column="17" selection-start-line="250" selection-start-column="17" selection-end-line="250" selection-end-column="17" />
+            <state relative-caret-position="1023">
+              <caret line="280" column="53" lean-forward="true" selection-start-line="280" selection-start-column="53" selection-end-line="280" selection-end-column="53" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -96,20 +81,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bandwith_utilization.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html">
+      <file leaf-file-name="update_stats.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geomap/management/commands/update_stats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="61" column="36" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hosts.yaml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/inventory/hosts.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="46554" column="14" selection-start-line="46554" selection-start-column="14" selection-end-line="46554" selection-end-column="14" />
+            <state relative-caret-position="493">
+              <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -117,8 +96,8 @@
       <file leaf-file-name="nornir_api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/geomap/nornir_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="114" column="45" selection-start-line="114" selection-start-column="45" selection-end-line="114" selection-end-column="45" />
+            <state relative-caret-position="672">
+              <caret line="57" column="103" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="103" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -126,32 +105,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SWISGetTop20InterfacesUtilization-auto.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Downloads/SWISGetTop20InterfacesUtilization-auto.py">
+      <file leaf-file-name="custom_tasks.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geomap/custom_tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="21" column="183" selection-start-line="21" selection-start-column="183" selection-end-line="21" selection-end-column="183" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="constants.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/constants.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="update_inventory.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/geomap/management/commands/update_inventory.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
+            <state relative-caret-position="527">
+              <caret line="70" column="18" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="18" />
               <folding>
-                <element signature="e#25#76#0" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="groups.yaml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geomap/inventory/groups.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bandwith_utilization.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="843">
+              <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -161,43 +140,43 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>graph</find>
-      <find>r_loop</find>
-      <find>mgn_ip</find>
-      <find>get_calc</find>
-      <find>connect</find>
-      <find>HttpResponseRedirect</find>
-      <find>r</find>
-      <find>done</find>
-      <find>rever</find>
-      <find>10.63.255.173</find>
-      <find>FL_DoralKay_MDFFL001</find>
-      <find>10.57.43.163</find>
-      <find>pdp</find>
-      <find>caoba</find>
-      <find>10.85.136.44</find>
-      <find>doral</find>
-      <find>nxos</find>
-      <find>get_host</find>
-      <find>10.84.34.168</find>
-      <find>PA_WALNUTBRIDGE_MDFF</find>
-      <find>10.94.255.1</find>
-      <find>10.94.255.1:</find>
       <find>NOT_PHY_INTS</find>
       <find>bool</find>
-      <find>interface</find>
       <find>strptime</find>
       <find>search</find>
       <find>10.68.255.253:</find>
       <find>search(</find>
+      <find>create</find>
       <find>rada</find>
+      <find>FL-CYP-EDGE-RTR01</find>
+      <find>update</find>
+      <find>not_in_nornir_inventoty</find>
+      <find>update_</find>
+      <find>loopb</find>
+      <find>10.57.15.33</find>
+      <find>NWFL_EDGE_ASR01</find>
+      <find>NWFL_EDGE_FLR01_AVROOM</find>
+      <find>upadate_connections</find>
+      <find>ROUND(MaxOutBpsToday/100</find>
+      <find>no</find>
+      <find>SHOW_MODULE_TMP</find>
+      <find>font-size</find>
+      <find>color</find>
+      <find>admin</find>
+      <find>10.110.255.31</find>
+      <find>10.110.255.31:</find>
+      <find>grap</find>
+      <find>standa</find>
+      <find>ngrok</find>
+      <find>messa</find>
+      <find>interface</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -206,11 +185,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$USER_HOME$/Envs/PropertyMap/Lib/site-packages/django/contrib/gis/gdal/libgdal.py" />
-        <option value="$PROJECT_DIR$/geomap/url.py" />
-        <option value="$PROJECT_DIR$/geomap/urls.py" />
-        <option value="$PROJECT_DIR$/Vagrantfile" />
-        <option value="$PROJECT_DIR$/geomap/views.py" />
         <option value="$PROJECT_DIR$/../google_sheets/folium_script.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/contrib/admin/templates/admin/base.html" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/property/change_list.html" />
@@ -242,23 +216,31 @@
         <option value="$PROJECT_DIR$/geomap/custom_tasks.py" />
         <option value="$PROJECT_DIR$/geomap/ntc-templates/templates/cisco_xr_admin_show_platform.template" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization..html" />
-        <option value="$PROJECT_DIR$/geomap/forms.py" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_list.html" />
         <option value="$PROJECT_DIR$/geomap/templates/admin/bu_graph.html" />
-        <option value="$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html" />
+        <option value="$PROJECT_DIR$/geomap/views.py" />
         <option value="$PROJECT_DIR$/geomap/helper_functions.py" />
-        <option value="$PROJECT_DIR$/geomap/models.py" />
-        <option value="$PROJECT_DIR$/geomap/inventory/hosts.yaml" />
-        <option value="$PROJECT_DIR$/geomap/management/commands/update_inventory.py" />
-        <option value="$PROJECT_DIR$/geomap/nornir_api.py" />
+        <option value="$PROJECT_DIR$/geomap/scheduler.py" />
         <option value="$PROJECT_DIR$/geomap/constants.py" />
+        <option value="$PROJECT_DIR$/geomap/nornir_api.py" />
+        <option value="$USER_HOME$/Downloads/katia/index.html" />
+        <option value="$PROJECT_DIR$/geomap/management/commands/update_inventory.py" />
+        <option value="$PROJECT_DIR$/geomap/scripts/update_inventory.py" />
+        <option value="$PROJECT_DIR$/geomap/scripts/update_inventory.sh" />
+        <option value="$PROJECT_DIR$/geomap/inventory/hosts.yaml" />
+        <option value="$PROJECT_DIR$/geomap/scripts/update_stats.sh" />
+        <option value="$PROJECT_DIR$/geomap/forms.py" />
+        <option value="$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html" />
+        <option value="$PROJECT_DIR$/geomap/management/commands/update_stats.py" />
+        <option value="$PROJECT_DIR$/../netbox/Vagrantfile" />
+        <option value="$PROJECT_DIR$/Vagrantfile" />
+        <option value="$PROJECT_DIR$/geomap/models.py" />
         <option value="$PROJECT_DIR$/geomap/admin.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1422" />
-    <option name="y" value="7" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1713" />
     <option name="width" value="1734" />
     <option name="height" value="1407" />
   </component>
@@ -268,6 +250,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -278,13 +261,44 @@
             <path>
               <item name="radar" type="b2602c69:ProjectViewProjectNode" />
               <item name="radar" type="462c0819:PsiDirectoryNode" />
+              <item name="geomap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="radar" type="b2602c69:ProjectViewProjectNode" />
               <item name="radar" type="462c0819:PsiDirectoryNode" />
+              <item name="geomap" type="462c0819:PsiDirectoryNode" />
+              <item name="inventory" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="radar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="radar" type="462c0819:PsiDirectoryNode" />
+              <item name="geomap" type="462c0819:PsiDirectoryNode" />
+              <item name="management" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="radar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="radar" type="462c0819:PsiDirectoryNode" />
+              <item name="geomap" type="462c0819:PsiDirectoryNode" />
+              <item name="management" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="radar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="radar" type="462c0819:PsiDirectoryNode" />
+              <item name="geomap" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="radar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="radar" type="462c0819:PsiDirectoryNode" />
+              <item name="geomap" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -301,11 +315,11 @@
       <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\guill\Projects\radar\geomap\scripts" />
       <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin" />
       <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap\device" />
       <recent name="C:\Users\guill\Projects\radar" />
       <recent name="C:\Users\guill\Projects\radar\geomap" />
-      <recent name="C:\Users\guill\Projects\radar\geomap\templates\admin\geomap\property" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -359,55 +373,45 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
+    <frame x="1713" y="0" width="1734" height="1407" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10058139" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20139697" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32972136" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32744044" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10058139" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32972136" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10058139" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3299435" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299435" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -419,43 +423,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/geomap/migrations/0012_auto_20181102_0234.py" />
-    <entry file="file://$PROJECT_DIR$/geomap/migrations/0009_auto_20181028_2330.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/django/contrib/admin/templates/admin/change_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/static/geomap/js/admin/showhide.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="39" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/list_filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="47" column="37" lean-forward="true" selection-start-line="47" selection-start-column="37" selection-end-line="47" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/PropertyMap/Lib/site-packages/django/db/models/fields/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="167" column="13" lean-forward="true" selection-start-line="167" selection-start-column="13" selection-end-line="167" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/PropertyMap/Lib/site-packages/django/contrib/admin/templates/admin/includes/fieldset.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/fieldset.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -521,13 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/geomap/slack_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
@@ -542,16 +502,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/ntc-templates/templates/cisco_nxos_show_cdp_neighbors_detail.template">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/geomap/management/commands/property_sync.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-92">
           <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
-          <folding>
-            <element signature="e#24#33#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -618,30 +572,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/bu_graph.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="9" lean-forward="true" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/inventory/groups.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/bu_graph.html" />
     <entry file="file://$PROJECT_DIR$/geomap/templates/admin/geomap/property/change_list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -649,94 +580,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/ntc-templates/templates/cisco_ios_show_ip_interface.template">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/geomap/ntc-templates/templates/cisco_nxos_show_ip_interface_brief.template">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/custom_tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="103" column="50" selection-start-line="103" selection-start-column="24" selection-end-line="103" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/SWISGetFULL-OLD.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/SWISGetTop20InterfacesUtilization-auto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="21" column="183" selection-start-line="21" selection-start-column="183" selection-end-line="21" selection-end-column="183" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/management/commands/update_inventory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
-          <folding>
-            <element signature="e#25#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/inventory/hosts.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="46554" column="14" selection-start-line="46554" selection-start-column="14" selection-end-line="46554" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/nornir_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="114" column="45" selection-start-line="114" selection-start-column="45" selection-end-line="114" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="250" column="17" selection-start-line="250" selection-start-column="17" selection-end-line="250" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="61" column="36" selection-start-line="61" selection-start-column="36" selection-end-line="61" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/helper_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -747,20 +594,184 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/geomap/admin.py">
+    <entry file="file://$PROJECT_DIR$/radar/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="95" column="30" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+        <state relative-caret-position="257">
+          <caret line="81" column="27" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa35740.3758/fontawesome-free-5.8.2-web/css/fontawesome.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="21" lean-forward="true" selection-end-line="4302" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/katia/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="81" column="6" lean-forward="true" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/management/commands/update_inventory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
           <folding>
-            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#25#76#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/radar/settings.py">
+    <entry file="file://$PROJECT_DIR$/geomap/scripts/update_inventory.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="81" column="27" lean-forward="true" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
+        <state relative-caret-position="51">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/scripts/update_stats.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="30" selection-start-line="2" selection-start-column="30" selection-end-line="2" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/inventory/hosts.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="645" column="7" selection-start-line="645" selection-start-column="7" selection-end-line="645" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/migrations/0013_auto_20190531_1137.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/migrations/0011_auto_20190525_1422.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/SWISGetTop20InterfacesUtilization-auto.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/helper_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="4" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="91" selection-start-line="91" selection-end-line="96" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/templates/admin/bandwith_utilization.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="843">
+          <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../radar - Copy/Vagrantfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../netbox/Vagrantfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vagrantfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="53" lean-forward="true" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/management/commands/update_stats.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/nornir_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="57" column="103" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="103" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/custom_tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="70" column="18" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/inventory/groups.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1023">
+          <caret line="280" column="53" lean-forward="true" selection-start-line="280" selection-start-column="53" selection-end-line="280" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomap/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="109" column="65" lean-forward="true" selection-start-line="109" selection-start-column="65" selection-end-line="109" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

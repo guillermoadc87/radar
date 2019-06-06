@@ -1,7 +1,38 @@
 from django import forms
-from .models import Property
+from datetime import datetime
+from .models import Property, Interface, Device
 import googlemaps
 from django.contrib.gis.geos import Point
+from .helper_functions import not_pingable
+
+class BUGraphForm(forms.Form):
+    YEARS = [year for year in range(datetime.now().year-2, datetime.now().year+1)]
+    #interface_choices = [(interface.id, interface.name) for interface in Interface.objects.all()]
+
+    start = forms.DateField(widget=forms.SelectDateWidget(years=YEARS), required=True, initial=datetime.now())
+    end = forms.DateField(widget=forms.SelectDateWidget(years=YEARS), required=True, initial=datetime.now())
+    interfaces = forms.MultipleChoiceField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(BUGraphForm, self).__init__(*args, **kwargs)
+        self.fields["interfaces"].choices = [(interface.id, interface.name) for interface in Interface.objects.all()]
+
+class DeviceForm(forms.ModelForm):
+    model = forms.ChoiceField()
+
+    def __init__(self, *args, **kwargs):
+        super(DeviceForm, self).__init__(*args, **kwargs)
+        models = Device.objects.all().values_list('model', flat=True).distinct().order_by('model')
+        self.fields["model"].choices = [(model, model) for model in models]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not_pingable(cleaned_data['mgn']):
+            raise forms.ValidationError("Not able to ping the IP: " + cleaned_data['mgn'])
+
+    class Meta:
+        model = Device
+        exclude = []
 
 class PropertyForm(forms.ModelForm):
 
