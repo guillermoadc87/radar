@@ -9,9 +9,9 @@ class Command(BaseCommand):
 
     def _update_inventory(self):
         add_routers()
-        #get_host_names()
-        #add_switches()
-        #upadate_connections()
+        get_host_names()
+        add_switches()
+        upadate_connections()
 
     def handle(self, *args, **options):
         self._update_inventory()

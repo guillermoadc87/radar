@@ -21,7 +21,7 @@ class Command(BaseCommand):
                 maxin = row['MaxInGbpsToday']
                 maxout = row['MaxOutGbpsToday']
                 interface, c = Interface.objects.get_or_create(name=s_port_name, device=device)
-                stats = Statistics.objects.get_or_create(interface=interface, date=datetime.now())
+                stats, c = Statistics.objects.get_or_create(interface=interface, date=datetime.now())
                 stats.maxin=maxin
                 stats.maxout=maxout
                 stats.save()

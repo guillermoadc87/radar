@@ -99,8 +99,9 @@ class DeviceAdmin(admin.ModelAdmin):
                 print(start, end, interface_ids)
 
                 stats = Statistics.objects.filter(interface__in=interface_ids, date__range=[start, end]).order_by('date')
+                dates = stats.values_list('date', flat=True).distinct()
                 print(stats)
-                categories = [stat.date.strftime('%m/%d/%Y') for stat in stats]
+                categories = [date.strftime('%m/%d/%Y') for date in dates]
                 print(categories)
 
                 series_maxin = []

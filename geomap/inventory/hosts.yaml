@@ -1,6 +1,6 @@
 10.110.100.10:
   data:
-    host_name: ''
+    host_name: PA_401NBROAD_FL009_RT001
     ospf:
       neighbor: []
       stub: false
@@ -525,7 +525,7 @@
   hostname: 10.110.250.44
 10.110.255.11:
   data:
-    host_name: ''
+    host_name: GA_ATL_55M_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -536,7 +536,7 @@
   hostname: 10.110.255.11
 10.110.255.12:
   data:
-    host_name: ''
+    host_name: GA_ATL_55M_ASR002
     ospf:
       neighbor: []
       stub: false
@@ -1698,6 +1698,17 @@
   - cisco-xr
   - atl
   hostname: 10.199.255.11
+10.50.255.102:
+  data:
+    host_name: FL-NOTA-EDGE-RTR01
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.50.255.102
 10.57.116.10:
   data:
     host_name: ''
@@ -25880,6 +25891,17 @@
   - sefl
   - switch
   hostname: 10.63.142.9
+10.63.17.138:
+  data:
+    host_name: FL-NOTA-EDGE-RTR02
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.63.17.138
 10.63.18.10:
   data:
     host_name: ''
@@ -27593,7 +27615,7 @@
   hostname: 10.63.255.163
 10.63.255.165:
   data:
-    host_name: FL-MIAMI-WORLD-CENTER-CAOBA-MDF-RTR01
+    host_name: ''
     ospf:
       neighbor: []
       stub: false
@@ -46967,6 +46989,50 @@
   - nxos
   - sefl
   hostname: 10.68.255.92
+10.68.3.221:
+  data:
+    host_name: FL-CYP-EDGE-RTR01
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.68.3.221
+10.68.3.222:
+  data:
+    host_name: FL-CYP-EDGE-RTR02
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.68.3.222
+10.68.3.71:
+  data:
+    host_name: FL-CYP-SAG-C3A5-RTR1
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.68.3.71
+10.68.3.72:
+  data:
+    host_name: FL-CYP-SAG-C3F5-RTR2
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.68.3.72
 10.68.92.13:
   data:
     host_name: ''

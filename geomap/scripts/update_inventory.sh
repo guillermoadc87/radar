@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /vagrant
-python3 manage.py update_inventory
+cd /home/gdiaz/radar
+python3.7 manage.py update_inventory
