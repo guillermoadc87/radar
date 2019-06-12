@@ -4,6 +4,7 @@
 {% block extrastyle %}{{ block.super }}
   {% leaflet_css %}
   {% leaflet_js %}
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <style>
@@ -125,5 +126,145 @@
             ]}).addTo(map);
             L.polyline({{ r_feeds|safe }}).addTo(map);
         }
+
+
+</script>
+<script>
+var colors = d3.schemeCategory20;
+var w = 300;
+var h = 300;
+var dataset = {
+    "nodes": [
+        {
+            "group": "2",
+            "id": "AR21-U12-ICB1"
+        },
+        {
+            "group": "3",
+            "id": "usplnAGVPCLAB1003"
+        },
+        {
+            "group": "1",
+            "id": "ng1-esx12"
+        },
+        {
+            "group": "1",
+            "id": "ng1-esx11"
+        },
+        {
+            "group": "2",
+            "id": "AR21-U12-ICB2"
+        },
+        {
+            "group": "3",
+            "id": "usplnAGVPCLAB1004"
+        }
+    ],
+    "edges": [
+        {
+            "source": "AR21-U12-ICB1",
+            "target": "usplnAGVPCLAB1003",
+            "value": "40"
+        },
+        {
+            "source": "AR21-U12-ICB1",
+            "target": "ng1-esx12",
+            "value": "10"
+        },
+        {
+            "source": "AR21-U12-ICB1",
+            "target": "ng1-esx11",
+            "value": "10"
+        },
+        {
+            "source": "AR21-U12-ICB2",
+            "target": "usplnAGVPCLAB1004",
+            "value": "40"
+        },
+        {
+            "source": "AR21-U12-ICB2",
+            "target": "ng1-esx12",
+            "value": "10"
+        },
+        {
+            "source": "AR21-U12-ICB2",
+            "target": "ng1-esx11",
+            "value": "10"
+        },
+        {
+            "source": "AR21-U12-ICB2",
+            "target": "AR21-U12-ICB1",
+            "value": "10"
+        },
+        {
+            "source": "AR21-U12-ICB2",
+            "target": "AR21-U12-ICB1",
+            "value": "10"
+        }
+    ]
+};
+var svg = d3.select("svg"),
+    //width = +svg.attr("width"),
+    //height = +svg.attr("height");
+    width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+    height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    d3.select("svg").attr("height",height*0.3)
+    d3.select("svg").attr("width",width*0.7)
+
+var force = d3.forceSimulation(dataset.nodes)
+              .force("link", d3.forceLink(dataset.edges).id(function(d) { return d.id; }).distance(100).strength(0.001))
+    .force("charge", d3.forceManyBody().strength(-200).distanceMax(500).distanceMin(100))
+		.force("x", d3.forceX(function(d){
+			if(d.group === "1"){
+				return 3*(width*0.7)/4
+			} else if (d.group === "2"){
+				return 2*(width*0.7)/4
+			} else if (d.group === "3"){
+				return 1*(width*0.7)/4
+			} else {
+				return 0*(width*0.7)/4
+			}
+		 }).strength(1))
+    .force("center", d3.forceCenter((width*0.7) / 2, height*0.15))
+    .force("y", d3.forceY())
+    .force("collision", d3.forceCollide().radius(35));
+
+var edges = svg.selectAll("line")
+               .data(dataset.edges)
+               .enter()
+               .append("line")
+               .style("stroke", "#ccc")
+               .style("stroke-width", 1)
+
+var nodes = svg.selectAll("circle")
+               .data(dataset.nodes)
+               .enter()
+               .append("circle")
+               .attr("r", 10)
+               .style("fill", function(d, i) {
+                   return colors[i];
+               })
+nodes.append("text")
+      .attr("font-size", "1em")
+      .attr("dx", 12)
+      .attr("dy", ".35em")
+      .attr("x", +8)
+      .text('Aqui estoy');
+nodes.append("title")
+    .text(function(d) {
+        return d.id;
+    });
+force.on("tick", function() {
+
+    edges.attr("x1", function(d) { return d.source.x; })
+         .attr("y1", function(d) { return d.source.y; })
+         .attr("x2", function(d) { return d.target.x; })
+         .attr("y2", function(d) { return d.target.y; });
+
+    nodes.attr("cx", function(d) { return d.x; })
+         .attr("cy", function(d) { return d.y; });
+
+});
 </script>
 {% endblock %}

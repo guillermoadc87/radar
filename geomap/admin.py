@@ -36,15 +36,24 @@ class InterfaceInline(admin.TabularInline):
 class DeviceAdmin(admin.ModelAdmin):
     form = DeviceForm
     inlines = (InterfaceInline,)
-    search_fields = ('mgn', 'hostname')
-    list_display = ('hostname', 'model', 'mgn')
+    search_fields = ('mgn', 'hostname', 'prop__name')
+    list_display = ('hostname', 'model', 'mgn', 'account_actions')
     actions = ('bandwith_utilization',)
     ordering = ('-hostname',)
+    list_max_show_all = 7000
 
     def avail_interfaces(self, obj):
         return None
     avail_interfaces.allow_tags = True
     avail_interfaces.short_description = 'Available Interfaces'
+
+    def account_actions(self, obj):
+        return format_html(
+                '<a class="button" href="{}">Connect</a>&nbsp;',
+                reverse('admin:connect_to_dev', args=[obj.pk]),
+            )
+    account_actions.short_description = 'Account Actions'
+    account_actions.allow_tags = True
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
@@ -53,7 +62,7 @@ class DeviceAdmin(admin.ModelAdmin):
         if obj.model in AVAIL_INT_GRAPH:
             self.readonly_fields = ('avail_interfaces',)
             self.exclude = ()
-            extra_context['data'] = get_graph_data(object_id)
+            extra_context['data'] = get_graph_data(obj)
         else:
             self.readonly_fields = ()
             self.exclude = ('avail_interfaces',)
@@ -65,6 +74,7 @@ class DeviceAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('bu/', self.admin_site.admin_view(self.bu_graph), name='bu_graph'),
+            re_path('connect/(?P<device_id>\d+)/', self.admin_site.admin_view(self.connect), name='connect_to_dev'),
         ]
         return my_urls + urls
 
@@ -85,10 +95,8 @@ class DeviceAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(f'bu/?ids={",".join(selected)}')
 
     def bu_graph(self, request):
-        print(request.method)
         context = {}
         if request.method == "POST":
-            print(request.method)
             form = BUGraphForm(request.POST)
 
             if form.is_valid():
@@ -130,9 +138,20 @@ class DeviceAdmin(admin.ModelAdmin):
             form.fields['interfaces'].choices = interfaces
             context = {'form': form, 'interfaces': interfaces}
 
-        return render(request, 'admin/bandwith_utilization.html', context=context)
+        return render(request, 'admin/bandwith_utilization.html', context={'form': form, **context})
 
     bandwith_utilization.short_description = "Bandwith Utilization"
+
+    def connect(self, request, device_id):
+        import os
+        device = self.get_object(request, device_id)
+        print(os.path.join(os.path.dirname(__file__), 'scripts'))
+        file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'scripts'))
+        env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
+        template = env.get_template('connect.py').render(user=request.user.username, ip=device.mgn,)
+        response = StreamingHttpResponse(template, content_type="application/py")
+        response['Content-Disposition'] = f"attachment; filename={device.hostname}.py"
+        return response
 
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
@@ -140,7 +159,7 @@ class PropertyAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_display = ('name', 'units', 'address', 'mr_cert', 'status', 'account_actions')
     list_filter = (StatusListFilter,)
-    readonly_fields = ('map', 'status')
+    readonly_fields = ('map', 'inside_map', 'status')
     ordering = ('-mr_cert',)
     filter_horizontal = ('feeds',)
     fieldsets = (
@@ -149,7 +168,6 @@ class PropertyAdmin(admin.ModelAdmin):
                 'name',
                 'address',
                 'location',
-                'map',
                 ('units', 'network', 'business_unit', 'type', 'contract',),
                 'services',
                 ('rf_unit', 'rf_coa', 'coa',),
@@ -157,6 +175,8 @@ class PropertyAdmin(admin.ModelAdmin):
         }),
         ('Network', {
             'fields': (
+                'map',
+                'inside_map',
                 'feeds',
                 ('router', 'r_mgn'),
                 ('switch', 's_mgn'),
@@ -195,7 +215,12 @@ class PropertyAdmin(admin.ModelAdmin):
     def map(self, obj):
         return obj.map
     map.allow_tags = True
-    map.short_description = 'Map'
+    map.short_description = 'OSP'
+
+    def inside_map(self, obj):
+        return None
+    inside_map.allow_tags = True
+    inside_map.short_description = 'ISP'
 
     def account_actions(self, obj):
         groups = self.request.user.groups.all().values_list('name', flat=True)
@@ -253,6 +278,8 @@ class PropertyAdmin(admin.ModelAdmin):
         extra_context['r_feeds'] = r_feeds
 
         extra_context['gpon_feeds'] = [proper.get_gpon_coord() for proper in Property.objects.filter(gpon_feed__isnull=False)]
+
+        extra_context['has_devices'] = True if Device.objects.filter(prop=prop) else False
 
         return super().change_view(
             request, object_id, form_url, extra_context=extra_context,

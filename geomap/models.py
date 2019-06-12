@@ -8,9 +8,9 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-from .helper_functions import user_directory_path, get_subnet
+from .helper_functions import user_directory_path, get_subnet, add_to_inventory
 from .slack_api import create_channel_with, send_message
-from .constants import PROJECT_TYPES, BUSSINESS_UNITS, ROUTER_MODELS, SWITCH_MODELS, NETWORKS, ONT_MODELS, CONTRACT_STATUS
+from .constants import PROJECT_TYPES, BUSSINESS_UNITS, ROUTER_MODELS, SWITCH_MODELS, NETWORKS, ONT_MODELS, CONTRACT_STATUS, DONT_INCLUDE_IN_SCAN
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -94,7 +94,8 @@ class Property(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(Property, self).__init__(*args, **kwargs)
-        #self.old_mgn_ip = self.mgn_ip
+        self.old_r_mgn_ip = self.r_mgn
+        self.old_s_mgn_ip = self.s_mgn
 
     def get_calculated_value(self, param):
         if not getattr(self, param):
@@ -214,13 +215,21 @@ class Property(models.Model):
 
         return status.strip().replace(' ', ', ')
 
-    def add_devices_for(self, device, no_dev_id=None):
-        conn_devs = filter(lambda d: d.id != no_dev_id, Device.objects.filter(interfaces__connected__device=device))
+    def add_devices(self, device, no_dev_id=None):
+        print(device, no_dev_id)
+        devices = Device.objects.filter(~Q(model__in=DONT_INCLUDE_IN_SCAN), interfaces__connected__device=device).distinct()
+        conn_devs = [dev for dev in devices if dev.id != no_dev_id]
+        print(type(conn_devs), [(dev.hostname, dev.id) for dev in conn_devs])
         for conn_dev in conn_devs:
-            print(conn_dev)
+            #print(conn_dev)
             conn_dev.prop = self
             conn_dev.save()
-            self.add_devices_for(conn_dev, no_dev_id=device.id)
+            self.add_devices(conn_dev, no_dev_id=device.id)
+
+    def remove_devices(self):
+        for dev in Device.objects.filter(prop=self):
+            dev.prop = None
+            dev.save()
 
     def save(self, *args, **kwargs):
         #if not self.id:
@@ -235,21 +244,21 @@ class Property(models.Model):
     class Meta:
         verbose_name_plural = 'Properties'
 
-#@receiver(post_save, sender=Property)
-#def sync_devices(sender, instance, created, **kwargs):
-#    if not instance.mgn_ip or instance.mgn_ip != instance.old_mgn_ip:
-#        for dev in Device.objects.filter(prop=instance):
-#            dev.prop = None
-#            dev.save()
-#    if instance.mgn_ip:
-#        try:
-#            dev = Device.objects.get(mgn=instance.mgn_ip)
-#            dev.prop = instance
-#            dev.save()
-#            instance.add_devices_for(dev)
-#        except Device.DoesNotExist:
-#            pass
-#    instance.save()
+@receiver(post_save, sender=Property)
+def sync_devices(sender, instance, created, **kwargs):
+    print('it ran!!!!')
+    if not instance.r_mgn or instance.r_mgn != instance.old_r_mgn_ip:
+        instance.remove_devices()
+    if instance.r_mgn and instance.r_mgn != instance.old_r_mgn_ip:
+        try:
+            dev = Device.objects.get(mgn=instance.r_mgn)
+            dev.prop = instance
+            dev.save()
+            instance.add_devices(dev)
+        except Device.DoesNotExist:
+            pass
+    for prop in instance.feeds.all():
+            prop.feeds.add(instance)
 
 class Device(models.Model):
     hostname = models.CharField(max_length=120)
@@ -257,6 +266,11 @@ class Device(models.Model):
     model = models.CharField(max_length=120, blank=True, null=True)
     node_id = models.IntegerField(blank=True, null=True)
     prop = models.ForeignKey('Property', on_delete=models.SET_NULL, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            add_to_inventory(self.mgn)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.mgn} - {self.hostname}'

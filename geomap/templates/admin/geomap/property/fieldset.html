@@ -15,12 +15,20 @@
                     {% elif field.field.name == 'map' %}
                         {{ field.label_tag }}
                         {% leaflet_map "main" callback="main_map_init" %}
+                    {% elif field.field.name == 'inside_map' %}
+                        {{ field.label_tag }}
+                        <svg height="400"></svg>
                     {% else %}
                         {{ field.label_tag }}
                         {% if field.is_readonly %}
                             <div class="readonly">{{ field.contents }}</div>
                         {% else %}
                             {{ field.field }}
+                        {% endif %}
+                        {% if has_devices and 'R mgn' in field.label_tag %}
+                            <a href="{% url 'admin:geomap_device_changelist' %}?q={{original.name}}" class="grp-state-focus">
+                                Devices
+                            </a>
                         {% endif %}
                     {% endif %}
                     {% if field.field.help_text %}

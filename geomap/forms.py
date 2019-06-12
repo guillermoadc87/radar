@@ -17,6 +17,15 @@ class BUGraphForm(forms.Form):
         super(BUGraphForm, self).__init__(*args, **kwargs)
         self.fields["interfaces"].choices = [(interface.id, interface.name) for interface in Interface.objects.all()]
 
+    def clean(self):
+        cleaned_data = super().clean()
+        start = cleaned_data['start']
+        end = cleaned_data['end']
+
+        if start and end:
+            if start > end:
+                raise forms.ValidationError("Start date has to be before end date")
+
 class DeviceForm(forms.ModelForm):
     model = forms.ChoiceField()
 
@@ -54,7 +63,7 @@ class PropertyForm(forms.ModelForm):
         if instance:
             obj = Property.objects.get(id=instance.id)
             pk_list = obj.feeding.all().values_list('pk', flat=True)
-            self.fields["feeds"].queryset = Property.objects.exclude(pk__in=pk_list).order_by('name')
+            #self.fields["feeds"].queryset = Property.objects.exclude(pk__in=pk_list).order_by('name')
             self.fields["gpon_feed"].queryset = Property.objects.order_by('name')
 
     def clean(self):

@@ -30,7 +30,7 @@ NOT_PHY_INTS = ['BV', 'BD', 'Vl', 'Po', 'BE', 'Mg', 'PT', 'Bu', 'Co', 'Nu']
 SHOW_MODULE_TMP = open(os.path.join('geomap', 'ntc-templates', 'templates', 'cisco_ios_show_module.template'))
 SHOW_MODULE_KEYS = ['module', 'ports', 'type', 'model', 'serial']
 
-AVAIL_INT_GRAPH = ['cisco ASR9K Series', 'cisco CISCO7606-S']
+AVAIL_INT_GRAPH = ['cisco ASR9K Series', 'cisco CISCO7606-S', 'cisco CISCO7609-S']
 
 PROJECT_TYPES = (
     (('New Construction'), ('New Construction')),
@@ -95,3 +95,5 @@ STANDARD_PORT_NAMES = {
     'TenGigabitEthernet': 'Te',
     'Ethernet': 'Eth'
 }
+
+DONT_INCLUDE_IN_SCAN = ['cisco ASR9K Series', 'cisco CISCO7606-S', 'cisco CISCO7609-S']

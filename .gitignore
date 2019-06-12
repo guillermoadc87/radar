@@ -1,3 +1,4 @@
 geomap/inventory/*
 Vagrantfile
 nornir.log*
+radar.db

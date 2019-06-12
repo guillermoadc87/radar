@@ -5,7 +5,7 @@ from .constants import SHOW_MODULE_TMP, SHOW_MODULE_KEYS, SLOT_COUNT
 
 def get_arp(task):
     platform = task.host.platform
-    if platform == 'ios' or platform == 'nxos':
+    if platform == 'ios' or platform == 'nxos' or platform == 'cisco_xe':
         r = task.run(
             task=netmiko_send_command,
             command_string='show ip arp',

@@ -1,4 +1,4 @@
-import os, re, time
+import os, re, time, yaml
 import paramiko
 import gspread
 import xmltodict
@@ -42,6 +42,15 @@ def get_market(ip):
     octet = ip.split('.')[1]
     return MARKETS.get(octet, 'unknown')
 
+def add_to_inventory(ip):
+    with open('geomap/inventory/hosts.yaml') as f:
+        inventory = yaml.safe_load(f)
+
+    create_host(inventory, ip, ip)
+
+    with open('geomap/inventory/hosts.yaml', "w") as f:
+        yaml.dump(inventory, f)
+
 def init_host(ip, groups=[]):
     return {
         'data': {
@@ -79,6 +88,7 @@ def create_host(inv, ip, market_ip):
             inv[ip] = init_host(ip, groups=['nxos', get_market(market_ip)])
         else:
             inv[ip] = init_host(ip, groups=['sg350', get_market(market_ip)])
+        inv[ip]['data']['tacacs'] = True
     elif ssh == 2:
         inv[ip] = init_host(ip, groups=['sg350', get_market(market_ip)])
         inv[ip]['data']['tacacs'] = False

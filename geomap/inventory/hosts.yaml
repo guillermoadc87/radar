@@ -711,6 +711,34 @@
   - nxos
   - atl
   hostname: 10.110.255.41
+10.110.26.10:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.37
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.26.10
+10.110.26.254:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.37
+    tacacs: true
+  groups:
+  - cisco-xe
+  - atl
+  - switch
+  hostname: 10.110.26.254
 10.110.45.226:
   data:
     host_name: ''
@@ -5143,6 +5171,34 @@
   - sefl
   - switch
   hostname: 10.57.183.13
+10.57.183.130:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.97
+    tacacs: true
+  groups:
+  - cisco-xe
+  - sefl
+  - switch
+  hostname: 10.57.183.130
+10.57.183.131:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.97
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.57.183.131
 10.57.183.155:
   data:
     host_name: ''
@@ -6267,6 +6323,20 @@
   - sefl
   - switch
   hostname: 10.57.184.98
+10.57.184.99:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.45
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.57.184.99
 10.57.211.3:
   data:
     host_name: ''
@@ -15614,6 +15684,20 @@
   - sefl
   - switch
   hostname: 10.57.88.21
+10.57.88.22:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.32
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.57.88.22
 10.57.88.23:
   data:
     host_name: ''
@@ -17313,6 +17397,20 @@
   - sefl
   - switch
   hostname: 10.57.91.163
+10.57.91.164:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.35
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.91.164
 10.57.91.165:
   data:
     host_name: ''
@@ -26426,6 +26524,20 @@
   - sefl
   - switch
   hostname: 10.63.253.21
+10.63.253.22:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.78
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.63.253.22
 10.63.253.23:
   data:
     host_name: ''
@@ -26625,6 +26737,20 @@
   - sefl
   - switch
   hostname: 10.63.253.45
+10.63.253.48:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.78
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.63.253.48
 10.63.253.5:
   data:
     host_name: ''
@@ -30110,6 +30236,20 @@
   - sefl
   - switch
   hostname: 10.65.122.101
+10.65.122.102:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.44
+    tacacs: true
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.65.122.102
 10.65.122.103:
   data:
     host_name: ''
@@ -33695,6 +33835,20 @@
   - sefl
   - switch
   hostname: 10.65.195.71
+10.65.195.73:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.79
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.65.195.73
 10.65.195.76:
   data:
     host_name: ''
@@ -38375,6 +38529,20 @@
   - sefl
   - switch
   hostname: 10.66.112.60
+10.66.112.61:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.67
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.66.112.61
 10.66.112.62:
   data:
     host_name: ''
@@ -44123,6 +44291,20 @@
   - sefl
   - switch
   hostname: 10.67.164.77
+10.67.164.79:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.92
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.67.164.79
 10.67.164.80:
   data:
     host_name: ''
@@ -44245,6 +44427,20 @@
   - sefl
   - switch
   hostname: 10.67.164.92
+10.67.164.93:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.92
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.67.164.93
 10.67.164.98:
   data:
     host_name: ''
@@ -46081,6 +46277,20 @@
   - sefl
   - switch
   hostname: 10.67.85.27
+10.67.85.28:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.49
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.67.85.28
 10.67.85.30:
   data:
     host_name: ''
@@ -46240,6 +46450,20 @@
   - sefl
   - switch
   hostname: 10.67.91.18
+10.67.91.24:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.91
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.67.91.24
 10.67.91.30:
   data:
     host_name: ''
@@ -46581,6 +46805,7 @@
       neighbor: []
       stub: false
       stub_neighbor: []
+    tacacs: true
   groups:
   - cisco-xr
   - sefl
@@ -48094,6 +48319,20 @@
   - sefl
   - switch
   hostname: 10.69.148.23
+10.69.157.100:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.120
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.69.157.100
 10.69.157.13:
   data:
     host_name: ''
@@ -50138,6 +50377,62 @@
   - sefl
   - switch
   hostname: 10.69.198.23
+10.69.198.30:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.125
+    tacacs: true
+  groups:
+  - cisco-xe
+  - sefl
+  - switch
+  hostname: 10.69.198.30
+10.69.198.31:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.125
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.69.198.31
+10.69.198.32:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.125
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.69.198.32
+10.69.198.33:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.125
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.69.198.33
 10.69.206.10:
   data:
     host_name: ''
@@ -51139,6 +51434,20 @@
   - sefl
   - switch
   hostname: 10.69.80.35
+10.69.80.36:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.111
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.69.80.36
 10.69.80.4:
   data:
     host_name: ''
@@ -52146,6 +52455,20 @@
   - sefl
   - switch
   hostname: 10.70.168.28
+10.70.168.29:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.141
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.70.168.29
 10.70.168.33:
   data:
     host_name: ''
@@ -53762,6 +54085,20 @@
   - sefl
   - switch
   hostname: 10.71.13.14
+10.71.13.17:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.148
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.71.13.17
 10.71.13.18:
   data:
     host_name: ''
@@ -53788,6 +54125,20 @@
   - sefl
   - switch
   hostname: 10.71.13.19
+10.71.13.21:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.148
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.71.13.21
 10.71.13.23:
   data:
     host_name: ''
@@ -53843,6 +54194,20 @@
   - sefl
   - switch
   hostname: 10.71.17.21
+10.71.17.30:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.149
+    tacacs: true
+  groups:
+  - cisco-xe
+  - sefl
+  - switch
+  hostname: 10.71.17.30
 10.71.17.47:
   data:
     host_name: ''
@@ -53911,6 +54276,20 @@
   - sefl
   - switch
   hostname: 10.71.174.13
+10.71.174.14:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.154
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.71.174.14
 10.71.178.10:
   data:
     host_name: ''
@@ -54121,6 +54500,20 @@
   - sefl
   - switch
   hostname: 10.71.178.27
+10.71.178.28:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.147
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.71.178.28
 10.71.178.3:
   data:
     host_name: ''
@@ -55322,6 +55715,20 @@
   - sefl
   - switch
   hostname: 10.73.38.131
+10.73.38.133:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.44
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.73.38.133
 10.73.68.10:
   data:
     host_name: ''
@@ -55349,6 +55756,48 @@
   - sefl
   - switch
   hostname: 10.73.68.17
+10.73.68.18:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.156
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.73.68.18
+10.73.68.19:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.156
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.73.68.19
+10.73.68.20:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.156
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.73.68.20
 10.74.146.10:
   data:
     host_name: ''
@@ -55598,6 +56047,90 @@
   - sefl
   - switch
   hostname: 10.74.170.35
+10.74.170.70:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.170
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.74.170.70
+10.74.170.71:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.170
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.74.170.71
+10.74.170.72:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.170
+    tacacs: true
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.74.170.72
+10.74.170.73:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.170
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.74.170.73
+10.74.170.74:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.170
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.74.170.74
+10.74.170.75:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.170
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.74.170.75
 10.74.241.10:
   data:
     host_name: ''
@@ -58952,6 +59485,20 @@
   - swfl
   - switch
   hostname: 10.84.32.6
+10.84.32.60:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.5
+    tacacs: true
+  groups:
+  - cisco-ios
+  - swfl
+  - switch
+  hostname: 10.84.32.60
 10.84.32.7:
   data:
     host_name: FL_LAUSSANNE_OFFICE_SW01
@@ -59291,6 +59838,48 @@
   - swfl
   - switch
   hostname: 10.84.34.170
+10.84.34.171:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.8
+    tacacs: false
+  groups:
+  - sg350
+  - swfl
+  - switch
+  hostname: 10.84.34.171
+10.84.34.172:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.8
+    tacacs: true
+  groups:
+  - cisco-ios
+  - swfl
+  - switch
+  hostname: 10.84.34.172
+10.84.34.173:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.8
+    tacacs: false
+  groups:
+  - sg350
+  - swfl
+  - switch
+  hostname: 10.84.34.173
 10.84.58.11:
   data:
     host_name: FL_OASIS_IDF001_SW001
@@ -63804,6 +64393,20 @@
   - cfl
   - switch
   hostname: 10.86.16.220
+10.86.16.221:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.86.255.2
+    tacacs: false
+  groups:
+  - unknown
+  - cfl
+  - switch
+  hostname: 10.86.16.221
 10.86.16.222:
   data:
     host_name: ''
@@ -64189,6 +64792,20 @@
   - cfl
   - switch
   hostname: 10.86.16.29
+10.86.16.3:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.86.255.2
+    tacacs: false
+  groups:
+  - unknown
+  - cfl
+  - switch
+  hostname: 10.86.16.3
 10.86.16.30:
   data:
     host_name: ''
@@ -72662,6 +73279,20 @@
   - nc_sc
   - switch
   hostname: 10.93.36.54
+10.93.36.56:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.93.255.3
+    tacacs: false
+  groups:
+  - sg350
+  - nc_sc
+  - switch
+  hostname: 10.93.36.56
 10.93.36.60:
   data:
     host_name: ''
@@ -72774,6 +73405,20 @@
   - nc_sc
   - switch
   hostname: 10.93.36.71
+10.93.36.72:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.93.255.3
+    tacacs: false
+  groups:
+  - sg350
+  - nc_sc
+  - switch
+  hostname: 10.93.36.72
 10.94.255.1:
   data:
     host_name: ''

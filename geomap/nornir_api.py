@@ -55,7 +55,7 @@ def add_switches():
     with open('geomap/inventory/hosts.yaml') as f:
         inventory = yaml.safe_load(f)
 
-    result = nr.filter(~F(groups__contains='sg350') & ~F(groups__contains='unknown')).run(task=get_arp)
+    result = nr.filter(~F(groups__contains='switch') & ~F(groups__contains='unknown')).run(task=get_arp)
 
     for router, data in result.items():
         print('Router: ', router)
@@ -63,12 +63,13 @@ def add_switches():
         print(r_switches)
         data = data[1].result
         if not data or type(data) == str:
-            print(router)
+            print('Return String ', router)
             continue
         for arp in data:
             if arp['age'] == '-':
                 continue
             if arp['address'] not in r_switches and arp['interface'] in MGN_INTERFACES and arp['mac'][:7] in cisco_ouis:
+                print('Added Switch: ', arp['address'])
                 r_switches.append(arp['address'])
                 create_host(inventory, arp['address'], router)
                 Device.objects.get_or_create(mgn=arp['address'])
@@ -76,13 +77,14 @@ def add_switches():
     with open('geomap/inventory/hosts.yaml', "w") as f:
         yaml.dump(inventory, f)
 
-def upadate_connections():
+def update_connections():
     nr = InitNornir(config_file='geomap/config.yaml')
     m_list = []
     result = nr.filter(~F(groups__contains='sg350') & ~F(groups__contains='unknown')).run(
         task=netmiko_send_command,
         command_string='show cdp neighbor detail',
-        use_textfsm=True
+        use_textfsm=True,
+        enable=True
     )
 
     #with open('hosts.yaml') as f:
@@ -107,7 +109,7 @@ def upadate_connections():
                 for host in device:
                     entry['mgmt_ip'] = device[host].hostname
             if device:
-                #print(entry['mgmt_ip'], entry['local_port'], entry['remote_port'])
+                print(entry['mgmt_ip'], entry['local_port'], entry['remote_port'])
                 dev, c = Device.objects.get_or_create(mgn=ip)
                 int_l , c = Interface.objects.get_or_create(name=entry['local_port'], device=dev)
                 dev, c = Device.objects.get_or_create(mgn=entry['mgmt_ip'])
@@ -264,8 +266,7 @@ def get_bundled_interfaces(ip):
         else:
             ints[int] = bundle
 
-def get_graph_data(dev_id):
-    dev = Device.objects.get(pk=dev_id)
+def get_graph_data(dev):
     if dev.mgn:
         data = [{'id': '0', 'parent': '', 'name': 'Available Int'}]
         nr = InitNornir(config_file='geomap/config.yaml')
@@ -333,14 +334,14 @@ def get_ospf_runtime(os='cisco-ios'):
 def in_tacacs():
     nr = InitNornir(config_file='geomap/config.yaml')
 
-    with open('hosts.yaml') as f:
+    with open('geomap/inventory/hosts.yaml') as f:
         inventory = yaml.safe_load(f)
 
-    hosts = nr.filter(tacacs=False).inventory.hosts
+    hosts = nr.inventory.hosts
 
     for ip, hostdata in hosts.items():
         print(ip)
-        print(inventory[ip]['data']['tacacs'])
+        #print(inventory[ip]['data']['tacacs'])
         ssh = open_ssh_session(ip, CISCO_USERNAME, CISCO_PASSWORD, 22)
         if ssh and ssh != 2:
             inventory[ip]['data']['tacacs'] = True
@@ -355,7 +356,7 @@ def in_tacacs():
             inventory[ip]['data']['tacacs'] = False
         print(inventory[ip]['data']['tacacs'])
 
-    with open('hosts.yaml', "w") as f:
+    with open('geomap/inventory/hosts.yaml', "w") as f:
         yaml.dump(inventory, f)
 
 def get_not_in_tacacs():
