@@ -7,7 +7,7 @@ Q_ROUTER = '10.63.255.163'
 NPM_SERVER = 'thor.gethotwired.com'
 CISCO_USERNAME = 'guillermo.diaz'
 CISCO_PASSWORD = 'Wktkm1987*'
-MARKETS = {
+GROUPS = {
     '63': 'sefl',
     '64': 'sefl',
     '68': 'sefl',
@@ -25,7 +25,14 @@ MARKETS = {
     '118': 'atl',
     '199': 'atl',
 }
-NOT_PHY_INTS = ['BV', 'BD', 'Vl', 'Po', 'BE', 'Mg', 'PT', 'Bu', 'Co', 'Nu']
+MARKETS = [
+    ('sefl', 'SEFL'),
+    ('swfl', 'SWFL'),
+    ('cfl', 'CFL'),
+    ('nc_sc', 'NC/SC'),
+    ('atl', 'ATL'),
+]
+NOT_PHY_INTS = ['BV', 'BD', 'Vl', 'Po', 'BE', 'Mg', 'PT', 'Bu', 'Co', 'Nu', 'mg']
 
 SHOW_MODULE_TMP = open(os.path.join('geomap', 'ntc-templates', 'templates', 'cisco_ios_show_module.template'))
 SHOW_MODULE_KEYS = ['module', 'ports', 'type', 'model', 'serial']
@@ -72,13 +79,14 @@ NETWORKS = (
 
 ONT_MODELS = (
     ('G0240G-A', 'G0240G-A'),
-    ('G0241G-A', 'G0241G-A')
+    ('G0241G-A', 'G0241G-A'),
+    ('I-241G-B', 'I-241G-B'),
 )
 
 CONTRACT_STATUS = (
     ('Not Applicable', 'Not Applicable'),
     ('In Sales Phase', 'In Sales Phase'),
-    ('Pendnig', 'Pendnig'),
+    ('Pending', 'Pending'),
     ('Received', 'Received'),
     ('LOST', 'LOST'),
     ('NOT Approved to Upgrade', 'NOT Approved to Upgrade'),
@@ -96,4 +104,6 @@ STANDARD_PORT_NAMES = {
     'Ethernet': 'Eth'
 }
 
-DONT_INCLUDE_IN_SCAN = ['cisco ASR9K Series', 'cisco CISCO7606-S', 'cisco CISCO7609-S']
+DONT_INCLUDE_MODELS = ['cisco ASR9K Series', 'cisco CISCO7606-S', 'cisco CISCO7609-S']
+
+ISP_TOPOLOGY_PATH = os.path.join(os.getcwd(), 'geomap', 'static', 'topology.png')

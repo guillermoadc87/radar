@@ -11,6 +11,20 @@
   - atl
   - switch
   hostname: 10.110.100.10
+10.110.100.100:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.31
+    tacacs: false
+  groups:
+  - sg350
+  - atl
+  - switch
+  hostname: 10.110.100.100
 10.110.100.11:
   data:
     host_name: ''
@@ -547,7 +561,7 @@
   hostname: 10.110.255.12
 10.110.255.20:
   data:
-    host_name: ''
+    host_name: GA_DORAVILLE_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -556,9 +570,21 @@
   - cisco-xr
   - atl
   hostname: 10.110.255.20
+10.110.255.21:
+  data:
+    host_name: GA_WINDERMERE_ASR01
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    tacacs: true
+  groups:
+  - cisco-xr
+  - atl
+  hostname: 10.110.255.21
 10.110.255.22:
   data:
-    host_name: ''
+    host_name: GA_ATL_BOHO4W_RTR001
     ospf:
       neighbor: []
       stub: false
@@ -569,7 +595,7 @@
   hostname: 10.110.255.22
 10.110.255.24:
   data:
-    host_name: ''
+    host_name: GA_TRIBUTARY_RT001
     ospf:
       neighbor: []
       stub: false
@@ -580,19 +606,19 @@
   hostname: 10.110.255.24
 10.110.255.25:
   data:
-    host_name: ''
+    host_name: TN_UNIV_WALK_MDF_RTR01
     ospf:
       neighbor: []
       stub: false
       stub_neighbor: []
-    tacacs: false
+    tacacs: true
   groups:
-  - unknown
+  - cisco-ios
   - atl
   hostname: 10.110.255.25
 10.110.255.26:
   data:
-    host_name: ''
+    host_name: GA_ALPH_AVALON_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -603,7 +629,7 @@
   hostname: 10.110.255.26
 10.110.255.27:
   data:
-    host_name: ''
+    host_name: GA_SMYR_OFF_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -614,7 +640,7 @@
   hostname: 10.110.255.27
 10.110.255.28:
   data:
-    host_name: ''
+    host_name: GA_ATL_RAVINIA_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -625,7 +651,7 @@
   hostname: 10.110.255.28
 10.110.255.29:
   data:
-    host_name: ''
+    host_name: GA_ATL_TERMINUS_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -636,7 +662,7 @@
   hostname: 10.110.255.29
 10.110.255.30:
   data:
-    host_name: ''
+    host_name: GA_PLAZAMIDTOWN_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -647,7 +673,7 @@
   hostname: 10.110.255.30
 10.110.255.31:
   data:
-    host_name: ''
+    host_name: GA_TUCKER_OFFICE_ASR001
     ospf:
       neighbor: []
       stub: false
@@ -658,7 +684,7 @@
   hostname: 10.110.255.31
 10.110.255.33:
   data:
-    host_name: ''
+    host_name: GA-SPOKE-MDF-ASR01
     ospf:
       neighbor: []
       stub: false
@@ -669,7 +695,7 @@
   hostname: 10.110.255.33
 10.110.255.35:
   data:
-    host_name: ''
+    host_name: GA-TEASLEY-PLACE-MDF-ASR001
     ospf:
       neighbor: []
       stub: false
@@ -680,7 +706,7 @@
   hostname: 10.110.255.35
 10.110.255.37:
   data:
-    host_name: ''
+    host_name: GA-RICE_HOPE_ARDMORE-MDF-ASR01
     ospf:
       neighbor: []
       stub: false
@@ -691,7 +717,7 @@
   hostname: 10.110.255.37
 10.110.255.40:
   data:
-    host_name: ''
+    host_name: GA-ATL55M-VC-SW01
     ospf:
       neighbor: []
       stub: false
@@ -702,7 +728,7 @@
   hostname: 10.110.255.40
 10.110.255.41:
   data:
-    host_name: ''
+    host_name: GA-ATL55M-VC-SW02
     ospf:
       neighbor: []
       stub: false
@@ -739,6 +765,48 @@
   - atl
   - switch
   hostname: 10.110.26.254
+10.110.26.43:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.37
+    tacacs: false
+  groups:
+  - unknown
+  - atl
+  - switch
+  hostname: 10.110.26.43
+10.110.26.44:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.37
+    tacacs: false
+  groups:
+  - unknown
+  - atl
+  - switch
+  hostname: 10.110.26.44
+10.110.26.45:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.37
+    tacacs: false
+  groups:
+  - unknown
+  - atl
+  - switch
+  hostname: 10.110.26.45
 10.110.45.226:
   data:
     host_name: ''
@@ -1637,6 +1705,132 @@
   - atl
   - switch
   hostname: 10.110.83.31
+10.110.84.11:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.11
+10.110.84.12:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.12
+10.110.84.13:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.13
+10.110.84.14:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.14
+10.110.84.15:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.15
+10.110.84.16:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.16
+10.110.84.17:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.17
+10.110.84.18:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.18
+10.110.84.2:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.110.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - atl
+  - switch
+  hostname: 10.110.84.2
 10.110.90.13:
   data:
     host_name: ''
@@ -1717,7 +1911,7 @@
   hostname: 10.110.90.5
 10.199.255.11:
   data:
-    host_name: ''
+    host_name: PA-3BALA-FLR07-MDF-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -5225,6 +5419,20 @@
   - sefl
   - switch
   hostname: 10.57.183.16
+10.57.183.170:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.97
+    tacacs: true
+  groups:
+  - cisco-xe
+  - sefl
+  - switch
+  hostname: 10.57.183.170
 10.57.183.18:
   data:
     host_name: ''
@@ -5475,6 +5683,20 @@
   - sefl
   - switch
   hostname: 10.57.183.62
+10.57.183.69:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.97
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.183.69
 10.57.183.80:
   data:
     host_name: ''
@@ -5633,6 +5855,20 @@
   - sefl
   - switch
   hostname: 10.57.184.115
+10.57.184.117:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.45
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.184.117
 10.57.184.118:
   data:
     host_name: ''
@@ -9722,6 +9958,20 @@
   - sefl
   - switch
   hostname: 10.57.43.112
+10.57.43.12:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.172
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.57.43.12
 10.57.43.135:
   data:
     host_name: ''
@@ -10929,6 +11179,76 @@
   - sefl
   - switch
   hostname: 10.57.52.5
+10.57.52.51:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.18
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.52.51
+10.57.52.52:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.18
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.52.52
+10.57.52.54:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.18
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.52.54
+10.57.52.55:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.18
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.52.55
+10.57.52.58:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.18
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.57.52.58
 10.57.52.6:
   data:
     host_name: ''
@@ -26197,6 +26517,34 @@
   - sefl
   - switch
   hostname: 10.63.18.29
+10.63.18.30:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.90
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.63.18.30
+10.63.18.31:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.90
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.63.18.31
 10.63.18.4:
   data:
     host_name: ''
@@ -26723,6 +27071,20 @@
   - sefl
   - switch
   hostname: 10.63.253.37
+10.63.253.40:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.78
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.63.253.40
 10.63.253.45:
   data:
     host_name: ''
@@ -27410,7 +27772,7 @@
   hostname: 10.63.255.13
 10.63.255.130:
   data:
-    host_name: ''
+    host_name: FL-5400-CHAMPION-FLR1-MDF-RTR1
     ospf:
       neighbor: []
       stub: false
@@ -27419,6 +27781,18 @@
   - cisco-xe
   - sefl
   hostname: 10.63.255.130
+10.63.255.131:
+  data:
+    host_name: FL-BANESCO-2980-NE-207TH-MPLS-RTR1
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    tacacs: true
+  groups:
+  - cisco-xe
+  - sefl
+  hostname: 10.63.255.131
 10.63.255.134:
   data:
     host_name: FL-FRENCHMANS-FLR1-MDF-RTR02
@@ -27708,7 +28082,7 @@
   hostname: 10.63.255.16
 10.63.255.160:
   data:
-    host_name: ''
+    host_name: FL-16582-JOG-RD-FLR1-MDF-R1
     ospf:
       neighbor: []
       stub: false
@@ -27741,15 +28115,28 @@
   hostname: 10.63.255.163
 10.63.255.165:
   data:
-    host_name: ''
+    host_name: FL-MIAMI-WORLD-CENTER-CAOBA-MDF-RTR01
     ospf:
       neighbor: []
       stub: false
       stub_neighbor: []
+    tacacs: true
   groups:
   - cisco-xr
   - sefl
   hostname: 10.63.255.165
+10.63.255.166:
+  data:
+    host_name: FL-METROPICA-TWR1-FLR1-MDF-RTR1
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    tacacs: true
+  groups:
+  - cisco-xr
+  - sefl
+  hostname: 10.63.255.166
 10.63.255.167:
   data:
     host_name: FL-SOLE-MIA-FLR01-MDF-RTR01
@@ -27828,6 +28215,18 @@
   - unknown
   - sefl
   hostname: 10.63.255.173
+10.63.255.174:
+  data:
+    host_name: FL-KRAVIS-CENTER-701-OKEECHOBEE-MDF-RTR1
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    tacacs: true
+  groups:
+  - cisco-xe
+  - sefl
+  hostname: 10.63.255.174
 10.63.255.176:
   data:
     host_name: FL-PEMBROKE-GARDENS-FLR01-MDF-RTR1
@@ -27841,7 +28240,7 @@
   hostname: 10.63.255.176
 10.63.255.177:
   data:
-    host_name: ''
+    host_name: FL-SUNRISE-WAREHOUSE-MDF-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -27951,7 +28350,7 @@
   hostname: 10.63.255.25
 10.63.255.250:
   data:
-    host_name: ''
+    host_name: SEFL-NOTA-RR1
     ospf:
       neighbor: []
       stub: false
@@ -29385,6 +29784,20 @@
   - sefl
   - switch
   hostname: 10.64.251.201
+10.64.251.202:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.57
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.64.251.202
 10.64.251.27:
   data:
     host_name: ''
@@ -34138,6 +34551,20 @@
   - sefl
   - switch
   hostname: 10.65.210.34
+10.65.210.36:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.60
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.65.210.36
 10.65.210.37:
   data:
     host_name: ''
@@ -40965,6 +41392,20 @@
   - sefl
   - switch
   hostname: 10.66.159.150
+10.66.159.152:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.101
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.66.159.152
 10.66.159.159:
   data:
     host_name: ''
@@ -43553,6 +43994,20 @@
   - sefl
   - switch
   hostname: 10.67.164.102
+10.67.164.110:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.92
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.67.164.110
 10.67.164.12:
   data:
     host_name: ''
@@ -46291,6 +46746,20 @@
   - sefl
   - switch
   hostname: 10.67.85.28
+10.67.85.29:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.49
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.67.85.29
 10.67.85.30:
   data:
     host_name: ''
@@ -46450,6 +46919,20 @@
   - sefl
   - switch
   hostname: 10.67.91.18
+10.67.91.22:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.91
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.67.91.22
 10.67.91.24:
   data:
     host_name: ''
@@ -46608,7 +47091,7 @@
   hostname: 10.68.255.106
 10.68.255.11:
   data:
-    host_name: ''
+    host_name: FL-CYPCOLO4-CORP-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -46767,7 +47250,7 @@
   hostname: 10.68.255.25
 10.68.255.250:
   data:
-    host_name: ''
+    host_name: CYP-C3A4-RR1
     ospf:
       neighbor: []
       stub: false
@@ -46800,7 +47283,7 @@
   hostname: 10.68.255.252
 10.68.255.253:
   data:
-    host_name: ''
+    host_name: FL-CYP-DC-MR-WEST-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -47183,7 +47666,7 @@
   hostname: 10.68.255.76
 10.68.255.78:
   data:
-    host_name: ''
+    host_name: FL-CYP-HBS-C4R6-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -48333,6 +48816,20 @@
   - sefl
   - switch
   hostname: 10.69.157.100
+10.69.157.101:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.120
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.69.157.101
 10.69.157.13:
   data:
     host_name: ''
@@ -48802,6 +49299,20 @@
   - sefl
   - switch
   hostname: 10.69.176.35
+10.69.176.40:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.121
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.69.176.40
 10.69.176.46:
   data:
     host_name: ''
@@ -54208,6 +54719,48 @@
   - sefl
   - switch
   hostname: 10.71.17.30
+10.71.17.31:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.149
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.71.17.31
+10.71.17.32:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.149
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.71.17.32
+10.71.17.34:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.149
+    tacacs: false
+  groups:
+  - sg350
+  - sefl
+  - switch
+  hostname: 10.71.17.34
 10.71.17.47:
   data:
     host_name: ''
@@ -56209,6 +56762,34 @@
   - sefl
   - switch
   hostname: 10.74.43.21
+10.74.43.8:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.165
+    tacacs: false
+  groups:
+  - unknown
+  - sefl
+  - switch
+  hostname: 10.74.43.8
+10.74.80.10:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.63.255.166
+    tacacs: true
+  groups:
+  - cisco-ios
+  - sefl
+  - switch
+  hostname: 10.74.80.10
 10.74.86.10:
   data:
     host_name: ''
@@ -58627,7 +59208,7 @@
   hostname: 10.84.255.14
 10.84.255.15:
   data:
-    host_name: ''
+    host_name: FL_PELICAN_LANDING_ASR_001
     ospf:
       neighbor: []
       stub: false
@@ -58814,7 +59395,7 @@
   hostname: 10.84.255.3
 10.84.255.30:
   data:
-    host_name: ''
+    host_name: SWFL-REFLECTION-ISLE-MDF-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -58823,6 +59404,18 @@
   - cisco-xr
   - swfl
   hostname: 10.84.255.30
+10.84.255.31:
+  data:
+    host_name: SWFL-GRAND-CENTRAL-MDF-RTR01
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    tacacs: true
+  groups:
+  - cisco-xr
+  - swfl
+  hostname: 10.84.255.31
 10.84.255.4:
   data:
     host_name: FL_OLDE_CYPRESS_ASR_001
@@ -59472,6 +60065,20 @@
   - swfl
   - switch
   hostname: 10.84.32.58
+10.84.32.59:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.5
+    tacacs: true
+  groups:
+  - cisco-xe
+  - swfl
+  - switch
+  hostname: 10.84.32.59
 10.84.32.6:
   data:
     host_name: FL_LAUSSANNE_FLR01_SW03
@@ -65672,7 +66279,7 @@
   hostname: 10.86.167.4
 10.86.255.1:
   data:
-    host_name: ''
+    host_name: ORL_FOUNTAINS_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65683,7 +66290,7 @@
   hostname: 10.86.255.1
 10.86.255.10:
   data:
-    host_name: ''
+    host_name: CFL_ONEDAYTONA_TEMP_RT01
     ospf:
       neighbor: []
       stub: false
@@ -65694,7 +66301,7 @@
   hostname: 10.86.255.10
 10.86.255.11:
   data:
-    host_name: ''
+    host_name: CFL_ONEDAYTONA_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65705,7 +66312,7 @@
   hostname: 10.86.255.11
 10.86.255.2:
   data:
-    host_name: ''
+    host_name: CFL_WESTSIDEDRI_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65716,7 +66323,7 @@
   hostname: 10.86.255.2
 10.86.255.20:
   data:
-    host_name: ''
+    host_name: CFL_POINTORLANDORESORT_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65727,7 +66334,7 @@
   hostname: 10.86.255.20
 10.86.255.21:
   data:
-    host_name: ''
+    host_name: CFL_EAGLEBAY_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65738,7 +66345,7 @@
   hostname: 10.86.255.21
 10.86.255.3:
   data:
-    host_name: ''
+    host_name: CFL_GROVERESORT_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65749,7 +66356,7 @@
   hostname: 10.86.255.3
 10.86.255.4:
   data:
-    host_name: ''
+    host_name: CFL_BALMORALRESORT_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65760,7 +66367,7 @@
   hostname: 10.86.255.4
 10.86.255.40:
   data:
-    host_name: ''
+    host_name: CFL_GRANPARADISO_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65771,7 +66378,7 @@
   hostname: 10.86.255.40
 10.86.255.41:
   data:
-    host_name: ''
+    host_name: CFL_WATEROAK_CMTS03
     ospf:
       neighbor: []
       stub: false
@@ -65780,9 +66387,21 @@
   - cisco-ios
   - cfl
   hostname: 10.86.255.41
-10.86.255.5:
+10.86.255.42:
   data:
     host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    tacacs: false
+  groups:
+  - unknown
+  - cfl
+  hostname: 10.86.255.42
+10.86.255.5:
+  data:
+    host_name: CFL_LAKEWASHINGTON_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65793,7 +66412,7 @@
   hostname: 10.86.255.5
 10.86.255.50:
   data:
-    host_name: ''
+    host_name: CFL_CASABELLA_MR_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -65804,7 +66423,7 @@
   hostname: 10.86.255.50
 10.86.255.6:
   data:
-    host_name: ''
+    host_name: CFL_BRENTWOODLAKES_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -66217,6 +66836,20 @@
   - cfl
   - switch
   hostname: 10.86.28.242
+10.86.28.243:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.86.255.3
+    tacacs: false
+  groups:
+  - unknown
+  - cfl
+  - switch
+  hostname: 10.86.28.243
 10.86.28.245:
   data:
     host_name: ''
@@ -69721,6 +70354,20 @@
   - cfl
   - switch
   hostname: 10.86.7.223
+10.86.7.224:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.86.255.1
+    tacacs: false
+  groups:
+  - unknown
+  - cfl
+  - switch
+  hostname: 10.86.7.224
 10.86.7.225:
   data:
     host_name: ''
@@ -72962,7 +73609,7 @@
   hostname: 10.88.23.254
 10.88.255.1:
   data:
-    host_name: ''
+    host_name: FL_STADIUMCTR_MDF_RT01
     ospf:
       neighbor: []
       stub: false
@@ -72985,7 +73632,7 @@
   hostname: 10.88.255.2
 10.88.255.3:
   data:
-    host_name: ''
+    host_name: NWFL_EDGE_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -72996,7 +73643,7 @@
   hostname: 10.88.255.3
 10.88.255.4:
   data:
-    host_name: ''
+    host_name: NWFL_COLLEGETOWN2_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -73032,7 +73679,7 @@
   hostname: 10.92.255.10
 10.92.255.40:
   data:
-    host_name: ''
+    host_name: NEFL_HERONISLE_ASR01
     ospf:
       neighbor: []
       stub: false
@@ -73056,7 +73703,7 @@
   hostname: 10.93.12.25
 10.93.255.1:
   data:
-    host_name: ''
+    host_name: NC-LEXPLANT-MDF-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -73067,7 +73714,7 @@
   hostname: 10.93.255.1
 10.93.255.2:
   data:
-    host_name: ''
+    host_name: NC-KELLSWATERBRIDGE-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -73078,7 +73725,7 @@
   hostname: 10.93.255.2
 10.93.255.3:
   data:
-    host_name: ''
+    host_name: SC-RESERVE_AT_LAKE_KEOWEE-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -73421,7 +74068,7 @@
   hostname: 10.93.36.72
 10.94.255.1:
   data:
-    host_name: ''
+    host_name: NC-SALISBURYDC-RTR01
     ospf:
       neighbor: []
       stub: false
@@ -73432,7 +74079,7 @@
   hostname: 10.94.255.1
 10.94.255.2:
   data:
-    host_name: ''
+    host_name: NC-SALISBURYDC-RTR02
     ospf:
       neighbor: []
       stub: false
@@ -76185,6 +76832,34 @@
   - swfl
   - switch
   hostname: 10.96.77.11
+10.96.77.12:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.21
+    tacacs: true
+  groups:
+  - cisco-ios
+  - swfl
+  - switch
+  hostname: 10.96.77.12
+10.96.77.13:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.21
+    tacacs: false
+  groups:
+  - sg350
+  - swfl
+  - switch
+  hostname: 10.96.77.13
 10.96.77.2:
   data:
     host_name: SWFL-GENOVA-FLR1-MDF-SW1
@@ -76212,6 +76887,34 @@
   - swfl
   - switch
   hostname: 10.96.77.3
+10.96.8.2:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.31
+    tacacs: true
+  groups:
+  - cisco-ios
+  - swfl
+  - switch
+  hostname: 10.96.8.2
+10.96.8.3:
+  data:
+    host_name: ''
+    ospf:
+      neighbor: []
+      stub: false
+      stub_neighbor: []
+    router: 10.84.255.31
+    tacacs: true
+  groups:
+  - cisco-ios
+  - swfl
+  - switch
+  hostname: 10.96.8.3
 10.98.255.1:
   data:
     host_name: ''

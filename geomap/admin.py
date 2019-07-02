@@ -1,25 +1,45 @@
+import os
 from django.utils import timezone
 from django.contrib import admin
-from .models import Property, Device, Interface, Statistics
+from .models import Property, Device, Interface, Statistics, File, Profile
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from .views import PropertyListView
 from django.urls import re_path, path
 from django.utils.html import format_html
 from django.urls import reverse
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse
+from django.http import HttpResponseRedirect, StreamingHttpResponse, HttpResponse, Http404
 from django.template.response import TemplateResponse
 from django.db.models import Q
-from .forms import PropertyForm, BUGraphForm, DeviceForm
+from .forms import PropertyForm, BUGraphForm, DeviceForm, SubnetProvisioningForm
 from .list_filters import StatusListFilter
 from django.contrib import messages
 from wsgiref.util import FileWrapper
 from io import BytesIO
 from jinja2 import Environment, FileSystemLoader
-from .nornir_api import get_graph_data
+from .nornir_api import get_graph_data, get_router, get_available_vlans_for, get_available_interfaces_for
 from .constants import AVAIL_INT_GRAPH
 
 admin.site.site_header = 'HWC Launcher'
 admin.site.site_title = "HWC Launcher"
+
+admin.site.unregister(User)
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline, )
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
 class InterfaceInline(admin.TabularInline):
     model = Interface
@@ -36,9 +56,10 @@ class InterfaceInline(admin.TabularInline):
 class DeviceAdmin(admin.ModelAdmin):
     form = DeviceForm
     inlines = (InterfaceInline,)
-    search_fields = ('mgn', 'hostname', 'prop__name')
+    search_fields = ('hostname', 'model', 'mgn', 'prop__name')
     list_display = ('hostname', 'model', 'mgn', 'account_actions')
-    actions = ('bandwith_utilization',)
+    readonly_fields = ('hostname', 'mgn', 'model', 'node_id', 'prop')
+    actions = ('bandwith_utilization', 'subnet_provisioning')
     ordering = ('-hostname',)
     list_max_show_all = 7000
 
@@ -74,6 +95,7 @@ class DeviceAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('bu/', self.admin_site.admin_view(self.bu_graph), name='bu_graph'),
+            path('subnet_provisioning/', self.admin_site.admin_view(self.subnet_provisioning_exect), name='subnet_provisioning'),
             re_path('connect/(?P<device_id>\d+)/', self.admin_site.admin_view(self.connect), name='connect_to_dev'),
         ]
         return my_urls + urls
@@ -86,12 +108,6 @@ class DeviceAdmin(admin.ModelAdmin):
 
     def bandwith_utilization(self, request, queryset):
         selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
-        #print(selected)
-        interfaces = []
-        for device in queryset:
-            for interface in device.interfaces.all():
-                interfaces.append(interface)
-
         return HttpResponseRedirect(f'bu/?ids={",".join(selected)}')
 
     def bu_graph(self, request):
@@ -128,7 +144,6 @@ class DeviceAdmin(admin.ModelAdmin):
 
             devices_ids = request.GET.get('ids')
             devices_ids = devices_ids.split(',') if devices_ids else []
-            print(devices_ids)
             devices = Device.objects.filter(id__in=devices_ids)
             #print(devices)
             interfaces = []
@@ -142,8 +157,54 @@ class DeviceAdmin(admin.ModelAdmin):
 
     bandwith_utilization.short_description = "Bandwith Utilization"
 
+    def subnet_provisioning(self, request, queryset):
+        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
+        return HttpResponseRedirect(f'subnet_provisioning/?ids={",".join(selected)}')
+
+    def subnet_provisioning_exect(self, request):
+        if request.method == "POST":
+            print(request.POST)
+            ip = request.POST.get('ip')
+            form = SubnetProvisioningForm(request.POST, ip=ip)
+
+            if form.is_valid():
+                vlan = form.cleaned_data['vlan']
+                subnet = form.cleaned_data['subnet']
+                description = form.cleaned_data['description']
+                port = form.cleaned_data['port']
+                ip = form.cleaned_data['ip']
+                print(vlan, ip)
+
+                r_ip = get_router(ip)
+                router = Device.objects.get(mgn=r_ip)
+                dev_list = []
+                router.path_to(ip, dev_list)
+                print(dev_list)
+
+                template = ''
+
+                #last_ip = len(dev_list) - 1
+                #for i, device_ip in enumarate(dev_list):
+                #    if i == 0:
+                #        template += generate_template(device_ip, 'r', 'sp') if i != last_ip else generate_template(device_ip, 'rs', 'sp')
+                #    elif i == last_ip:
+                #        template += generate_template(device_ip, 's', 'sp')
+                #    else:
+                #        template += generate_template(device_ip, 'ms', 'sp')
+        else:
+            devices_ids = request.GET.get('ids')
+            devices_ids = devices_ids.split(',') if devices_ids else []
+            devices = Device.objects.filter(id__in=devices_ids)
+            print(devices_ids, devices)
+            ip = [device.mgn for device in devices].pop()
+            form = SubnetProvisioningForm(ip=ip)
+            #form.fields["vlan"].choices = [(vlan, vlan) for vlan in get_available_vlans_for(ip)]
+            #form.fields["port"].choices = [(ports, ports) for ports in get_available_interfaces_for(ip)]
+        return render(request, 'admin/subnet_provisioning.html', context={'form': form})
+
+    subnet_provisioning.short_description = "Subnet Provisioning"
+
     def connect(self, request, device_id):
-        import os
         device = self.get_object(request, device_id)
         print(os.path.join(os.path.dirname(__file__), 'scripts'))
         file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'scripts'))
@@ -153,9 +214,14 @@ class DeviceAdmin(admin.ModelAdmin):
         response['Content-Disposition'] = f"attachment; filename={device.hostname}.py"
         return response
 
+class FileInline(admin.TabularInline):
+    model = File
+    extra = 1
+
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     form = PropertyForm
+    inlines = (FileInline,)
     search_fields = ('name',)
     list_display = ('name', 'units', 'address', 'mr_cert', 'status', 'account_actions')
     list_filter = (StatusListFilter,)
@@ -168,9 +234,10 @@ class PropertyAdmin(admin.ModelAdmin):
                 'name',
                 'address',
                 'location',
-                ('units', 'network', 'business_unit', 'type', 'contract',),
+                ('units', 'network', 'business_unit',),
+                ('market', 'type', 'contract',),
                 'services',
-                ('rf_unit', 'rf_coa', 'coa',),
+                ('rf_unit', 'rf_coa', 'coa', 'off_net',),
             )
         }),
         ('Network', {
@@ -180,6 +247,7 @@ class PropertyAdmin(admin.ModelAdmin):
                 'feeds',
                 ('router', 'r_mgn'),
                 ('switch', 's_mgn'),
+                'notes',
             )
         }),
         ('GPON', {
@@ -196,15 +264,15 @@ class PropertyAdmin(admin.ModelAdmin):
         }),
         ('Dates', {
             'fields': (
-                ('published', 'fiber_ready', 'network_ready', 'gpon_ready', 'gear_installed', 'cross_connect', 'mr_cert'),
+                ('published', 'network_ready', 'gpon_ready', 'gear_installed', 'fiber_ready', 'cross_connect', 'mr_cert'),
             )
         }),
-        ('Files', {
-            'fields': ('hld',),
-        }),
         ('Participants', {
-            'fields': ('pm', 'neteng', 'gponeng', 'cpm', 'fe', 'cxceng',),
+            'fields': (
+                ('participants',),
+            )
         }),
+
     )
 
     def status(self, obj):
@@ -269,6 +337,9 @@ class PropertyAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
 
         prop = self.get_object(request, object_id)
+
+        prop.build_graph()
+
         extra_context['properties'] = Property.objects.filter(~Q(pk=prop.pk))
         extra_context['property'] = prop
 
@@ -289,7 +360,8 @@ class PropertyAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('map/', self.admin_site.admin_view(self.property_map), name='property_list'),
-            re_path('map/(?P<property_id>\d+)', self.admin_site.admin_view(self.property_map), name='property_map'),
+            re_path('isp_topology/(?P<property_id>\d+)', self.admin_site.admin_view(self.dw_isp_topology), name='dw_isp_topology'),
+            re_path('device_list/(?P<property_id>\d+)', self.admin_site.admin_view(self.device_list), name='device_list'),
             re_path('published/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
                     {'action': 'published'}, name='publish'),
             re_path('published/change/(?P<property_id>\d+)', self.admin_site.admin_view(self.change_state),
@@ -328,7 +400,7 @@ class PropertyAdmin(admin.ModelAdmin):
             groups = [group.name for group in request.user.groups.all()]
             if 'PM' not in groups:
                 qs = qs.filter(published__isnull=False)
-            return qs.filter(Q(neteng=request.user) | Q(gponeng=request.user) | Q(cpm=request.user) | Q(fe=request.user) | Q(cxceng=request.user) | Q(pm=request.user))
+            return qs
 
     def property_map(self, request):
         #prop = self.get_object(request, property_id)
@@ -349,6 +421,20 @@ class PropertyAdmin(admin.ModelAdmin):
             'change_list_map.html',
             context,
         )
+
+    def device_list(self, request, property_id):
+        prop = self.get_object(request, property_id)
+        device = Device.objects.get(mgn=prop.r_mgn)
+
+        prop.add_devices(device)
+
+        url = reverse(
+                'admin:geomap_device_changelist',
+                current_app=self.admin_site.name,
+            )
+
+        return HttpResponseRedirect(url + f'?q={prop.name}')
+
 
     def change_state(self, request, property_id, action, to_list=True):
         prop = self.get_object(request, property_id)
@@ -405,7 +491,6 @@ class PropertyAdmin(admin.ModelAdmin):
         return HttpResponseRedirect(url)
 
     def connect(self, request, property_id):
-        import os
         prop = self.get_object(request, property_id)
         print(os.path.join(os.path.dirname(__file__), 'scripts'))
         file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__), 'scripts'))
@@ -414,6 +499,16 @@ class PropertyAdmin(admin.ModelAdmin):
         response = StreamingHttpResponse(template, content_type="application/py")
         response['Content-Disposition'] = "attachment; filename=connect.py"
         return response
+
+    def dw_isp_topology(self, request, property_id):
+        prop = self.get_object(request, property_id)
+        file_path = os.path.join(os.getcwd(), 'geomap', 'static', 'topology.png')
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/png")
+                response['Content-Disposition'] = f'inline; filename={prop.name}.png'
+                return response
+        raise Http404
 
     class Media:
         js = (

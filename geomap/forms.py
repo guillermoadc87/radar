@@ -3,7 +3,23 @@ from datetime import datetime
 from .models import Property, Interface, Device
 import googlemaps
 from django.contrib.gis.geos import Point
+from .nornir_api import get_available_vlans_for, get_available_interfaces_for
 from .helper_functions import not_pingable
+
+class SubnetProvisioningForm(forms.Form):
+    vlan = forms.ChoiceField(required=True)
+    subnet = forms.CharField(required=True)
+    description = forms.CharField(required=True)
+    port = forms.ChoiceField(required=True)
+    ip = forms.CharField(widget=forms.HiddenInput())
+
+    def __init__(self, *args, **kwargs):
+        initial_ip = kwargs.pop('ip')
+        super(SubnetProvisioningForm, self).__init__(*args, **kwargs)
+        if initial_ip:
+            self.fields["vlan"].choices = [(vlan, vlan) for vlan in get_available_vlans_for(initial_ip)]
+            self.fields["port"].choices = [(ports, ports) for ports in get_available_interfaces_for(initial_ip)]
+            self.fields["ip"].initial = initial_ip
 
 class BUGraphForm(forms.Form):
     YEARS = [year for year in range(datetime.now().year-2, datetime.now().year+1)]
@@ -63,7 +79,7 @@ class PropertyForm(forms.ModelForm):
         if instance:
             obj = Property.objects.get(id=instance.id)
             pk_list = obj.feeding.all().values_list('pk', flat=True)
-            #self.fields["feeds"].queryset = Property.objects.exclude(pk__in=pk_list).order_by('name')
+            self.fields["feeds"].queryset = self.fields["feeds"].queryset.order_by('name')
             self.fields["gpon_feed"].queryset = Property.objects.order_by('name')
 
     def clean(self):

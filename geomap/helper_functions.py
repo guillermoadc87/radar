@@ -5,7 +5,7 @@ import xmltodict
 import xlrd
 from datetime import datetime
 from oauth2client.service_account import ServiceAccountCredentials
-from .constants import MARKETS, CISCO_USERNAME, CISCO_PASSWORD, Q_ROUTER, NOT_PHY_INTS, STANDARD_PORT_NAMES
+from .constants import GROUPS, CISCO_USERNAME, CISCO_PASSWORD, Q_ROUTER, NOT_PHY_INTS, STANDARD_PORT_NAMES
 
 def not_pingable(ip):
     response = os.system("ping -c 1 " + ip)
@@ -38,9 +38,9 @@ def port_slot_card_pos(platform, port):
         return map(int, port[3:].split('/'))
 
 
-def get_market(ip):
+def get_group(ip):
     octet = ip.split('.')[1]
-    return MARKETS.get(octet, 'unknown')
+    return GROUPS.get(octet, 'unknown')
 
 def add_to_inventory(ip):
     with open('geomap/inventory/hosts.yaml') as f:
@@ -79,23 +79,24 @@ def create_host(inv, ip, market_ip):
         xr = xr.search(output)
         nxos = nxos.search(output)
         if xe:
-            inv[ip] = init_host(ip, groups=['cisco-xe', get_market(market_ip)])
+            inv[ip] = init_host(ip, groups=['cisco-xe', get_group(market_ip)])
         elif ios:
-            inv[ip] = init_host(ip, groups=['cisco-ios', get_market(market_ip)])
+            inv[ip] = init_host(ip, groups=['cisco-ios', get_group(market_ip)])
         elif xr:
-            inv[ip] = init_host(ip, groups=['cisco-xr', get_market(market_ip)])
+            inv[ip] = init_host(ip, groups=['cisco-xr', get_group(market_ip)])
         elif nxos:
-            inv[ip] = init_host(ip, groups=['nxos', get_market(market_ip)])
+            inv[ip] = init_host(ip, groups=['nxos', get_group(market_ip)])
         else:
-            inv[ip] = init_host(ip, groups=['sg350', get_market(market_ip)])
+            inv[ip] = init_host(ip, groups=['sg350', get_group(market_ip)])
         inv[ip]['data']['tacacs'] = True
+        ssh.close()
     elif ssh == 2:
-        inv[ip] = init_host(ip, groups=['sg350', get_market(market_ip)])
+        inv[ip] = init_host(ip, groups=['sg350', get_group(market_ip)])
         inv[ip]['data']['tacacs'] = False
     else:
-        inv[ip] = init_host(ip, groups=['unknown', get_market(market_ip)])
+        inv[ip] = init_host(ip, groups=['unknown', get_group(market_ip)])
         inv[ip]['data']['tacacs'] = False
-    if ip != market_ip:
+    if inv.get(ip) and ip != market_ip:
         inv[ip]['data']['router'] = market_ip
         inv[ip]['groups'].append('switch')
 
@@ -163,7 +164,7 @@ def get_radar():
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return '{0}/{1}/{2}'.format(instance.property.slug, filename)
+    return '{0}/{1}'.format(instance.property.slug, filename)
 
 def excel_number_to_date(number):
     if not number or not isinstance(number, float):

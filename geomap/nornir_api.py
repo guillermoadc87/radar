@@ -6,7 +6,7 @@ from datetime import datetime
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.tasks.networking import netmiko_send_command
-from .custom_tasks import get_neighbors, get_vlans, get_bundle_ids, get_arp, get_avail_interfaces
+from .custom_tasks import get_neighbors, get_vlans, get_bundle_parameters, get_arp, get_avail_interfaces, get_interfaces
 from .helper_functions import create_host, get_oui_for, open_ssh_session, get_loopbacks, get_standard_port
 from .constants import CISCO_USERNAME, CISCO_PASSWORD, MGN_INTERFACES, NOT_PHY_INTS
 from .models import Device, Interface
@@ -163,6 +163,7 @@ def get_host_names():
     for ip, data in result.items():
         try:
             hostname = data[0].result[0]['hostname']
+            print(hostname, ip)
             inventory[ip]['data']['host_name'] = hostname
         except TypeError:
             print(ip)
@@ -172,11 +173,6 @@ def get_host_names():
 
     with open('geomap/inventory/hosts.yaml', "w") as f:
         yaml.dump(inventory, f)
-
-def get_host_and_models():
-    devices = Device.objects.get(Q(hostname__isnull=True) | Q(model__isnull=True))
-
-
 
 def update_inv(inventory, result):
     for hostname, data in result.items():
@@ -245,6 +241,22 @@ def update_vlans():
     with open('hosts.yaml', "w") as f:
         yaml.dump(inventory, f)
 
+def get_available_vlans_for(ip):
+    nr = InitNornir(config_file='geomap/config.yaml')
+
+    result = nr.filter(hostname=ip).run(task=get_vlans)
+
+    used_vlans = result[ip][0].result
+
+    return [vlan for vlan in range(1, 3967) if vlan not in used_vlans]
+
+def get_available_interfaces_for(ip):
+    nr = InitNornir(config_file='geomap/config.yaml')
+
+    result = nr.filter(hostname=ip).run(task=get_interfaces)
+
+    return result[ip][0].result
+
 def get_bundled_interfaces(ip):
     nr = InitNornir(config_file='geomap/config.yaml')
 
@@ -266,25 +278,33 @@ def get_bundled_interfaces(ip):
         else:
             ints[int] = bundle
 
+def get_router(ip):
+    nr = InitNornir(config_file='geomap/config.yaml')
+
+    host = nr.inventory.hosts.get(ip)
+
+    return host.data['router'] if host.data.get('router') else host.hostname
+
 def get_graph_data(dev):
     if dev.mgn:
         data = [{'id': '0', 'parent': '', 'name': 'Available Int'}]
         nr = InitNornir(config_file='geomap/config.yaml')
         result = nr.filter(hostname=dev.mgn).run(task=get_avail_interfaces)
-
-        chassis = result[dev.mgn][0].result
-        print(result[dev.mgn][1].result)
-        for i, slot in enumerate(chassis):
-            data.append({'id': str(i+1), 'parent': '0', 'name': f'Slot {slot}'})
-            for j, card in enumerate(chassis[slot]):
-                data.append({'id': str(i+1)+str(j), 'parent': str(i+1), 'name': card if card else 'Empty'})
-                if not chassis[slot][card]:
-                    data.append({'id': str(i+1)+str(j)+'0', 'parent': str(i+1)+str(j), 'name': 'Full' if card else 'Empty', 'value': 1})
-                else:
-                    for z, ports in enumerate(chassis[slot][card]):
-                        data.append({'id': str(i+1)+str(j)+str(z), 'parent': str(i+1)+str(j), 'name': ports, 'value': 1})
-        return data
+        if str(result) != str:
+            chassis = result[dev.mgn][0].result
+            #print(result[dev.mgn][1].result)
+            for i, slot in enumerate(chassis):
+                data.append({'id': str(i+1), 'parent': '0', 'name': f'Slot {slot}'})
+                for j, card in enumerate(chassis[slot]):
+                    data.append({'id': str(i+1)+str(j), 'parent': str(i+1), 'name': card if card else 'Empty'})
+                    if not chassis[slot][card]:
+                        data.append({'id': str(i+1)+str(j)+'0', 'parent': str(i+1)+str(j), 'name': 'Full' if card else 'Empty', 'value': 1})
+                    else:
+                        for z, ports in enumerate(chassis[slot][card]):
+                            data.append({'id': str(i+1)+str(j)+str(z), 'parent': str(i+1)+str(j), 'name': ports, 'value': 1})
+            return data
     return []
+
 def stub_nodes(market=None, stub_neigh=False):
     nr = InitNornir(config_file='geomap/config.yaml')
     nr = nr.filter(F(ospf__stub=True) & ~F(groups__contains='switch'))

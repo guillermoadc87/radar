@@ -1,16 +1,18 @@
-import math
+import math, os
+import networkx as nx
+import matplotlib.pyplot as plt
 from django.contrib.gis.db import models
 from django_fsm import transition, FSMIntegerField
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from .helper_functions import user_directory_path, get_subnet, add_to_inventory
 from .slack_api import create_channel_with, send_message
-from .constants import PROJECT_TYPES, BUSSINESS_UNITS, ROUTER_MODELS, SWITCH_MODELS, NETWORKS, ONT_MODELS, CONTRACT_STATUS, DONT_INCLUDE_IN_SCAN
+from .constants import PROJECT_TYPES, BUSSINESS_UNITS, ROUTER_MODELS, SWITCH_MODELS, NETWORKS, ONT_MODELS, CONTRACT_STATUS, DONT_INCLUDE_MODELS, MARKETS, ISP_TOPOLOGY_PATH
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -33,9 +35,11 @@ class Property(models.Model):
     location = models.PointField(blank=True)
     type = models.CharField(max_length=50, choices=PROJECT_TYPES, blank=True, null=True)
     network = models.CharField(max_length=50, choices=NETWORKS, blank=True, null=True)
+    market = models.CharField(max_length=50, choices=MARKETS, blank=True, null=True)
     rf_unit = models.BooleanField('RF In-Unit', default=False)
     rf_coa = models.BooleanField('RF COA', default=False)
     coa = models.BooleanField('COA', default=False)
+    off_net = models.BooleanField('Offnet', default=False)
     services = models.TextField(blank=True, null=True)
     contract = models.CharField(max_length=50, choices=CONTRACT_STATUS, blank=True, null=True)
 
@@ -45,6 +49,7 @@ class Property(models.Model):
     r_mgn = models.GenericIPAddressField(unique=True, blank=True, null=True)
     switch = models.CharField(max_length=50, choices=SWITCH_MODELS, blank=True, null=True)
     s_mgn = models.GenericIPAddressField(unique=True, blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     #GPON
     gpon_feed = models.ForeignKey('Property', on_delete=models.SET_NULL, verbose_name='GPON from',
@@ -79,21 +84,14 @@ class Property(models.Model):
     security = models.CharField(max_length=200, blank=True, null=True)
 
     #Participans
-    pm = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='PM'), verbose_name='PM', related_name='pm', blank=True, null=True)
-    neteng = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='NETENG'), verbose_name='Network Engineer', related_name='neteng', blank=True, null=True)
-    gponeng = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='GPONENG'), verbose_name='GPON Engineer', related_name='gponeng', blank=True, null=True)
-    cpm = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='CPM'), verbose_name='CPM', related_name='cpm', blank=True, null=True)
-    fe = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='FE'), verbose_name='Field Engineer', related_name='fe', blank=True, null=True)
-    cxceng = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to=Q(groups__name='CXCENG'), verbose_name='CXC Engineer', related_name='cxceng', blank=True, null=True)
-
-    #Files
-    hld = models.FileField(upload_to=user_directory_path, blank=True, null=True)
+    participants = models.ManyToManyField(User, blank=True)
 
     #Slack
     channel_id = models.CharField(max_length=120, null=True)
 
     def __init__(self, *args, **kwargs):
         super(Property, self).__init__(*args, **kwargs)
+        self.old_name = self.name
         self.old_r_mgn_ip = self.r_mgn
         self.old_s_mgn_ip = self.s_mgn
 
@@ -196,16 +194,16 @@ class Property(models.Model):
         elif self.cross_connect:
             status += " CXC"
         elif self.gear_installed:
-            status += " GearInstalled"
+            status += " MDFGearInstalled"
             if self.fiber_ready:
-                status += " FiberReady"
+                status += " OSPReady"
         elif self.mdf_ready or self.network_ready or self.gpon_ready or self.fiber_ready:
             if self.mdf_ready:
                 status += " MDFReady"
             if self.network_ready:
-                status += " NetReady"
+                status += " RTRReady"
             if self.gpon_ready:
-                status += " ChassisReady"
+                status += " OLTReady"
             if self.fiber_ready:
                 status += " FiberReady"
         elif self.published:
@@ -215,16 +213,49 @@ class Property(models.Model):
 
         return status.strip().replace(' ', ', ')
 
-    def add_devices(self, device, no_dev_id=None):
-        print(device, no_dev_id)
-        devices = Device.objects.filter(~Q(model__in=DONT_INCLUDE_IN_SCAN), interfaces__connected__device=device).distinct()
-        conn_devs = [dev for dev in devices if dev.id != no_dev_id]
-        print(type(conn_devs), [(dev.hostname, dev.id) for dev in conn_devs])
-        for conn_dev in conn_devs:
-            #print(conn_dev)
-            conn_dev.prop = self
-            conn_dev.save()
-            self.add_devices(conn_dev, no_dev_id=device.id)
+    def build_graph(self):
+        devices = Device.objects.filter(prop=self)
+        print(self.name, devices)
+        graph = nx.MultiGraph()
+
+        graph.add_nodes_from([device.hostname_model_mgn for device in devices])
+
+        edges = []
+        #viewed = []
+        for device in devices:
+            #if device in viewed:
+            #    continue
+            connected_devices = Device.objects.filter(interfaces__connected__device=device)
+            for connected_device in connected_devices:
+                edge = tuple(sorted((device.hostname_model_mgn, connected_device.hostname_model_mgn)))
+                if edge not in edges:
+                    edges.append((device.hostname_model_mgn, connected_device.hostname_model_mgn))
+                #viewed.append(connected_device)
+                #edges.append((device.hostname_model_mgn, connected_device.hostname_model_mgn))
+        print(edges)
+        graph.add_edges_from(edges)
+        plt.figure(1, figsize=(40, 40))
+        pos = nx.spring_layout(graph)
+        nx.draw_networkx(graph, pos, node_size=1000, node_shape='s')
+        plt.savefig(ISP_TOPOLOGY_PATH)
+        plt.close()
+
+    def add_devices(self, device, viewed=None):
+        if viewed is None:
+            viewed = []
+
+        viewed.append(device.id)
+
+        if not device.prop:
+            device.prop = self
+            device.save()
+
+        connected_devices = Device.objects.filter(~Q(model__in=DONT_INCLUDE_MODELS),
+                                                  ~Q(id__in=viewed),
+                                                  interfaces__connected__device=device).distinct()
+        print(connected_devices)
+        for connected_device in connected_devices:
+            self.add_devices(connected_device, viewed)
 
     def remove_devices(self):
         for dev in Device.objects.filter(prop=self):
@@ -232,8 +263,8 @@ class Property(models.Model):
             dev.save()
 
     def save(self, *args, **kwargs):
-        #if not self.id:
-        #    self.slug = slugify(self.name)
+        if not self.id or self.old_name != self.name:
+            self.slug = slugify(f"{self.id}-{self.name}")
         if not self.pk:
             self.channel_id = create_channel_with(self.name)
         super().save(*args, **kwargs)
@@ -246,19 +277,24 @@ class Property(models.Model):
 
 @receiver(post_save, sender=Property)
 def sync_devices(sender, instance, created, **kwargs):
-    print('it ran!!!!')
     if not instance.r_mgn or instance.r_mgn != instance.old_r_mgn_ip:
         instance.remove_devices()
     if instance.r_mgn and instance.r_mgn != instance.old_r_mgn_ip:
         try:
             dev = Device.objects.get(mgn=instance.r_mgn)
-            dev.prop = instance
-            dev.save()
             instance.add_devices(dev)
         except Device.DoesNotExist:
             pass
-    for prop in instance.feeds.all():
-            prop.feeds.add(instance)
+
+#@receiver(m2m_changed, sender=Property.feeds.through)
+#def sync_feeds(sender, instance, **kwargs):
+    #print(kwargs)
+#    for prop in instance.feeds.all():
+#        prop.feeds.remove(instance)
+#    for prop in instance.feeds.all():
+#        prop.feeds.add(instance)
+    #print(instance.old_feeds.all())
+    #print(instance.feeds.all())
 
 class Device(models.Model):
     hostname = models.CharField(max_length=120)
@@ -266,6 +302,31 @@ class Device(models.Model):
     model = models.CharField(max_length=120, blank=True, null=True)
     node_id = models.IntegerField(blank=True, null=True)
     prop = models.ForeignKey('Property', on_delete=models.SET_NULL, blank=True, null=True)
+
+    @property
+    def hostname_model_mgn(self):
+        return f"{self.hostname}\n{self.model}\n{self.mgn}"
+
+    def path_to(self, ip, arr, viewed=None):
+        if viewed is None:
+            viewed = []
+
+        viewed.append(self.id)
+        arr.append(self.mgn)
+
+        print(self.hostname, viewed, arr)
+        if (self.mgn == ip):
+            return True
+
+        devices = Device.objects.filter(~Q(model__in=DONT_INCLUDE_MODELS),
+                                        ~Q(id__in=viewed),
+                                        interfaces__connected__device=self).distinct()
+        for neighbor in devices:
+            if neighbor.path_to(ip, arr, viewed):
+                return True
+
+        arr.pop(-1)
+        return False
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -277,7 +338,6 @@ class Device(models.Model):
 
 class Interface(models.Model):
     name = models.CharField(max_length=120, blank=True, null=True)
-    status = models.CharField(max_length=120, blank=True, null=True)
     description = models.CharField(max_length=120, blank=True, null=True)
     device = models.ForeignKey('Device', on_delete=models.SET_NULL, related_name='interfaces', blank=True, null=True)
     connected = models.OneToOneField('Interface', on_delete=models.SET_NULL, blank=True, null=True)
@@ -296,5 +356,5 @@ class Statistics(models.Model):
 
 class File(models.Model):
     property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='files')
-    image = models.FileField(upload_to=user_directory_path)
+    file = models.FileField(upload_to=user_directory_path)
 

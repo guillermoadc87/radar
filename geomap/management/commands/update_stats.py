@@ -10,6 +10,7 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     def _update_stats(self):
+        date = datetime.now()
         swis = SwisClient(NPM_SERVER, CISCO_USERNAME, CISCO_PASSWORD)
         results = swis.query(
             "SELECT I.InterfaceAlias, I.Name, I.NodeID, ROUND(MaxOutBpsToday/1000000000,2) AS MaxOutGbpsToday, I.MaxInBpsToday/1000000000 AS MaxInGbpsToday FROM Orion.NPM.Interfaces I WHERE I.Speed >=10000000000 AND I.AdminStatus=1")
@@ -21,7 +22,7 @@ class Command(BaseCommand):
                 maxin = row['MaxInGbpsToday']
                 maxout = row['MaxOutGbpsToday']
                 interface, c = Interface.objects.get_or_create(name=s_port_name, device=device)
-                stats, c = Statistics.objects.get_or_create(interface=interface, date=datetime.now())
+                stats, c = Statistics.objects.get_or_create(interface=interface, date=date)
                 stats.maxin=maxin
                 stats.maxout=maxout
                 stats.save()

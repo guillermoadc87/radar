@@ -1,4 +1,5 @@
 {% load leaflet_tags %}
+{% load static %}
 <fieldset class="module aligned {{ fieldset.classes }}">
     {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
     {% if fieldset.description %}
@@ -17,7 +18,10 @@
                         {% leaflet_map "main" callback="main_map_init" %}
                     {% elif field.field.name == 'inside_map' %}
                         {{ field.label_tag }}
-                        <svg height="400"></svg>
+                        {% if original.pk %}
+                        <a class="button" href="{% url 'admin:dw_isp_topology' original.pk %}">Download</a>
+                        {% endif %}
+                        <!--<svg height="400"></svg>-->
                     {% else %}
                         {{ field.label_tag }}
                         {% if field.is_readonly %}
@@ -26,7 +30,7 @@
                             {{ field.field }}
                         {% endif %}
                         {% if has_devices and 'R mgn' in field.label_tag %}
-                            <a href="{% url 'admin:geomap_device_changelist' %}?q={{original.name}}" class="grp-state-focus">
+                            <a class="button" href="{% url 'admin:geomap_device_changelist' %}?q={{ original.name }}" class="grp-state-focus">
                                 Devices
                             </a>
                         {% endif %}

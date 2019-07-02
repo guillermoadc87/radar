@@ -1,0 +1,56 @@
+## This is for L2 Bundles
+## Here is an example of the data structures to build the config
+## l2_bundles = {
+##   10: {vlans: [200, 411, 452, 500, 701, 751], 'descr': 'L2-TO-FL-TROPIC-BAY-FLR01-MDF-SW1'},
+##   41: [699, 701, 702, 703, 704, 705],
+##   42: [700, 701, 702, 703, 704, 705],
+##   401: [411, 451, 500],
+## }
+## description = {
+## 10: "L2-TO-FL-TROPIC-BAY-FLR01-MDF-SW1",
+## 41: "L2LAG-TO-FL-TROPIC-BAY-FLR01-MDF-CCR1",
+## 42: "L2LAG-TO-FL-TROPIC-BAY-FLR01-MDF-CCR2",
+## 401: "L2-TO-TROPIC_BAY&FRENCH_VILLAGE_ALU",
+## 699: "WIFI-TROPIC-BAY-CCR1-WAN",
+## 700: "WIFI-TROPIC-BAY-CCR2-WAN",
+## 701: "WIFI-TROPIC-BAY-CCR",
+## 702: "WIFI-RESERVED2-CCR",
+## 703: "WIFI-RESERVED3-CCR",
+## 704: "WIFI-RESERVED4-CCR",
+## 705: "WIFI-RESERVED5-CCR",
+## }
+## interfaces = {
+## "Gi0/0/0/8": {'bundle': 10, 'descr': 'L2-TO-FL-TROPIC-BAY-FLR01-MDF-SW1'},
+## "Gi0/1/0/8": {'bundle': 10},
+## "Gi0/0/0/20": {'bundle': 41},
+## "Gi0/0/0/21": {'bundle': 41},
+## "Gi0/0/0/22": {'bundle': 41},
+## "Gi0/0/0/23": {'bundle': 41},
+## "Gi0/1/0/20": {'bundle': 42},
+## "Gi0/1/0/21": {'bundle': 41},
+## "Gi0/1/0/22": {'bundle': 41},
+## "Gi0/1/0/23": {'bundle': 41},
+## "Te0/0/0/7": {'bundle': 401},
+## "Te0/1/0/7": {'bundle': 401},
+## }
+
+{% for bundle, data in l2_bundles.items() %}
+interface Port-channel{{ bundle }}
+ description {{ data.descr }}
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 200
+ switchport trunk allowed vlan {% for vlan in data.vlans %}{{ vlan }}{{ "," if not loop.last }}{% endfor %}
+ switchport mode trunk
+!
+{% endfor %}
+{% for interface, data in interfaces.items() %}
+interface {{ interface }}
+ description {{ data.descr }}
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 200
+ switchport trunk allowed vlan {% for vlan in l2_bundles.get(data.bundle) %}{{ vlan }}{{ "," if not loop.last }}{% endfor %}
+ switchport mode trunk
+ channel-group {{ data.bundle }} mode active
+{% endfor %}

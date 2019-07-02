@@ -1,0 +1,55 @@
+## This is for L3 Bundles
+## Here is an example of the data structures to build the config
+## l3_bundles = {
+##   16: ['10.63.1.17 255.255.255.252'],
+##   180: ['10.63.34.181 255.255.255.252'],
+## }
+## description = {
+## 16: "L3-TO-FL-BOCADELREY-FLR01-MDF-RTR01",
+## 180: "L3-TO-FL-BOCA-Y+R-CLUB-FLR01-MDF-RTR02",
+## 42: "L2LAG-TO-FL-TROPIC-BAY-FLR01-MDF-CCR2",
+## }
+## interfaces = {
+## "TenGigE0/0/0/4": 16,
+## "TenGigE0/1/0/3": 180,
+## }
+
+{% for bundle, ip_masks in l3_bundles.items() %}
+interface Port-channel{{ bundle }}
+ {% if bundle in description %}
+ description {{ description.get(bundle) }}
+ {% endif %}
+ mtu 9000
+ {% for ip_mask in ip_masks %}
+ {% if loop.first %}
+ ip address {{ ip_mask }}
+ {% else %}
+ ip address {{ ip_mask }} secondary
+ {% endif %}
+ {% endfor %}
+ ip pim query-interval 5
+ ip pim sparse-mode
+ ip igmp query-max-response-time 1
+ ip igmp query-interval 2
+ ip ospf 1 area {{ area }}
+ ip ospf network point-to-point
+ logging event link-status
+ load-interval 30
+ mpls ip
+!
+{% endfor %}
+{% for interface, bundle in interfaces.items() %}
+interface {{ interface }}
+ {% if bundle in description %}
+ description {{ description.get(bundle) }}
+ {% endif %}
+ mtu 9000
+ no ip address
+ load-interval 30
+ channel-group {{ bundle }} mode active
+!
+{% endfor %}
+router ospf 1
+{% for bundle, ip_masks in l3_bundles.items() %}
+ no passive-interface Port-channel{{ bundle }}
+{% endfor %}

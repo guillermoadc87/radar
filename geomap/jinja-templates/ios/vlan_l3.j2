@@ -1,0 +1,33 @@
+## This is for L3 Vlans
+## Here is an example of the data structures to build the config
+## l3_vlans = {
+##   200: ['10.57.74.129 255.255.255.0'],
+##   410: ['10.62.244.1 255.255.255.0'],
+## }
+## description = {
+## 200: "PDP_MEDIAROOM_MGT",
+## 410: "GIBRALTAR-VOICE",
+## }
+## dhcp = {
+## 410: 10.53.15.5,
+## }
+## area = 0.0.0.0
+
+{% for vlan, ip_masks in l3_vlans.items() %}
+!
+interface Vlan{{ vlan }}
+ {% if vlan in description %}
+ description {{ description.get(bundle) }}
+ {% endif %}
+ {% for ip_mask in ip_masks %}
+ {% if loop.first %}
+ ip address {{ ip_mask }}
+ {% else %}
+ ip address {{ ip_mask }} secondary
+ {% endif %}
+ {% endfor %}
+ {% if vlan in dhcp %}
+ ip helper-address {{ dhcp.get(vlan) }}
+ {% endif %}
+ ip ospf 1 area {{ area }}
+{% endfor %}
