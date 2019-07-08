@@ -1,8 +1,8 @@
-import math, os
+import math
+from networkx.drawing.nx_agraph import write_dot
 import networkx as nx
 import matplotlib.pyplot as plt
 from django.contrib.gis.db import models
-from django_fsm import transition, FSMIntegerField
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.db.models.signals import post_save, m2m_changed
@@ -215,27 +215,28 @@ class Property(models.Model):
 
     def build_graph(self):
         devices = Device.objects.filter(prop=self)
-        print(self.name, devices)
+        #print(self.name, devices)
         graph = nx.MultiGraph()
 
         graph.add_nodes_from([device.hostname_model_mgn for device in devices])
 
         edges = []
-        #viewed = []
         for device in devices:
-            #if device in viewed:
-            #    continue
             connected_devices = Device.objects.filter(interfaces__connected__device=device)
             for connected_device in connected_devices:
                 edge = tuple(sorted((device.hostname_model_mgn, connected_device.hostname_model_mgn)))
                 if edge not in edges:
-                    edges.append((device.hostname_model_mgn, connected_device.hostname_model_mgn))
-                #viewed.append(connected_device)
-                #edges.append((device.hostname_model_mgn, connected_device.hostname_model_mgn))
-        print(edges)
+                    edges.append(edge)
+        #print(edges)
         graph.add_edges_from(edges)
         plt.figure(1, figsize=(40, 40))
         pos = nx.spring_layout(graph)
+        #write_dot(graph, "grid.dot")
+        #pdot = nx.nx_pydot.to_pydot(graph)
+        #image = pdot.create_png()
+        #if image:
+        #    with open(ISP_TOPOLOGY_PATH + 'pydot.png', 'wb') as f:
+        #        f.write(image)
         nx.draw_networkx(graph, pos, node_size=1000, node_shape='s')
         plt.savefig(ISP_TOPOLOGY_PATH)
         plt.close()
@@ -246,9 +247,8 @@ class Property(models.Model):
 
         viewed.append(device.id)
 
-        if not device.prop:
-            device.prop = self
-            device.save()
+        device.prop = self
+        device.save()
 
         connected_devices = Device.objects.filter(~Q(model__in=DONT_INCLUDE_MODELS),
                                                   ~Q(id__in=viewed),

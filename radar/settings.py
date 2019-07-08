@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'leaflet',
     'django.contrib.gis',
     'geomap',
+    'dashboard',
     'django.contrib.admin',
 ]
 

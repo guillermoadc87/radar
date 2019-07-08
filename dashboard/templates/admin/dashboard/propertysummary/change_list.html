@@ -1,0 +1,51 @@
+{% extends "admin/change_list.html" %}
+
+{% block result_list %}
+    <div class=”results”>
+    <table id="result_list">
+
+    <thead>
+      <tr>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Market</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Published</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Certified</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Units Ready for Install</a>
+          </div>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in filter_qs %}
+      <tr class=”{% cycle 'row1' 'row2' %}”>
+        <td> {{ row.market|upper }} </td>
+        <td> {{ row.total_published | default:0 }} </td>
+        <td> {{ row.total_certified | default:0 }} </td>
+        <td> {{ row.total_units | default:0 }} </td>
+      </tr>
+      {% endfor %}
+      <tr style=”font-weight:bold; border-top:2px solid #DDDDDD;”>
+        <td> TOTAL </td>
+        <td> {{ total_qs.total_published | default:0 }} </td>
+        <td> {{ total_qs.total_certified | default:0 }} </td>
+        <td> {{ total_qs.total_units | default:0 }} </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from slack import WebClient
 
-slack_token = 'xoxp-447345546210-448398510663-672312122500-ce14e9a41f8ce384f9750b53e63c9182'
+slack_token = 'xoxp-447345546210-448398510663-677542540449-5587408c88daa41b39e7829187e9ff9a'
 slack = WebClient(slack_token)
 
 # Slack API
