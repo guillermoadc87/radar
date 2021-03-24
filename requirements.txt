@@ -54,7 +54,7 @@ python-systemd==231
 pytz==2019.1
 PyYAML==5.1
 requests==2.19.1
-rsa==4.0
+rsa==4.1
 ruamel.yaml==0.15.96
 scp==0.13.2
 selectors2==2.0.1
